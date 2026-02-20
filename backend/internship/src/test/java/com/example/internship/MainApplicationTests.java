@@ -2,7 +2,7 @@ package com.example.internship;
 
 import org.junit.jupiter.api.Test;
 
-class PraksaApplicationTests {
+class MainApplicationTests {
 
 	@Test
 	void contextLoads() {
