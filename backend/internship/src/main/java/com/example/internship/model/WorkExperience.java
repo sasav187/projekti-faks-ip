@@ -3,7 +3,7 @@ package com.example.internship.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "work_experience")

@@ -3,8 +3,8 @@ package com.example.internship.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 @Getter

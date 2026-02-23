@@ -23,7 +23,9 @@ public class Company {
     private User user;
 
     private String name;
+
     private String description;
+    
     private Boolean approved = false;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)

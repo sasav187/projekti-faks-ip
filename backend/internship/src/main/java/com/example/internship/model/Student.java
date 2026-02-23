@@ -24,6 +24,7 @@ public class Student {
     private String indexNumber;
 
     private String faculty;
+    
     private Integer year;
 
     @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)

@@ -2,6 +2,7 @@ package com.example.internship.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 import com.example.internship.model.enums.Role;
@@ -32,6 +33,8 @@ public class User {
     private Boolean active = true;
 
     private LocalDateTime createdAt;
+
     private LocalDateTime lastLogin;
+
     private LocalDateTime changedPasswordAt;
 }

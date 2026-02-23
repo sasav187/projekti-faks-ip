@@ -3,8 +3,8 @@ package com.example.internship.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.*;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "internship")

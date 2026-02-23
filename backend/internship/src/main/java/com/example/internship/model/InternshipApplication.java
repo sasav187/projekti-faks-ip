@@ -1,11 +1,11 @@
 package com.example.internship.model;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.*;
+import java.time.LocalDateTime;
+
+import java.util.List;
 
 import com.example.internship.model.enums.ApplicationStatus;
 
