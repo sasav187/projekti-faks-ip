@@ -2,74 +2,35 @@ package com.example.internship.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
 @Entity
-@Table(name = "recommendation")
-@NoArgsConstructor
+@Table(name = "recommendation",
+       uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"student_id", "internship_id"})
+})
+@Getter 
+@Setter
+@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
-@Data
 public class Recommendation {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "student_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
 
-    @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "internship_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Internship internship;
 
     private Double score;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String explanation;
 
     private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Internship getInternship() {
-        return internship;
-    }
-
-    public void setInternship(Internship internship) {
-        this.internship = internship;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        this.score = score;
-    }
-
-    public String getExplanation() {
-        return explanation;
-    }
-
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
-    }
 }

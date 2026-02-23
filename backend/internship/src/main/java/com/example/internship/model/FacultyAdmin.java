@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "student")
+@Table(name = "faculty_admin")
 @Getter 
 @Setter
 @NoArgsConstructor 
 @AllArgsConstructor
 @Builder
-public class Student {
+public class FacultyAdmin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,12 +20,5 @@ public class Student {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    @Column(unique = true, nullable = false)
-    private String indexNumber;
-
-    private String faculty;
-    private Integer year;
-
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
-    private CV cv;
+    private String facultyName;
 }

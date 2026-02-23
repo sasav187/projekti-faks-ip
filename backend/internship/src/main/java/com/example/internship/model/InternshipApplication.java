@@ -1,52 +1,41 @@
 package com.example.internship.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.*;
+
+import com.example.internship.model.enums.ApplicationStatus;
+
 @Entity
-@Table(name = "internship_application",
-       uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"student_id", "internship_id"})
-    }
-)
+@Table(name = "internship_application")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
 public class InternshipApplication {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "student_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
 
-    @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "internship_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Internship internship;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    @Lob
+    private String applicationMessage;
 
-    public enum Status {
-        PENDING, ACCEPTED, REJECTED
-    }
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status;
 
     private LocalDateTime appliedAt;
 
-    @PrePersist
-    protected void onCreate() {
-        if (status == null) {
-            status = Status.PENDING;
-        }
-        appliedAt = LocalDateTime.now();
-    }
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)
+    private List<WorkLog> workLogs;
 }

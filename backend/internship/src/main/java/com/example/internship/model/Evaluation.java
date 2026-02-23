@@ -1,43 +1,41 @@
 package com.example.internship.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.*; 
 import lombok.*;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
-import java.time.LocalDateTime;
+import java.time.*;
+
+import com.example.internship.model.enums.EvaluatorRole;
 
 @Entity
-@Table(name = "evaluation")
-@NoArgsConstructor
+@Table(name = "evaluation",
+       uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"student_id", "internship_id", "evaluatorRole"})
+})
+@Getter 
+@Setter
+@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
-@Data
 public class Evaluation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "student_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
 
-    @ManyToOne
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "internship_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Internship internship;
+
+    @Enumerated(EnumType.STRING)
+    private EvaluatorRole evaluatorRole;
 
     private Integer grade;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
     private String comment;
 
     private LocalDateTime evaluationDate;
-
-    @PrePersist
-    protected void onCreate() {
-        evaluationDate = LocalDateTime.now();
-    }
 }

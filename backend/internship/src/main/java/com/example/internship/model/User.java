@@ -2,13 +2,17 @@ package com.example.internship.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
+
+import com.example.internship.model.enums.Role;
 
 @Entity
-@Table(name = "user")
-@NoArgsConstructor
+@Table(name = "users")
+@Getter 
+@Setter
+@NoArgsConstructor 
 @AllArgsConstructor
 @Builder
-@Data
 public class User {
 
     @Id
@@ -25,7 +29,9 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    public enum Role {
-        STUDENT, FACULTY, COMPANY
-    }
+    private Boolean active = true;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime lastLogin;
+    private LocalDateTime changedPasswordAt;
 }
