@@ -2,7 +2,8 @@ package com.example.internship.controller;
 
 import com.example.internship.model.User;
 import com.example.internship.service.UserService;
-import com.example.internship.dto.UserDTO;
+import com.example.internship.dto.user.UserRequestDTO;
+import com.example.internship.dto.user.UserResponseDTO;
 import com.example.internship.mapper.UserMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +23,18 @@ public class UserController {
     }
 
     @GetMapping
-    public Page<UserDTO> getAllUsers(
+    public Page<UserResponseDTO> getAllUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
 
         return userService.getAllUsers(pageable)
-                .map(UserMapper::toDTO);
+                .map(UserMapper::toResponseDTO);
     }
 
     @GetMapping("/search")
-    public Page<UserDTO> searchByUsername(
+    public Page<UserResponseDTO> searchByUsername(
             @RequestParam String username,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -41,26 +42,30 @@ public class UserController {
         Pageable pageable = PageRequest.of(page, size);
 
         return userService.searchByUsername(username, pageable)
-                .map(UserMapper::toDTO);
+                .map(UserMapper::toResponseDTO);
     }
 
     @GetMapping("/{id}")
-    public UserDTO getById(@PathVariable Long id) {
+    public UserResponseDTO getById(@PathVariable Long id) {
         User user = userService.getById(id);
-        return UserMapper.toDTO(user);
+        return UserMapper.toResponseDTO(user);
     }
 
     @PostMapping
-    public UserDTO create(@RequestBody User user) {
+    public UserResponseDTO create(@RequestBody UserRequestDTO userDto) {
+        User user = UserMapper.toEntity(userDto);
         User saved = userService.save(user);
-        return UserMapper.toDTO(saved);
+        return UserMapper.toResponseDTO(saved);
     }
 
     @PutMapping("/{id}")
-    public UserDTO update(@PathVariable Long id, @RequestBody User user) {
-        user.setId(id);
-        User updated = userService.save(user);
-        return UserMapper.toDTO(updated);
+    public UserResponseDTO update(@PathVariable Long id,
+                                  @RequestBody UserRequestDTO userDto) {
+
+        User existing = userService.getById(id);
+        UserMapper.updateEntity(existing, userDto);
+        User updated = userService.save(existing);
+        return UserMapper.toResponseDTO(updated);
     }
 
     @DeleteMapping("/{id}")
