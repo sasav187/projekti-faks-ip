@@ -1,13 +1,16 @@
 package com.example.internship.controller;
 
+import com.example.internship.dto.user.*;
+import com.example.internship.mapper.UserMapper;
 import com.example.internship.model.User;
 import com.example.internship.service.UserService;
-import com.example.internship.dto.user.UserRequestDTO;
-import com.example.internship.dto.user.UserResponseDTO;
-import com.example.internship.mapper.UserMapper;
+
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,53 +26,66 @@ public class UserController {
     }
 
     @GetMapping
-    public Page<UserResponseDTO> getAllUsers(
+    public ResponseEntity<Page<UserResponseDTO>> getAllUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        return userService.getAllUsers(pageable)
+        Page<UserResponseDTO> result = userService
+                .getAllUsers(pageable)
                 .map(UserMapper::toResponseDTO);
+
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/search")
-    public Page<UserResponseDTO> searchByUsername(
+    public ResponseEntity<Page<UserResponseDTO>> searchByUsername(
             @RequestParam String username,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        return userService.searchByUsername(username, pageable)
+        Page<UserResponseDTO> result = userService
+                .searchByUsername(username, pageable)
                 .map(UserMapper::toResponseDTO);
+
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
-    public UserResponseDTO getById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> getById(@PathVariable Long id) {
+
         User user = userService.getById(id);
-        return UserMapper.toResponseDTO(user);
+        return ResponseEntity.ok(UserMapper.toResponseDTO(user));
     }
 
     @PostMapping
-    public UserResponseDTO create(@RequestBody UserRequestDTO userDto) {
-        User user = UserMapper.toEntity(userDto);
-        User saved = userService.save(user);
-        return UserMapper.toResponseDTO(saved);
+    public ResponseEntity<UserResponseDTO> create(
+            @Valid @RequestBody UserRequestDTO userDto) {
+
+        User saved = userService.create(userDto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(UserMapper.toResponseDTO(saved));
     }
 
     @PutMapping("/{id}")
-    public UserResponseDTO update(@PathVariable Long id,
-                                  @RequestBody UserRequestDTO userDto) {
+    public ResponseEntity<UserResponseDTO> update(
+            @PathVariable Long id,
+            @Valid @RequestBody UserRequestDTO userDto) {
 
-        User existing = userService.getById(id);
-        UserMapper.updateEntity(existing, userDto);
-        User updated = userService.save(existing);
-        return UserMapper.toResponseDTO(updated);
+        User updated = userService.update(id, userDto);
+
+        return ResponseEntity.ok(UserMapper.toResponseDTO(updated));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
         userService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

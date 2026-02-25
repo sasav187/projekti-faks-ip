@@ -34,7 +34,7 @@ public class Evaluation {
 
     private Integer grade;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String comment;
 
     private LocalDateTime evaluationDate;

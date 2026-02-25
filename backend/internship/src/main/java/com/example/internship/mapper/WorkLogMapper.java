@@ -2,8 +2,7 @@ package com.example.internship.mapper;
 
 import java.time.LocalDateTime;
 
-import com.example.internship.dto.worklog.WorkLogRequestDTO;
-import com.example.internship.dto.worklog.WorkLogResponseDTO;
+import com.example.internship.dto.worklog.*;
 import com.example.internship.model.WorkLog;
 import com.example.internship.model.InternshipApplication;
 

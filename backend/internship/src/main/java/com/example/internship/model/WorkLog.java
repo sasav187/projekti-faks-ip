@@ -24,7 +24,7 @@ public class WorkLog {
 
     private Integer weekNumber;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private LocalDateTime createdAt;

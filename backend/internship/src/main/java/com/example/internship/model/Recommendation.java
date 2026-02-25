@@ -29,7 +29,7 @@ public class Recommendation {
 
     private Double score;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String explanation;
 
     private LocalDateTime createdAt;

@@ -22,7 +22,7 @@ public class CV {
     @JoinColumn(name = "student_id", nullable = false, unique = true)
     private Student student;
     
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String summary;
 
     private String imagePath;

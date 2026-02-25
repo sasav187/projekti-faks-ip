@@ -28,7 +28,7 @@ public class InternshipApplication {
     @ManyToOne(fetch = FetchType.LAZY)
     private Internship internship;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String applicationMessage;
 
     @Enumerated(EnumType.STRING)
