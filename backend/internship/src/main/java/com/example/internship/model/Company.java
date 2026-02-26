@@ -26,7 +26,7 @@ public class Company {
 
     private String description;
     
-    private Boolean approved = false;
+    private Boolean approved;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private List<Internship> internships;

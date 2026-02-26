@@ -30,7 +30,7 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    private Boolean active = true;
+    private Boolean active;
 
     private LocalDateTime createdAt;
 

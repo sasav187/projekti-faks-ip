@@ -1,9 +1,12 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.Company;
+import com.example.internship.dto.company.*;
 import com.example.internship.service.CompanyService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import jakarta.validation.Valid;
+
 import org.springframework.data.domain.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,46 +16,72 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
-    @Autowired
     public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
     }
 
     @GetMapping
-    public Page<Company> getAllCompanies(
+    public ResponseEntity<Page<CompanyResponseDTO>> getAllCompanies(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return companyService.getAllCompanies(pageable);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.ok(
+                companyService.getAllCompanies(pageable)
+        );
     }
 
     @GetMapping("/search")
-    public Page<Company> searchByName(
+    public ResponseEntity<Page<CompanyResponseDTO>> searchByName(
             @RequestParam String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
+
         Pageable pageable = PageRequest.of(page, size);
-        return companyService.searchByName(name, pageable);
+
+        return ResponseEntity.ok(
+                companyService.searchByName(name, pageable)
+        );
     }
 
     @GetMapping("/{id}")
-    public Company getById(@PathVariable Long id) {
-        return companyService.getById(id);
+    public ResponseEntity<CompanyResponseDTO> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                companyService.getById(id)
+        );
     }
 
     @PostMapping
-    public Company create(@RequestBody Company company) {
-        return companyService.save(company);
+    public ResponseEntity<CompanyResponseDTO> create(
+            @Valid @RequestBody CompanyRequestDTO dto) {
+
+        CompanyResponseDTO created = companyService.create(dto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(created);
     }
 
     @PutMapping("/{id}")
-    public Company update(@PathVariable Long id, @RequestBody Company company) {
-        company.setId(id);
-        return companyService.save(company);
+    public ResponseEntity<CompanyResponseDTO> update(
+            @PathVariable Long id,
+            @Valid @RequestBody CompanyRequestDTO dto) {
+
+        return ResponseEntity.ok(
+                companyService.update(id, dto)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         companyService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

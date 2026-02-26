@@ -1,9 +1,12 @@
 package com.example.internship.service;
 
+import com.example.internship.dto.company.*;
+import com.example.internship.mapper.CompanyMapper;
 import com.example.internship.model.Company;
+import com.example.internship.model.User;
 import com.example.internship.repository.CompanyRepository;
+import com.example.internship.repository.UserRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -11,27 +14,56 @@ import org.springframework.stereotype.Service;
 public class CompanyService {
     
     private final CompanyRepository companyRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    public CompanyService(CompanyRepository companyRepository) {
+    public CompanyService(CompanyRepository companyRepository,
+                          UserRepository userRepository) {
         this.companyRepository = companyRepository;
+        this.userRepository = userRepository;
     }
 
-    public Page<Company> getAllCompanies(Pageable pageable) {
-        return companyRepository.findAll(pageable);
+    public Page<CompanyResponseDTO> getAllCompanies(Pageable pageable) {
+        return companyRepository.findAll(pageable)
+                .map(CompanyMapper::toResponseDTO);
     }
 
-    public Page<Company> searchByName(String name, Pageable pageable) {
-        return companyRepository.findByNameContainingIgnoreCase(name, pageable);
+    public Page<CompanyResponseDTO> searchByName(String name, Pageable pageable) {
+        return companyRepository.findByNameContainingIgnoreCase(name, pageable)
+                .map(CompanyMapper::toResponseDTO);
     }
 
-    public Company getById(Long id) {
-        return companyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Company not found with id: " + id));
+    public CompanyResponseDTO getById(Long id) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Company not found with id: " + id));
+
+        return CompanyMapper.toResponseDTO(company);
     }
 
-    public Company save(Company company) {
-        return companyRepository.save(company);
+    public CompanyResponseDTO create(CompanyRequestDTO dto) {
+
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() ->
+                        new RuntimeException("User not found with id: " + dto.getUserId()));
+
+        Company company = CompanyMapper.toEntity(dto, user);
+
+        return CompanyMapper.toResponseDTO(
+                companyRepository.save(company)
+        );
+    }
+
+    public CompanyResponseDTO update(Long id, CompanyRequestDTO dto) {
+
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Company not found with id: " + id));
+
+        CompanyMapper.updateEntity(company, dto);
+
+        return CompanyMapper.toResponseDTO(
+                companyRepository.save(company)
+        );
     }
 
     public void deleteById(Long id) {
