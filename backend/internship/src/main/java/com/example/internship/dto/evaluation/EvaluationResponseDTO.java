@@ -9,7 +9,8 @@ import com.example.internship.model.enums.EvaluatorRole;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EvaluationRequestDTO {
+public class EvaluationResponseDTO {
+    private Long id;
     private Long studentId;
     private Long internshipId;
     private EvaluatorRole evaluatorRole;

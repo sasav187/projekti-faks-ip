@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.InternshipApplication;
+import com.example.internship.dto.internshipapplication.*;
 import com.example.internship.service.InternshipApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class InternshipApplicationController {
     }
 
     @GetMapping
-    public Page<InternshipApplication> getAllInternshipApplications(
+    public Page<InternshipApplicationResponseDTO> getAllInternshipApplications(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class InternshipApplicationController {
     }
 
     @GetMapping("/search")
-    public Page<InternshipApplication> searchByApplicationMessage(
+    public Page<InternshipApplicationResponseDTO> searchByApplicationMessage(
             @RequestParam String applicationMessage,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class InternshipApplicationController {
     }
 
     @GetMapping("/{id}")
-    public InternshipApplication getById(@PathVariable Long id) {
+    public InternshipApplicationResponseDTO getById(@PathVariable Long id) {
         return internshipApplicationService.getById(id);
     }
 
     @PostMapping
-    public InternshipApplication create(@RequestBody InternshipApplication internshipApplication) {
-        return internshipApplicationService.save(internshipApplication);
+    public InternshipApplicationResponseDTO create(@RequestBody InternshipApplicationRequestDTO dto) {
+        return internshipApplicationService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public InternshipApplication update(@PathVariable Long id, @RequestBody InternshipApplication internshipApplication) {
-        internshipApplication.setId(id);
-        return internshipApplicationService.save(internshipApplication);
+    public InternshipApplicationResponseDTO update(@PathVariable Long id, @RequestBody InternshipApplicationRequestDTO dto) {
+        return internshipApplicationService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

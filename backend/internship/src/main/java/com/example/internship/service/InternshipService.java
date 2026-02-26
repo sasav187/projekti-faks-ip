@@ -1,9 +1,12 @@
 package com.example.internship.service;
 
+import com.example.internship.dto.internship.*;
+import com.example.internship.mapper.InternshipMapper;
 import com.example.internship.model.Internship;
+import com.example.internship.model.Company;
 import com.example.internship.repository.InternshipRepository;
+import com.example.internship.repository.CompanyRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -11,27 +14,45 @@ import org.springframework.stereotype.Service;
 public class InternshipService {
     
     private final InternshipRepository internshipRepository;
+    private final CompanyRepository companyRepository;
 
-    @Autowired
-    public InternshipService(InternshipRepository internshipRepository) {
+    public InternshipService(InternshipRepository internshipRepository,
+                             CompanyRepository companyRepository) {
         this.internshipRepository = internshipRepository;
+        this.companyRepository = companyRepository;
     }
 
-    public Page<Internship> getAllInternships(Pageable pageable) {
-        return internshipRepository.findAll(pageable);
+    public Page<InternshipResponseDTO> getAllInternships(Pageable pageable) {
+        return internshipRepository.findAll(pageable)
+                .map(InternshipMapper::toResponseDTO);
     }
 
-    public Page<Internship> searchByTitle(String title, Pageable pageable) {
-        return internshipRepository.findByTitleContainingIgnoreCase(title, pageable);
+    public Page<InternshipResponseDTO> searchByTitle(String title, Pageable pageable) {
+        return internshipRepository.findByTitleContainingIgnoreCase(title, pageable)
+                .map(InternshipMapper::toResponseDTO);
     }
 
-    public Internship getById(Long id) {
-        return internshipRepository.findById(id)
+    public InternshipResponseDTO getById(Long id) {
+        Internship internship = internshipRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Internship not found with id: " + id));
+        return InternshipMapper.toResponseDTO(internship);
     }
 
-    public Internship save(Internship internship) {
-        return internshipRepository.save(internship);
+    public InternshipResponseDTO create(InternshipRequestDTO dto) {
+        Company company = companyRepository.findById(dto.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found with id: " + dto.getCompanyId()));
+        Internship entity = InternshipMapper.toEntity(dto, company);
+        return InternshipMapper.toResponseDTO(internshipRepository.save(entity));
+    }
+
+    public InternshipResponseDTO update(Long id, InternshipRequestDTO dto) {
+        Internship existing = internshipRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Internship not found with id: " + id));
+        Company company = companyRepository.findById(dto.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found with id: " + dto.getCompanyId()));
+        InternshipMapper.updateEntity(existing, dto);
+        existing.setCompany(company);
+        return InternshipMapper.toResponseDTO(internshipRepository.save(existing));
     }
 
     public void deleteById(Long id) {

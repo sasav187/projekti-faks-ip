@@ -17,7 +17,7 @@ public class WorkExperienceMapper {
                 .description(workExperience.getDescription())
                 .startDate(workExperience.getStartDate())
                 .endDate(workExperience.getEndDate())
-                .description(workExperience.getDescription())
+                .studentId(workExperience.getStudent() != null ? workExperience.getStudent().getId() : null)
                 .build();
     }
 

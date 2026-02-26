@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.FacultyAdmin;
+import com.example.internship.dto.facultyadmin.*;
 import com.example.internship.service.FacultyAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class FacultyAdminController {
     }
 
     @GetMapping
-    public Page<FacultyAdmin> getAllFacultyAdmins(
+    public Page<FacultyAdminResponseDTO> getAllFacultyAdmins(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class FacultyAdminController {
     }
 
     @GetMapping("/search")
-    public Page<FacultyAdmin> searchByFacultyName(
+    public Page<FacultyAdminResponseDTO> searchByFacultyName(
             @RequestParam String facultyName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class FacultyAdminController {
     }
 
     @GetMapping("/{id}")
-    public FacultyAdmin getById(@PathVariable Long id) {
+    public FacultyAdminResponseDTO getById(@PathVariable Long id) {
         return facultyAdminService.getById(id);
     }
 
     @PostMapping
-    public FacultyAdmin create(@RequestBody FacultyAdmin facultyAdmin) {
-        return facultyAdminService.save(facultyAdmin);
+    public FacultyAdminResponseDTO create(@RequestBody FacultyAdminRequestDTO dto) {
+        return facultyAdminService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public FacultyAdmin update(@PathVariable Long id, @RequestBody FacultyAdmin facultyAdmin) {
-        facultyAdmin.setId(id);
-        return facultyAdminService.save(facultyAdmin);
+    public FacultyAdminResponseDTO update(@PathVariable Long id, @RequestBody FacultyAdminRequestDTO dto) {
+        return facultyAdminService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

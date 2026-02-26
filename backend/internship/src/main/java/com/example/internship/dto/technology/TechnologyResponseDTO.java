@@ -1,4 +1,4 @@
-package com.example.internship.dto.interest;
+package com.example.internship.dto.technology;
 
 import lombok.*;
 
@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InterestRequestDTO {
+public class TechnologyResponseDTO {
+    private Long id;
     private String name;
 }

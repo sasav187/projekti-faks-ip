@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.Education;
+import com.example.internship.dto.education.*;
 import com.example.internship.service.EducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class EducationController {
     }
 
     @GetMapping
-    public Page<Education> getAllEducations(
+    public Page<EducationResponseDTO> getAllEducations(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class EducationController {
     }
 
     @GetMapping("/search")
-    public Page<Education> searchByInstitution(
+    public Page<EducationResponseDTO> searchByInstitution(
             @RequestParam String institution,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class EducationController {
     }
 
     @GetMapping("/{id}")
-    public Education getById(@PathVariable Long id) {
+    public EducationResponseDTO getById(@PathVariable Long id) {
         return educationService.getById(id);
     }
 
     @PostMapping
-    public Education create(@RequestBody Education education) {
-        return educationService.save(education);
+    public EducationResponseDTO create(@RequestBody EducationRequestDTO dto) {
+        return educationService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public Education update(@PathVariable Long id, @RequestBody Education education) {
-        education.setId(id);
-        return educationService.save(education);
+    public EducationResponseDTO update(@PathVariable Long id, @RequestBody EducationRequestDTO dto) {
+        return educationService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

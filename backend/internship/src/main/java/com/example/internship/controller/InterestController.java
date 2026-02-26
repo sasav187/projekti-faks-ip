@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.Interest;
+import com.example.internship.dto.interest.*;
 import com.example.internship.service.InterestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class InterestController {
     }
 
     @GetMapping
-    public Page<Interest> getAllInterests(
+    public Page<InterestResponseDTO> getAllInterests(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class InterestController {
     }
 
     @GetMapping("/search")
-    public Page<Interest> searchByName(
+    public Page<InterestResponseDTO> searchByName(
             @RequestParam String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class InterestController {
     }
 
     @GetMapping("/{id}")
-    public Interest getById(@PathVariable Long id) {
+    public InterestResponseDTO getById(@PathVariable Long id) {
         return interestService.getById(id);
     }
 
     @PostMapping
-    public Interest create(@RequestBody Interest interest) {
-        return interestService.save(interest);
+    public InterestResponseDTO create(@RequestBody InterestRequestDTO dto) {
+        return interestService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public Interest update(@PathVariable Long id, @RequestBody Interest interest) {
-        interest.setId(id);
-        return interestService.save(interest);
+    public InterestResponseDTO update(@PathVariable Long id, @RequestBody InterestRequestDTO dto) {
+        return interestService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

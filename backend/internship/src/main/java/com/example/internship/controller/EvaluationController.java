@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.Evaluation;
+import com.example.internship.dto.evaluation.*;
 import com.example.internship.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class EvaluationController {
     }
 
     @GetMapping
-    public Page<Evaluation> getAllEvaluations(
+    public Page<EvaluationResponseDTO> getAllEvaluations(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class EvaluationController {
     }
 
     @GetMapping("/search")
-    public Page<Evaluation> searchByStudentIndexNumber(
+    public Page<EvaluationResponseDTO> searchByStudentIndexNumber(
             @RequestParam String indexNumber,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class EvaluationController {
     }
 
     @GetMapping("/{id}")
-    public Evaluation getById(@PathVariable Long id) {
+    public EvaluationResponseDTO getById(@PathVariable Long id) {
         return evaluationService.getById(id);
     }
 
     @PostMapping
-    public Evaluation create(@RequestBody Evaluation evaluation) {
-        return evaluationService.save(evaluation);
+    public EvaluationResponseDTO create(@RequestBody EvaluationRequestDTO dto) {
+        return evaluationService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public Evaluation update(@PathVariable Long id, @RequestBody Evaluation evaluation) {
-        evaluation.setId(id);
-        return evaluationService.save(evaluation);
+    public EvaluationResponseDTO update(@PathVariable Long id, @RequestBody EvaluationRequestDTO dto) {
+        return evaluationService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

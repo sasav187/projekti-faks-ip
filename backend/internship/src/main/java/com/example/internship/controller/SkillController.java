@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.Skill;
+import com.example.internship.dto.skill.*;
 import com.example.internship.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class SkillController {
     }
 
     @GetMapping
-    public Page<Skill> getAllSkills(
+    public Page<SkillResponseDTO> getAllSkills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class SkillController {
     }
 
     @GetMapping("/search")
-    public Page<Skill> searchByName(
+    public Page<SkillResponseDTO> searchByName(
             @RequestParam String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class SkillController {
     }
 
     @GetMapping("/{id}")
-    public Skill getById(@PathVariable Long id) {
+    public SkillResponseDTO getById(@PathVariable Long id) {
         return skillService.getById(id);
     }
 
     @PostMapping
-    public Skill create(@RequestBody Skill skill) {
-        return skillService.save(skill);
+    public SkillResponseDTO create(@RequestBody SkillRequestDTO dto) {
+        return skillService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public Skill update(@PathVariable Long id, @RequestBody Skill skill) {
-        skill.setId(id);
-        return skillService.save(skill);
+    public SkillResponseDTO update(@PathVariable Long id, @RequestBody SkillRequestDTO dto) {
+        return skillService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

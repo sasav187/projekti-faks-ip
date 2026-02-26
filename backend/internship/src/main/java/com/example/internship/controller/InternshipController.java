@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.Internship;
+import com.example.internship.dto.internship.*;
 import com.example.internship.service.InternshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class InternshipController {
     }
 
     @GetMapping
-    public Page<Internship> getAllInternships(
+    public Page<InternshipResponseDTO> getAllInternships(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class InternshipController {
     }
 
     @GetMapping("/search")
-    public Page<Internship> searchByTitle(
+    public Page<InternshipResponseDTO> searchByTitle(
             @RequestParam String title,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class InternshipController {
     }
 
     @GetMapping("/{id}")
-    public Internship getById(@PathVariable Long id) {
+    public InternshipResponseDTO getById(@PathVariable Long id) {
         return internshipService.getById(id);
     }
 
     @PostMapping
-    public Internship create(@RequestBody Internship internship) {
-        return internshipService.save(internship);
+    public InternshipResponseDTO create(@RequestBody InternshipRequestDTO dto) {
+        return internshipService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public Internship update(@PathVariable Long id, @RequestBody Internship internship) {
-        internship.setId(id);
-        return internshipService.save(internship);
+    public InternshipResponseDTO update(@PathVariable Long id, @RequestBody InternshipRequestDTO dto) {
+        return internshipService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

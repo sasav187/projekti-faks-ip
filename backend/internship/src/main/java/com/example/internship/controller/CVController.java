@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.CV;
+import com.example.internship.dto.cv.*;
 import com.example.internship.service.CVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class CVController {
     }
 
     @GetMapping
-    public Page<CV> getAllCVs(
+    public Page<CVResponseDTO> getAllCVs(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class CVController {
     }
 
     @GetMapping("/search")
-    public Page<CV> searchBySummary(
+    public Page<CVResponseDTO> searchBySummary(
             @RequestParam String summary,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class CVController {
     }
 
     @GetMapping("/{id}")
-    public CV getById(@PathVariable Long id) {
+    public CVResponseDTO getById(@PathVariable Long id) {
         return cvService.getById(id);
     }
 
     @PostMapping
-    public CV create(@RequestBody CV cv) {
-        return cvService.save(cv);
+    public CVResponseDTO create(@RequestBody CVRequestDTO dto) {
+        return cvService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public CV update(@PathVariable Long id, @RequestBody CV cv) {
-        cv.setId(id);
-        return cvService.save(cv);
+    public CVResponseDTO update(@PathVariable Long id, @RequestBody CVRequestDTO dto) {
+        return cvService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

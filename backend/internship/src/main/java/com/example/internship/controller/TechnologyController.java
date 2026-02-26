@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.Technology;
+import com.example.internship.dto.technology.*;
 import com.example.internship.service.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class TechnologyController {
     }
 
     @GetMapping
-    public Page<Technology> getAllTechnologies(
+    public Page<TechnologyResponseDTO> getAllTechnologies(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class TechnologyController {
     }
 
     @GetMapping("/search")
-    public Page<Technology> searchByName(
+    public Page<TechnologyResponseDTO> searchByName(
             @RequestParam String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class TechnologyController {
     }
 
     @GetMapping("/{id}")
-    public Technology getById(@PathVariable Long id) {
+    public TechnologyResponseDTO getById(@PathVariable Long id) {
         return technologyService.getById(id);
     }
 
     @PostMapping
-    public Technology create(@RequestBody Technology technology) {
-        return technologyService.save(technology);
+    public TechnologyResponseDTO create(@RequestBody TechnologyRequestDTO dto) {
+        return technologyService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public Technology update(@PathVariable Long id, @RequestBody Technology technology) {
-        technology.setId(id);
-        return technologyService.save(technology);
+    public TechnologyResponseDTO update(@PathVariable Long id, @RequestBody TechnologyRequestDTO dto) {
+        return technologyService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

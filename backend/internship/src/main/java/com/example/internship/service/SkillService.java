@@ -1,9 +1,10 @@
 package com.example.internship.service;
 
+import com.example.internship.dto.skill.*;
+import com.example.internship.mapper.SkillMapper;
 import com.example.internship.model.Skill;
 import com.example.internship.repository.SkillRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -12,26 +13,36 @@ public class SkillService {
     
     private final SkillRepository skillRepository;
 
-    @Autowired
     public SkillService(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
     }
 
-    public Page<Skill> getAllSkills(Pageable pageable) {
-        return skillRepository.findAll(pageable);
+    public Page<SkillResponseDTO> getAllSkills(Pageable pageable) {
+        return skillRepository.findAll(pageable)
+                .map(SkillMapper::toResponseDTO);
     }
 
-    public Page<Skill> searchByName(String name, Pageable pageable) {
-        return skillRepository.findByNameContainingIgnoreCase(name, pageable);
+    public Page<SkillResponseDTO> searchByName(String name, Pageable pageable) {
+        return skillRepository.findByNameContainingIgnoreCase(name, pageable)
+                .map(SkillMapper::toResponseDTO);
     }
 
-    public Skill getById(Long id) {
-        return skillRepository.findById(id)
+    public SkillResponseDTO getById(Long id) {
+        Skill skill = skillRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Skill not found with id: " + id));
+        return SkillMapper.toResponseDTO(skill);
     }
 
-    public Skill save(Skill skill) {
-        return skillRepository.save(skill);
+    public SkillResponseDTO create(SkillRequestDTO dto) {
+        Skill entity = SkillMapper.toEntity(dto);
+        return SkillMapper.toResponseDTO(skillRepository.save(entity));
+    }
+
+    public SkillResponseDTO update(Long id, SkillRequestDTO dto) {
+        Skill existing = skillRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Skill not found with id: " + id));
+        SkillMapper.updateEntity(existing, dto);
+        return SkillMapper.toResponseDTO(skillRepository.save(existing));
     }
 
     public void deleteById(Long id) {

@@ -1,6 +1,6 @@
 package com.example.internship.controller;
 
-import com.example.internship.model.Recommendation;
+import com.example.internship.dto.recommendation.*;
 import com.example.internship.service.RecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -19,7 +19,7 @@ public class RecommendationController {
     }
 
     @GetMapping
-    public Page<Recommendation> getAllRecommendations(
+    public Page<RecommendationResponseDTO> getAllRecommendations(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class RecommendationController {
     }
 
     @GetMapping("/search")
-    public Page<Recommendation> searchByExplanation(
+    public Page<RecommendationResponseDTO> searchByExplanation(
             @RequestParam String explanation,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,19 +36,18 @@ public class RecommendationController {
     }
 
     @GetMapping("/{id}")
-    public Recommendation getById(@PathVariable Long id) {
+    public RecommendationResponseDTO getById(@PathVariable Long id) {
         return recommendationService.getById(id);
     }
 
     @PostMapping
-    public Recommendation create(@RequestBody Recommendation recommendation) {
-        return recommendationService.save(recommendation);
+    public RecommendationResponseDTO create(@RequestBody RecommendationRequestDTO dto) {
+        return recommendationService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public Recommendation update(@PathVariable Long id, @RequestBody Recommendation recommendation) {
-        recommendation.setId(id);
-        return recommendationService.save(recommendation);
+    public RecommendationResponseDTO update(@PathVariable Long id, @RequestBody RecommendationRequestDTO dto) {
+        return recommendationService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
