@@ -1,0 +1,26 @@
+<h2 class="page-title">Internships</h2>
+
+<pre style="background:#f5f5f5;padding:10px;">
+{{ internships | json }}
+</pre>
+
+<div *ngIf="errorMessage" class="error">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="internships.length === 0 && !errorMessage">
+  No internships available.
+</div>
+
+<div *ngIf="internships.length > 0" class="internship-container">
+  <div class="internship-card" *ngFor="let i of internships">
+    <h3>{{ i.title }}</h3>
+    <p class="company">{{ i.companyName }}</p>
+    <p>{{ i.description }}</p>
+
+    <div class="details">
+      <span><strong>Period:</strong> {{ i.period }}</span>
+      <span><strong>Capacity:</strong> {{ i.capacity }}</span>
+    </div>
+  </div>
+</div>

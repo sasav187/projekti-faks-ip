@@ -1,19 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Internship as InternshipModel } from '../../shared/models/internship.model';
-import { environment } from '../../../enviroment';
+import { map } from 'rxjs/operators';
+import { Internship } from '../../shared/models/internship.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class InternshipService {
-  
-  private baseUrl = `${environment.apiUrl}/internships`; // Adjust the URL as needed
+
+  private api = 'http://localhost:8080/api/internships';
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<InternshipModel[]> {
-    return this.http.get<InternshipModel[]>(this.baseUrl);
+  getAll(): Observable<Internship[]> {
+    return this.http.get<any>(this.api).pipe(
+      map(response => {
+        console.log('FULL RESPONSE:', response);
+        return response.content ?? [];
+      })
+    );
   }
 }

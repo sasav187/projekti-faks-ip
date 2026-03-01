@@ -1,0 +1,42 @@
+.page-title {
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+
+.empty {
+  color: #777;
+  margin-top: 1rem;
+}
+
+.internship-container {
+  display: grid;
+  gap: 1rem;
+}
+
+.internship-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #fafafa;
+  transition: 0.2s ease;
+}
+
+.internship-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.company {
+  font-weight: 600;
+  color: #555;
+}
+
+.details {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
