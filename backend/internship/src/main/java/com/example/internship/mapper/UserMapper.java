@@ -26,7 +26,6 @@ public class UserMapper {
 
         return User.builder()
                 .username(dto.getUsername())
-                // password se NE postavlja ovdje
                 .role(dto.getRole())
                 .active(dto.getActive() != null ? dto.getActive() : true)
                 .createdAt(LocalDateTime.now())
