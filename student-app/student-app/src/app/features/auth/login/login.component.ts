@@ -1,28 +1,39 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  imports: [CommonModule, FormsModule],
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
-  form: FormGroup;
+  username = '';
+  password = '';
+  errorMessage = '';
 
   constructor(
-    private fb: FormBuilder,
+    private authService: AuthService,
     private router: Router
-  ) {
-    this.form = this.fb.group({ username: '', password: '' });
-  }
+  ) {}
 
-  submit() {
-    // pretend to log in and redirect
-    this.router.navigate(['/internships']);
+  login() {
+    this.authService.login(this.username, this.password).subscribe({
+      next: (response) => {
+        const token = response.token || response.accessToken || response.jwt;
+        if (token) {
+          localStorage.setItem('token', token);
+          this.router.navigate(['/internships']);
+        } else {
+          this.errorMessage = 'No token returned from server';
+        }
+      },
+      error: () => {
+        this.errorMessage = 'Invalid username or password';
+      }
+    });
   }
 }

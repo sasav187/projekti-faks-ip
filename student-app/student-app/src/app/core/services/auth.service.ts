@@ -1,28 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs';
 
-interface Credentials {
-  username: string;
-  password: string;
-}
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private _loggedIn = false;
 
-  isLoggedIn(): boolean {
-    return this._loggedIn;
+  private apiUrl = 'http://localhost:8080/api/auth';
+
+  constructor(private http: HttpClient) {}
+
+  login(username: string, password: string) {
+    return this.http.post<any>(`${this.apiUrl}/login`, {
+      username,
+      password
+    }).pipe(
+      tap(response => {
+        localStorage.setItem('token', response.jwt);
+      })
+    );
   }
 
-  login(_creds: Credentials): Observable<void> {
-    this._loggedIn = true;
-    return of(undefined);
+  getToken() {
+    return localStorage.getItem('token');
   }
 
-  logout(): void {
-    this._loggedIn = false;
+  logout() {
+    localStorage.removeItem('token');
   }
 }
-
