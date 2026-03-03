@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
+import java.util.*;
+
 @Component
 public class JwtUtil {
 
@@ -16,9 +18,10 @@ public class JwtUtil {
 
     private final long JWT_EXPIRATION = 1000 * 60 * 60 * 24;
 
-    public String generateToken(String username) {
+    public String generateToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
