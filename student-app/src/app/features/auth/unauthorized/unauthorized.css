@@ -1,0 +1,26 @@
+.unauthorized-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8d7da;
+}
+
+h1 {
+  font-size: 80px;
+  margin: 0;
+}
+
+h2 {
+  margin: 10px 0;
+}
+
+.btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  text-decoration: none;
+  background-color: #721c24;
+  color: white;
+  border-radius: 5px;
+}

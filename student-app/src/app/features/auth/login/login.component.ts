@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -15,21 +15,16 @@ export class LoginComponent {
   password = '';
   errorMessage = '';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   login() {
     this.authService.login(this.username, this.password).subscribe({
-      next: (response) => {
-        const token = response.token || response.accessToken || response.jwt;
-        if (token) {
-          localStorage.setItem('token', token);
-          this.router.navigate(['/internships']);
-        } else {
-          this.errorMessage = 'No token returned from server';
-        }
+      next: () => {
+        const role = this.authService.getRole();
+        if (role === 'STUDENT') this.router.navigate(['/internships']);
+        else if (role === 'COMPANY') this.router.navigate(['/company/dashboard']);
+        else if (role === 'FACULTY') this.router.navigate(['/faculty/dashboard']);
+        else this.router.navigate(['/unauthorized']);
       },
       error: () => {
         this.errorMessage = 'Invalid username or password';

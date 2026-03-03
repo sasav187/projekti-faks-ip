@@ -7,24 +7,31 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:8080/api/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(username: string, password: string) {
-    return this.http.post<any>(`${this.apiUrl}/login`, {
-      username,
-      password
-    }).pipe(
+    return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
       tap(response => {
-        localStorage.setItem('token', response.jwt);
+        if (response.token) localStorage.setItem('token', response.token);
+        if (response.role) localStorage.setItem('role', response.role);
       })
     );
   }
 
-  getToken() {
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+  }
+
+  getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  logout() {
-    localStorage.removeItem('token');
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
   }
 }
