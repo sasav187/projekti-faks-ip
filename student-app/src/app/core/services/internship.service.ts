@@ -9,7 +9,7 @@ import { Internship } from '../../shared/models/internship.model';
 })
 export class InternshipService {
 
-  private api = 'http://localhost:8080/api/internships';
+  private api = 'http://localhost:8081/api/internships';
 
   constructor(private http: HttpClient) {}
 
