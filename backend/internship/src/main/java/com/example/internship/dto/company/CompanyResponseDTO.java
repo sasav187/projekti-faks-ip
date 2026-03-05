@@ -10,9 +10,14 @@ import lombok.*;
 public class CompanyResponseDTO {
     
     private Long id;
+
     private Long userId;
+
     private String username;
+
     private String name;
+
     private String description;
+    
     private Boolean approved;
 }

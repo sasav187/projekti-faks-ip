@@ -8,8 +8,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class FacultyAdminResponseDTO {
+
     private Long id;
+
     private Long userId;
-    private String username;
+    
     private String facultyName;
 }

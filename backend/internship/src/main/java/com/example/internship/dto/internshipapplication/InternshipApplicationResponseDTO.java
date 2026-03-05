@@ -1,7 +1,9 @@
 package com.example.internship.dto.internshipapplication;
 
 import lombok.*;
+
 import java.time.LocalDateTime;
+
 import com.example.internship.model.enums.ApplicationStatus;
 
 @Getter
@@ -10,10 +12,18 @@ import com.example.internship.model.enums.ApplicationStatus;
 @AllArgsConstructor
 @Builder
 public class InternshipApplicationResponseDTO {
+
     private Long id;
+
     private Long studentId;
+    private String studentName;
+
     private Long internshipId;
+    private String internshipTitle;
+
     private String applicationMessage;
+
     private ApplicationStatus status;
+
     private LocalDateTime appliedAt;
 }

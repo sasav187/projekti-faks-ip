@@ -3,6 +3,8 @@ package com.example.internship.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "education")
 @Getter
@@ -17,14 +19,22 @@ public class Education {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", nullable = false)
-    private Student student;
+    @JoinColumn(name = "cv_id", nullable = false)
+    private CV cv;
 
     private String institution;
 
     private String degree;
 
-    private Integer startYear;
+    @Column(name = "field_of_study")
+    private String fieldOfStudy;
 
-    private Integer endYear;
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 }

@@ -2,15 +2,26 @@ package com.example.internship.dto.education;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class EducationRequestDTO {
-    private Long studentId;
+
+    private Long cvId;
+
     private String institution;
+
     private String degree;
-    private Integer startYear;
-    private Integer endYear;
+
+    private String fieldOfStudy;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
+
+    private String description;
 }

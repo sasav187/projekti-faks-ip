@@ -20,13 +20,13 @@ public class Student {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "index_number", unique = true, nullable = false)
     private String indexNumber;
 
     private String faculty;
     
     private Integer year;
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private CV cv;
 }

@@ -2,7 +2,7 @@ package com.example.internship.mapper;
 
 import com.example.internship.dto.education.*;
 import com.example.internship.model.Education;
-import com.example.internship.model.Student;
+import com.example.internship.model.CV;
 
 public class EducationMapper {
 
@@ -10,38 +10,52 @@ public class EducationMapper {
         if (education == null) return null;
         return EducationResponseDTO.builder()
                 .id(education.getId())
-                .studentId(education.getStudent() != null ? education.getStudent().getId() : null)
+                .cvId(education.getCv().getId())
                 .institution(education.getInstitution())
                 .degree(education.getDegree())
-                .startYear(education.getStartYear())
-                .endYear(education.getEndYear())
+                .fieldOfStudy(education.getFieldOfStudy())
+                .startDate(education.getStartDate())
+                .endDate(education.getEndDate())
+                .description(education.getDescription())
                 .build();
     }
 
-    public static Education toEntity(EducationRequestDTO dto, Student student) {
-        if (dto == null) return null;
+    public static Education toEntity(EducationRequestDTO dto, CV cv) {
+        if (dto == null) {
+            return null;
+        }
         return Education.builder()
-                .student(student)
+                .cv(cv)
                 .institution(dto.getInstitution())
                 .degree(dto.getDegree())
-                .startYear(dto.getStartYear())
-                .endYear(dto.getEndYear())
+                .fieldOfStudy(dto.getFieldOfStudy())
+                .startDate(dto.getStartDate())  
+                .endDate(dto.getEndDate())
+                .description(dto.getDescription())
                 .build();
     }
 
     public static void updateEntity(Education education, EducationRequestDTO dto) {
-        if (education == null || dto == null) return;
+        if (education == null || dto == null) {
+            return;
+        }
         if (dto.getInstitution() != null) {
             education.setInstitution(dto.getInstitution());
         }
         if (dto.getDegree() != null) {
             education.setDegree(dto.getDegree());
         }
-        if (dto.getStartYear() != null) {
-            education.setStartYear(dto.getStartYear());
+        if (dto.getFieldOfStudy() != null) {
+            education.setFieldOfStudy(dto.getFieldOfStudy());
         }
-        if (dto.getEndYear() != null) {
-            education.setEndYear(dto.getEndYear());
+        if (dto.getStartDate() != null) {
+            education.setStartDate(dto.getStartDate());
+        }
+        if (dto.getEndDate() != null) {
+            education.setEndDate(dto.getEndDate());
+        }
+        if (dto.getDescription() != null) {
+            education.setDescription(dto.getDescription());
         }
     }
 }

@@ -2,39 +2,32 @@ package com.example.internship.dto.cv;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class CVRequestDTO {
-    
+
     private Long studentId;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private String phone;
+
+    private String address;
+    
+    private String nationality;
+
+    private LocalDate dateOfBirth;
+
     private String summary;
+
     private String imagePath;
-
-    // explicit getters for compatibility with any annotation processing issues
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
 }

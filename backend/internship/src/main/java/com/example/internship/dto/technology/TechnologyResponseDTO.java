@@ -8,6 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class TechnologyResponseDTO {
+
     private Long id;
+    
     private String name;
 }

@@ -8,8 +8,12 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class RecommendationRequestDTO {
+
     private Long studentId;
+
     private Long internshipId;
+
     private Double score;
+    
     private String explanation;
 }

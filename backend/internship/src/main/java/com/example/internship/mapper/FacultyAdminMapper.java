@@ -11,7 +11,6 @@ public class FacultyAdminMapper {
         return FacultyAdminResponseDTO.builder()
                 .id(fa.getId())
                 .userId(fa.getUser() != null ? fa.getUser().getId() : null)
-                .username(fa.getUser() != null ? fa.getUser().getUsername() : null)
                 .facultyName(fa.getFacultyName())
                 .build();
     }

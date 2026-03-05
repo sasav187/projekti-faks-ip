@@ -13,7 +13,7 @@ public class CompanyMapper {
 
         return CompanyResponseDTO.builder()
                 .id(company.getId())
-                .userId(company.getUser().getId())
+                .userId(company.getUser() != null ? company.getUser().getId() : null)
                 .username(company.getUser().getUsername())
                 .name(company.getName())
                 .description(company.getDescription())

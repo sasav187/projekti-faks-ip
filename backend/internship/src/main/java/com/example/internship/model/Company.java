@@ -22,10 +22,12 @@ public class Company {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
+    @Column(nullable = false)
     private String name;
 
     private String description;
     
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean approved;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)

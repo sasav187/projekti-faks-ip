@@ -32,9 +32,21 @@ public class User {
 
     private Boolean active;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
+    @Column(name = "changed_password_at")
     private LocalDateTime changedPasswordAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        
+        if (active == null) {
+            active = true;
+        }
+    }
 }

@@ -10,11 +10,18 @@ import com.example.internship.model.enums.EvaluatorRole;
 @AllArgsConstructor
 @Builder
 public class EvaluationResponseDTO {
+
     private Long id;
+
     private Long studentId;
+
     private Long internshipId;
+
     private EvaluatorRole evaluatorRole;
+
     private Integer grade;
+
     private String comment;
+    
     private LocalDateTime evaluationDate;
 }

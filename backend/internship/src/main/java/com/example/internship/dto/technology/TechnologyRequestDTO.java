@@ -8,5 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class TechnologyRequestDTO {
+    
     private String name;
 }

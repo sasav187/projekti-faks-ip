@@ -1,7 +1,7 @@
 package com.example.internship.model.enums;
 
 public enum SkillLevel {
-    BEGGINER,
+    BEGINNER,
     INTERMEDIATE,
     ADVANCED
 }

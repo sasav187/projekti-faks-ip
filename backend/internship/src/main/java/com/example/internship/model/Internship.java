@@ -24,11 +24,16 @@ public class Internship {
     private Company company;
 
     private String title;
+
     private String description;
+
     private String period;
+
     private String conditions;
+    
     private Integer capacity;
 
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "internship", cascade = CascadeType.ALL)

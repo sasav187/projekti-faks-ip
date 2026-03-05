@@ -9,13 +9,22 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class InternshipResponseDTO {
+
     private Long id;
+
     private Long companyId;
+
     private String companyName;
+
     private String title;
+
     private String description;
+
     private String period;
+
     private String conditions;
+
     private Integer capacity;
+    
     private LocalDateTime createdAt;
 }

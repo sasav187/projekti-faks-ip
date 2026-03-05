@@ -22,10 +22,17 @@ public class WorkLog {
     @JoinColumn(name = "application_id", nullable = false)
     private InternshipApplication application;
 
+    @Column(name = "week_number")
     private Integer weekNumber;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }

@@ -2,7 +2,16 @@ package com.example.internship.dto.cv;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.example.internship.dto.cvskill.CVSkillResponseDTO;
+import com.example.internship.dto.cvinterest.CVInterestResponseDTO;
+import com.example.internship.dto.education.EducationResponseDTO;
+import com.example.internship.dto.language.LanguageResponseDTO;
+import com.example.internship.dto.additionalinfo.AdditionalInfoResponseDTO;
+import com.example.internship.dto.workexperience.WorkExperienceResponseDTO;
 
 @Getter
 @Setter
@@ -10,30 +19,37 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class CVResponseDTO {
-    
+
     private Long id;
+
     private Long studentId;
-    private String studentName;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private String phone;
+
+    private String address;
+
+    private String nationality;
+
+    private LocalDate dateOfBirth;
+
     private String summary;
+
     private String imagePath;
+
     private LocalDateTime createdAt;
+    
+    private LocalDateTime lastUpdated;
 
-    // explicit getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getStudentId() { return studentId; }
-    public void setStudentId(Long studentId) { this.studentId = studentId; }
-
-    public String getStudentName() { return studentName; }
-    public void setStudentName(String studentName) { this.studentName = studentName; }
-
-    public String getSummary() { return summary; }
-    public void setSummary(String summary) { this.summary = summary; }
-
-    public String getImagePath() { return imagePath; }
-    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    private List<CVSkillResponseDTO> skills;
+    private List<CVInterestResponseDTO> interests;
+    private List<EducationResponseDTO> educationList;
+    private List<WorkExperienceResponseDTO> workExperiences;
+    private List<LanguageResponseDTO> languages;
+    private List<AdditionalInfoResponseDTO> additionalInfos;
 }

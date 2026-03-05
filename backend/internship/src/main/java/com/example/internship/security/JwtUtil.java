@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
-import java.util.*;
-
 @Component
 public class JwtUtil {
 

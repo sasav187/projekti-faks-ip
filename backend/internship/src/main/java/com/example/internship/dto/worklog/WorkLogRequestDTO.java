@@ -10,6 +10,8 @@ import lombok.*;
 public class WorkLogRequestDTO {
 
     private Long applicationId;
+
     private Integer weekNumber;
+    
     private String description;
 }

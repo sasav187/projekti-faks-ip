@@ -1,4 +1,4 @@
-package com.example.internship.dto.interest;
+package com.example.internship.dto.cvinterest;
 
 import lombok.*;
 
@@ -7,6 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InterestRequestDTO {
+public class CVInterestRequestDTO {
+
+    private Long cvId;
+
     private String name;
 }

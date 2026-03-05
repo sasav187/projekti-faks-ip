@@ -6,25 +6,25 @@ import lombok.*;
 import com.example.internship.model.enums.SkillLevel;
 
 @Entity
-@Table(name = "student_skill")
+@Table(name = "cv_skill")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentSkill {
+public class CVSkill {
 
-    @EmbeddedId
-    private StudentSkillId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("studentId")
-    private Student student;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("skillId")
-    private Skill skill;
+    @JoinColumn(name = "cv_id", nullable = false)
+    private CV cv;
+
+    @Column(nullable = false)
+    private String name;
 
     @Enumerated(EnumType.STRING)
-    private SkillLevel skillLevel;
+    private SkillLevel level; 
 }

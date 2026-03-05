@@ -1,25 +1,25 @@
 package com.example.internship.controller;
 
-import com.example.internship.dto.skill.*;
-import com.example.internship.service.SkillService;
+import com.example.internship.dto.cvskill.*;
+import com.example.internship.service.CVSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/skills")
+@RequestMapping("/api/cv-skills")
 @CrossOrigin
-public class SkillController {
+public class CVSkillController {
 
-    private final SkillService skillService;
+    private final CVSkillService skillService;
 
     @Autowired
-    public SkillController(SkillService skillService) {
+    public CVSkillController(CVSkillService skillService) {
         this.skillService = skillService;
     }
 
     @GetMapping
-    public Page<SkillResponseDTO> getAllSkills(
+    public Page<CVSkillResponseDTO> getAllSkills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class SkillController {
     }
 
     @GetMapping("/search")
-    public Page<SkillResponseDTO> searchByName(
+    public Page<CVSkillResponseDTO> searchByName(
             @RequestParam String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,17 +36,17 @@ public class SkillController {
     }
 
     @GetMapping("/{id}")
-    public SkillResponseDTO getById(@PathVariable Long id) {
+    public CVSkillResponseDTO getById(@PathVariable Long id) {
         return skillService.getById(id);
     }
 
     @PostMapping
-    public SkillResponseDTO create(@RequestBody SkillRequestDTO dto) {
+    public CVSkillResponseDTO create(@RequestBody CVSkillRequestDTO dto) {
         return skillService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public SkillResponseDTO update(@PathVariable Long id, @RequestBody SkillRequestDTO dto) {
+    public CVSkillResponseDTO update(@PathVariable Long id, @RequestBody CVSkillRequestDTO dto) {
         return skillService.update(id, dto);
     }
 

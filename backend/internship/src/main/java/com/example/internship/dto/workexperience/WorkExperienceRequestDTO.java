@@ -10,10 +10,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class WorkExperienceRequestDTO {
-    
+
+    private Long cvId;
+
     private String companyName;
+
+    private String position;
+
     private String description;
+
     private LocalDate startDate;
+
     private LocalDate endDate;
-    private Long studentId;
 }

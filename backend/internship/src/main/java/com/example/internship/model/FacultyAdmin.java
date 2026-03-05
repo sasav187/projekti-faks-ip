@@ -20,5 +20,6 @@ public class FacultyAdmin {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
+    @Column(name = "faculty_name")
     private String facultyName;
 }

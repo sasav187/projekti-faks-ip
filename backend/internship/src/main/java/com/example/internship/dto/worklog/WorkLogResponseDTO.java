@@ -12,8 +12,12 @@ import java.time.LocalDateTime;
 public class WorkLogResponseDTO {
     
     private Long id;
+
     private Long applicationId;
+
     private Integer weekNumber;
+
     private String description;
+    
     private LocalDateTime createdAt;
 }

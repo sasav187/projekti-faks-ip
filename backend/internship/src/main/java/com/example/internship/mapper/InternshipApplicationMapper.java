@@ -27,15 +27,11 @@ public class InternshipApplicationMapper {
                 .student(student)
                 .internship(internship)
                 .applicationMessage(dto.getApplicationMessage())
-                .status(dto.getStatus())
-                .appliedAt(dto.getAppliedAt())
                 .build();
     }
 
     public static void updateEntity(InternshipApplication ia, InternshipApplicationRequestDTO dto) {
         if (ia == null || dto == null) return;
         if (dto.getApplicationMessage() != null) ia.setApplicationMessage(dto.getApplicationMessage());
-        if (dto.getStatus() != null) ia.setStatus(dto.getStatus());
-        if (dto.getAppliedAt() != null) ia.setAppliedAt(dto.getAppliedAt());
     }
 }

@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
 import java.util.List;
 
 import com.example.internship.model.enums.ApplicationStatus;
 
 @Entity
-@Table(name = "internship_application")
+@Table(name = "internship_application",
+       uniqueConstraints = {@UniqueConstraint(columnNames = {"student_id", "internship_id"})})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,17 +23,20 @@ public class InternshipApplication {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "internship_id", nullable = false)
     private Internship internship;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "application_message", columnDefinition = "TEXT")
     private String applicationMessage;
 
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
 
+    @Column(name = "applied_at")
     private LocalDateTime appliedAt;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)

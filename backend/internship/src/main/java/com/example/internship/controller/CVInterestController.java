@@ -1,25 +1,25 @@
 package com.example.internship.controller;
 
-import com.example.internship.dto.interest.*;
-import com.example.internship.service.InterestService;
+import com.example.internship.dto.cvinterest.*;
+import com.example.internship.service.CVInterestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/interests")
+@RequestMapping("/api/cv-interests")
 @CrossOrigin
-public class InterestController {
+public class CVInterestController {
 
-    private final InterestService interestService;
+    private final CVInterestService interestService;
 
     @Autowired
-    public InterestController(InterestService interestService) {
+    public CVInterestController(CVInterestService interestService) {
         this.interestService = interestService;
     }
 
     @GetMapping
-    public Page<InterestResponseDTO> getAllInterests(
+    public Page<CVInterestResponseDTO> getAllInterests(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -27,7 +27,7 @@ public class InterestController {
     }
 
     @GetMapping("/search")
-    public Page<InterestResponseDTO> searchByName(
+    public Page<CVInterestResponseDTO> searchByName(
             @RequestParam String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -36,17 +36,17 @@ public class InterestController {
     }
 
     @GetMapping("/{id}")
-    public InterestResponseDTO getById(@PathVariable Long id) {
+    public CVInterestResponseDTO getById(@PathVariable Long id) {
         return interestService.getById(id);
     }
 
     @PostMapping
-    public InterestResponseDTO create(@RequestBody InterestRequestDTO dto) {
+    public CVInterestResponseDTO create(@RequestBody CVInterestRequestDTO dto) {
         return interestService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public InterestResponseDTO update(@PathVariable Long id, @RequestBody InterestRequestDTO dto) {
+    public CVInterestResponseDTO update(@PathVariable Long id, @RequestBody CVInterestRequestDTO dto) {
         return interestService.update(id, dto);
     }
 
