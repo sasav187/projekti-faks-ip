@@ -1,7 +1,50 @@
+.layout-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
 
+.desktop-menu {
+  display: flex;
+  gap: 10px;
+}
+
+.menu-button {
+  display: none;
+  margin-right: 10px;
+}
+
 .content {
-  padding: 20px;
+
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+
+  .desktop-menu {
+    display: none;
+  }
+
+  .menu-button {
+    display: block;
+  }
+
 }

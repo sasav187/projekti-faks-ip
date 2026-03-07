@@ -1,27 +1,41 @@
-<div class="login-container">
-  <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
+<div class="login-wrapper">
+
+  <mat-card class="login-card mat-elevation-z8">
+
+    <mat-card-header class="header">
+      <mat-icon class="login-icon">school</mat-icon>
+      <mat-card-title>Student Portal</mat-card-title>
+      <mat-card-subtitle>Sign in to continue</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-      <form (ngSubmit)="login()">
-        <mat-form-field appearance="fill" class="full-width">
+
+      <form (ngSubmit)="login()" class="login-form">
+
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Username</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
           <input matInput [(ngModel)]="username" name="username" required />
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
           <input matInput type="password" [(ngModel)]="password" name="password" required />
         </mat-form-field>
 
-        <button mat-raised-button color="primary" class="full-width" type="submit">
+        <button mat-raised-button color="primary" class="login-button" type="submit">
           Login
         </button>
+
       </form>
 
-      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+      <p *ngIf="errorMessage" class="error">
+        {{ errorMessage }}
+      </p>
+
     </mat-card-content>
+
   </mat-card>
+
 </div>
