@@ -18,17 +18,34 @@ export class LoginComponent {
   password = '';
   errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   login() {
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
         const role = this.authService.getRole();
-        if (role === 'STUDENT') this.router.navigate(['/internships']);
-        else this.router.navigate(['/unauthorized']);
+
+        if (role === 'STUDENT') {
+          this.router.navigate(['']);
+        } else {
+          this.router.navigate(['/unauthorized']);
+        }
       },
-      error: () => {
-        this.errorMessage = 'Invalid username or password';
+
+      error: (err) => {
+
+        if (err.status === 403) {
+          this.authService.logout();
+          this.router.navigate(['/unauthorized']);
+        }
+
+        else if (err.status === 401) {
+          this.errorMessage = 'Invalid username or password';
+        }
+
+        else {
+          this.errorMessage = 'Login failed';
+        }
       }
     });
   }

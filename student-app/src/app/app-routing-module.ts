@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './features/auth/login/login.component';
+import { UnauthorizedComponent } from './features/auth/unauthorized/unauthorized.component';
 import { MainLayoutComponent } from './layout/main-layout.component';
 import { InternshipListComponent } from './features/internships/internship-list.component';
-import { CVComponent } from './features/cv/cv.component'; // dodano
+import { CVComponent } from './features/cv/cv.component';
 
 import { AuthGuard } from './core/guards/auth.guard';
+import { StudentGuard } from './core/guards/student.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,12 +18,14 @@ const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'internships', component: InternshipListComponent },
-      { path: 'cv', component: CVComponent } // ruta za CV
+      { path: 'internships', component: InternshipListComponent, canActivate: [StudentGuard]},
+      { path: 'cv', component: CVComponent, canActivate: [StudentGuard]} 
     ]
   },
 
-  { path: '**', redirectTo: 'internships' } // fallback
+  { path: 'unauthorized', component: UnauthorizedComponent},
+
+  { path: '**', redirectTo: '' } 
 ];
 
 @NgModule({

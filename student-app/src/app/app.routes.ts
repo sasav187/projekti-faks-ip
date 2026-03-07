@@ -6,9 +6,12 @@ import { CVComponent } from './features/cv/cv.component.js';
 import { InternshipListComponent } from './features/internships/internship-list.component.js';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './features/auth/login/login.component.js';
+import { UnauthorizedComponent } from './features/auth/unauthorized/unauthorized.component.js';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
+
+  { path: 'unauthorized', component: UnauthorizedComponent },
 
   {
     path: '',
