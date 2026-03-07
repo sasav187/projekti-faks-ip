@@ -1,0 +1,42 @@
+<div class="dashboard">
+  <h1>Dobrodošao u Studentski Portal</h1>
+  <p>Izaberite opciju sa menija ili klikom na karticu ispod.</p>
+
+  <div class="card-container">
+    <mat-card class="card" (click)="goToCV()">
+      <mat-card-header>
+        <mat-card-title>Moj CV</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Kreiraj ili ažuriraj svoj Europass CV.
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card" (click)="goToInternships()">
+      <mat-card-header>
+        <mat-card-title>Dostupne Prakse</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Pregledaj i prijavi se na prakse.
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card" (click)="goToRecommendations()">
+      <mat-card-header>
+        <mat-card-title>AI Preporuke</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Pogledaj preporučene prakse.
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card" (click)="goToWorklog()">
+      <mat-card-header>
+        <mat-card-title>Dnevnik rada</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Unesi sedmične aktivnosti.
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

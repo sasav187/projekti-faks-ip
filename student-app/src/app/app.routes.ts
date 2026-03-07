@@ -1,24 +1,26 @@
 import { Routes } from '@angular/router';
 
-import { LoginComponent } from './features/auth/login/login.component';
-import { InternshipListComponent } from './features/internships/internship-list.component';
-import { UnauthorizedComponent } from './features/auth/unauthorized/unauthorized';
-
+import { MainLayoutComponent } from './layout/main-layout.component.js';
+import { MainViewComponent } from './view/main-view.component.js';
+import { CVComponent } from './features/cv/cv.component.js';
+import { InternshipListComponent } from './features/internships/internship-list.component.js';
 import { AuthGuard } from './core/guards/auth.guard';
-import { RoleGuard } from './core/guards/role.guard';
+import { LoginComponent } from './features/auth/login/login.component.js';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
 
   {
-    path: 'internships',
-    component: InternshipListComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: { roles: ['STUDENT'] }
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', component: MainViewComponent },
+      { path: 'cv', component: CVComponent },
+      { path: 'internships', component: InternshipListComponent },
+      // { path: 'recommendations', component: RecommendationsComponent } // kasnije
+    ]
   },
 
-  { path: 'unauthorized', component: UnauthorizedComponent },
-
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: '' }
 ];

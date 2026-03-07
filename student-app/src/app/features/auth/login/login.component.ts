@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../../material.module';
+
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [CommonModule, FormsModule],
-  templateUrl: './login.component.html'
+  imports: [CommonModule, FormsModule, MaterialModule],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   username = '';
@@ -22,8 +25,6 @@ export class LoginComponent {
       next: () => {
         const role = this.authService.getRole();
         if (role === 'STUDENT') this.router.navigate(['/internships']);
-        else if (role === 'COMPANY') this.router.navigate(['/company/dashboard']);
-        else if (role === 'FACULTY') this.router.navigate(['/faculty/dashboard']);
         else this.router.navigate(['/unauthorized']);
       },
       error: () => {

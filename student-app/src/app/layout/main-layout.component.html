@@ -1,10 +1,14 @@
-<h2>Student App</h2>
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <span>Student Portal</span>
 
-<nav>
-  <a routerLink="/internships">Internships</a>
-  <a routerLink="/login">Logout</a>
-</nav>
+  <span class="spacer"></span>
 
-<hr>
+  <button mat-button routerLink="/">Home</button>
+  <button mat-button routerLink="/cv">My CV</button>
+  <button mat-button routerLink="/internships">Internships</button>
+  <button mat-button (click)="logout()">Logout</button>
+</mat-toolbar>
 
-<router-outlet></router-outlet>
+<div class="content">
+  <router-outlet></router-outlet>
+</div>
