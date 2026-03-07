@@ -40,6 +40,11 @@ public class CVController {
         return cvService.getById(id);
     }
 
+    @GetMapping("/me")
+    public CVResponseDTO getCurrentStudentCV(@RequestParam Long studentId) {
+        return cvService.getCurrentStudentCV(studentId);
+    }
+
     @PostMapping
     public CVResponseDTO create(@RequestBody CVRequestDTO dto) {
         return cvService.create(dto);
@@ -50,8 +55,14 @@ public class CVController {
         return cvService.update(id, dto);
     }
 
+    @PostMapping("/me")
+    public CVResponseDTO updateCurrentStudentCV(@RequestParam Long studentId,
+                                                @RequestBody CVRequestDTO dto) {
+        return cvService.updateCurrentStudentCV(studentId, dto);
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         cvService.deleteById(id);
-    }   
+    }
 }
