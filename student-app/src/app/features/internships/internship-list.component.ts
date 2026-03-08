@@ -11,7 +11,7 @@ import { of } from 'rxjs';
   selector: 'app-internship-list',
   imports: [CommonModule],
   templateUrl: './internship-list.component.html',
-  styleUrls: ['./internship-list.component.css']
+  styleUrls: ['./internship-list.component.scss']
 })
 export class InternshipListComponent implements OnInit {
 

@@ -47,10 +47,8 @@
 
       <button mat-button class="logo" routerLink="/">
         <mat-icon>school</mat-icon>
-        Student Portal
+        Portal
       </button>
-
-      <span class="spacer"></span>
 
       <div class="desktop-menu">
         <button mat-button routerLink="/">
@@ -78,11 +76,14 @@
           Worklog
         </button>
 
-        <button mat-button color="warn" (click)="logout()">
-          <mat-icon>logout</mat-icon>
-          Logout
-        </button>
       </div>
+
+      <span class="spacer"></span>
+
+      <button mat-button color="warn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
 
     </mat-toolbar>
 

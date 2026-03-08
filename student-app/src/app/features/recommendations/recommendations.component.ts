@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-recommendations',
   imports: [],
-  templateUrl: './recommendations.html',
-  styleUrl: './recommendations.css',
+  templateUrl: './recommendations.component.html',
+  styleUrl: './recommendations.component.scss',
 })
 export class Recommendations {
 
