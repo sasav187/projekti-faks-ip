@@ -2,22 +2,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; // full viewport height
+  height: 100vh;
   padding: 20px;
-
-  background: linear-gradient(135deg, #1976d2, #42a5f5); // modern gradient
+  background: linear-gradient(135deg, #1976d2, #42a5f5);
 }
 
 .login-card {
   width: 100%;
-  max-width: 420px; // šira kartica
+  max-width: 420px;
   border-radius: 16px;
   padding: 30px 25px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
 }
 
 .login-card mat-card-header {
@@ -27,18 +31,13 @@
   margin-bottom: 20px;
 }
 
-.login-card mat-card-header mat-icon {
-  font-size: 48px;
-  color: #1976d2;
-  margin-bottom: 8px;
-}
-
 .login-card mat-card-title {
   font-size: 22px;
   font-weight: 600;
 }
 
 .login-card mat-card-subtitle {
+  text-align: center;
   font-size: 14px;
   color: #666;
 }
@@ -58,16 +57,44 @@
   width: 100%;
   height: 44px;
   font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.2s;
+
+  &:hover {
+    background: #1565c0;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+mat-form-field {
+  width: 100%;
+
+  .mat-form-field-outline {
+    border-radius: 8px;
+  }
+
+  input.mat-input-element {
+    padding: 10px 12px;
+  }
+
+  .mat-form-field-label {
+    font-weight: 500;
+  }
 }
 
 .error {
-  color: red;
+  color: #d32f2f;
   margin-top: 10px;
   text-align: center;
+  font-weight: 500;
 }
 
 /* MOBILE ADJUSTMENTS */
-
 @media (max-width: 600px) {
   .login-card {
     padding: 25px 20px;

@@ -5,7 +5,7 @@ import { AuthService } from '../../../core/services/auth.service';
 @Component({
   selector: 'app-unauthorized',
   templateUrl: './unauthorized.component.html',
-  styleUrls: ['./unauthorized.component.css'],
+  styleUrls: ['./unauthorized.component.scss'],
   standalone: true
 })
 export class UnauthorizedComponent {
