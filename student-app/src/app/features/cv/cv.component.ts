@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CVService } from '../../core/services/cv.service';
-import { CV, CVSkill, CVInterest, Education, WorkExperience, Language, AdditionalInfo } from '../../shared/models/cv.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../material.module';
+
+import { CVService } from '../../core/services/cv.service';
+import { CV, CVSkill, CVInterest, Education, WorkExperience, Language, AdditionalInfo } from '../../shared/models/cv.model';
 
 @Component({
   selector: 'app-cv',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MaterialModule],
   templateUrl: './cv.component.html'
 })
 export class CVComponent implements OnInit {
@@ -15,7 +17,7 @@ export class CVComponent implements OnInit {
   cv: CV | null = null;
   loading = true;
 
-  constructor(private cvService: CVService) {}
+  constructor(private cvService: CVService) { }
 
   ngOnInit(): void {
     this.loadCV();
@@ -24,31 +26,39 @@ export class CVComponent implements OnInit {
   loadCV(): void {
     this.cvService.getMyCV().subscribe({
       next: (res) => {
-        this.cv = res;
-        this.loading = false;
+        if (res) {
+          this.cv = res;
+          this.loading = false;
+        } else {
+          this.initNewCV();
+          this.loading = false;
+        }
       },
       error: () => {
-        // Kreiranje praznog CV-a ako ne postoji
-        this.cv = {
-          studentId: 0,
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          address: '',
-          nationality: '',
-          dateOfBirth: '',
-          summary: '',
-          skills: [],
-          interests: [],
-          educationList: [],
-          workExperiences: [],
-          languages: [],
-          additionalInfos: []
-        };
+        this.initNewCV();
         this.loading = false;
       }
     });
+  }
+
+  initNewCV(): void {
+    this.cv = {
+      studentId: 0, 
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      address: '',
+      nationality: '',
+      dateOfBirth: '',
+      summary: '',
+      skills: [],
+      interests: [],
+      educationList: [],
+      workExperiences: [],
+      languages: [],
+      additionalInfos: []
+    };
   }
 
   save(): void {
@@ -66,14 +76,14 @@ export class CVComponent implements OnInit {
     });
   }
 
-  // --- Dodavanje i uklanjanje polja ---
+  
   addSkill() { this.cv?.skills.push({ skillName: '' }); }
   removeSkill(index: number) { this.cv?.skills.splice(index, 1); }
 
   addInterest() { this.cv?.interests.push({ interestName: '' }); }
   removeInterest(index: number) { this.cv?.interests.splice(index, 1); }
 
-  addEducation() { 
+  addEducation() {
     this.cv?.educationList.push({ institution: '', degree: '', startYear: new Date().getFullYear(), endYear: new Date().getFullYear() });
   }
   removeEducation(index: number) { this.cv?.educationList.splice(index, 1); }
