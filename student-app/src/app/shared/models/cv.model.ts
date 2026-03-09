@@ -32,38 +32,51 @@ export interface CV {
 
 export interface CVSkill {
   id?: number;
-  skillName: string;
+  cvId?: number;
+  name: string;
+  level: string;
 }
 
 export interface CVInterest {
   id?: number;
-  interestName: string;
+  cvId?: number
+  name: string;
 }
 
 export interface Education {
   id?: number;
+  cvId?: number;
   institution: string;
   degree: string;
-  startYear: number;
-  endYear: number;
+  fieldOfStudy: string;
+  startDate: string;
+  endDate: string | null;
+  description: string;
 }
 
 export interface WorkExperience {
   id?: number;
-  company: string;
+  cvId?: number;
+  companyName: string;
   position: string;
   startDate: string;
-  endDate: string;
+  endDate: string | null;
   description: string;
 }
 
 export interface Language {
   id?: number;
-  language: string;
-  level: string;
+  cvId?: number;
+  name: string;
+  listeningLevel: string;
+  readingLevel: string;
+  writingLevel: string;
+  spokenLevel: string;
 }
 
 export interface AdditionalInfo {
   id?: number;
+  cvId?: number;
   content: string;
 }
+

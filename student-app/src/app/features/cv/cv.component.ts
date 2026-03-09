@@ -28,11 +28,10 @@ export class CVComponent implements OnInit {
       next: (res) => {
         if (res) {
           this.cv = res;
-          this.loading = false;
         } else {
           this.initNewCV();
-          this.loading = false;
         }
+        this.loading = false;
       },
       error: () => {
         this.initNewCV();
@@ -43,7 +42,7 @@ export class CVComponent implements OnInit {
 
   initNewCV(): void {
     this.cv = {
-      studentId: 0, 
+      studentId: 0,
       firstName: '',
       lastName: '',
       email: '',
@@ -76,27 +75,59 @@ export class CVComponent implements OnInit {
     });
   }
 
-  
-  addSkill() { this.cv?.skills.push({ skillName: '' }); }
+  // ======= SKILLS =======
+  addSkill() { 
+    this.cv?.skills.push({ name: '', level: 'BEGINNER' }); 
+  }
   removeSkill(index: number) { this.cv?.skills.splice(index, 1); }
 
-  addInterest() { this.cv?.interests.push({ interestName: '' }); }
+  // ======= INTERESTS =======
+  addInterest() { 
+    this.cv?.interests.push({ name: '' }); 
+  }
   removeInterest(index: number) { this.cv?.interests.splice(index, 1); }
 
+  // ======= EDUCATION =======
   addEducation() {
-    this.cv?.educationList.push({ institution: '', degree: '', startYear: new Date().getFullYear(), endYear: new Date().getFullYear() });
+    this.cv?.educationList.push({
+      institution: '',
+      degree: '',
+      fieldOfStudy: '',
+      startDate: new Date().toISOString().split('T')[0],
+      endDate: '',
+      description: ''
+    });
   }
   removeEducation(index: number) { this.cv?.educationList.splice(index, 1); }
 
+  // ======= WORK EXPERIENCES =======
   addWorkExperience() {
-    this.cv?.workExperiences.push({ company: '', position: '', startDate: '', endDate: '', description: '' });
+    this.cv?.workExperiences.push({
+      companyName: '',
+      position: '',
+      startDate: new Date().toISOString().split('T')[0],
+      endDate: '',
+      description: ''
+    });
   }
   removeWorkExperience(index: number) { this.cv?.workExperiences.splice(index, 1); }
 
-  addLanguage() { this.cv?.languages.push({ language: '', level: '' }); }
+  // ======= LANGUAGES =======
+  addLanguage() {
+    this.cv?.languages.push({
+      name: '',
+      listeningLevel: '',
+      readingLevel: '',
+      writingLevel: '',
+      spokenLevel: ''
+    });
+  }
   removeLanguage(index: number) { this.cv?.languages.splice(index, 1); }
 
-  addAdditionalInfo() { this.cv?.additionalInfos.push({ content: '' }); }
+  // ======= ADDITIONAL INFO =======
+  addAdditionalInfo() {
+    this.cv?.additionalInfos.push({ content: '' });
+  }
   removeAdditionalInfo(index: number) { this.cv?.additionalInfos.splice(index, 1); }
 
 }

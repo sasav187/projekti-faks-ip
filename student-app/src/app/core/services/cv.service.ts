@@ -10,12 +10,10 @@ export class CVService {
 
   constructor(private http: HttpClient) {}
 
-  // Dohvati CV trenutnog studenta
   getMyCV(): Observable<CV> {
     return this.http.get<CV>(`${this.apiUrl}/me`);
   }
 
-  // Sačuvaj ili kreiraj CV
   saveCV(cv: CV): Observable<CV> {
     if (cv.id) {
       return this.http.put<CV>(`${this.apiUrl}/me`, cv);
