@@ -36,7 +36,7 @@ public class AuthController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!user.getRole().name().equals("STUDENT")) {
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.status(403).build();  
         }
 
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());

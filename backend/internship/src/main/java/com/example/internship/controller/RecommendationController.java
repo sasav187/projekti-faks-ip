@@ -54,4 +54,11 @@ public class RecommendationController {
     public void delete(@PathVariable Long id) {
         recommendationService.deleteById(id);
     }
+
+    @PostMapping("/generate")
+    public RecommendationResponseDTO generateRecommendation(
+            @RequestParam Long studentId,
+            @RequestParam Long internshipId) {
+        return recommendationService.generateRecommendation(studentId, internshipId);
+    }
 }

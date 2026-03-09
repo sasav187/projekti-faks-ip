@@ -9,7 +9,9 @@ public class CVSkillMapper {
         if (cvSkill == null) return null;
         return CVSkillResponseDTO.builder()
                 .id(cvSkill.getId())
+                .cvId(cvSkill.getId() != null ? cvSkill.getCv().getId() : null)
                 .name(cvSkill.getName())
+                .level(cvSkill.getLevel())
                 .build();
     }
 

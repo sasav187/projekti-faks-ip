@@ -32,6 +32,11 @@ public class StudentService {
                 .map(StudentMapper::toResponseDTO);
     }
 
+    public Student getByUserName(String username) {
+        return studentRepository.findByUserUsername(username)
+                .orElseThrow(() -> new RuntimeException("Student not found with username: " + username));
+    }
+
     public StudentResponseDTO getById(Long id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));

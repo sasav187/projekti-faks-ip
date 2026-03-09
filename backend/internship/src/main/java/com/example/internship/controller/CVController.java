@@ -1,9 +1,13 @@
 package com.example.internship.controller;
 
 import com.example.internship.dto.cv.*;
+import com.example.internship.model.Student;
 import com.example.internship.service.CVService;
+import com.example.internship.service.StudentService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class CVController {
 
     private final CVService cvService;
+    private final StudentService studentService;
 
     @Autowired
-    public CVController(CVService cvService) {
+    public CVController(CVService cvService, StudentService studentService) {
         this.cvService = cvService;
+        this.studentService = studentService;
     }
 
     @GetMapping
@@ -41,8 +47,12 @@ public class CVController {
     }
 
     @GetMapping("/me")
-    public CVResponseDTO getCurrentStudentCV(@RequestParam Long studentId) {
-        return cvService.getCurrentStudentCV(studentId);
+    public CVResponseDTO getCurrentStudentCV(Authentication authentication) {
+        String username = authentication.getName();
+        
+        Student student = studentService.getByUserName(username);
+        
+        return cvService.getCurrentStudentCV(student.getId());
     }
 
     @PostMapping
