@@ -1,46 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../../material.module';
-
-import { CVService } from '../../core/services/cv.service';
-import { CV, CVSkill, CVInterest, Education, WorkExperience, Language, AdditionalInfo } from '../../shared/models/cv.model';
+import { Component, OnInit } from '@angular/core'
+import { FormsModule } from '@angular/forms'
+import { CommonModule } from '@angular/common'
+import { MaterialModule } from '../../material.module'
+import { CVService } from '../../core/services/cv.service'
+import { CV } from '../../shared/models/cv.model'
 
 @Component({
   selector: 'app-cv',
   standalone: true,
   imports: [CommonModule, FormsModule, MaterialModule],
-  templateUrl: './cv.component.html'
+  templateUrl: './cv.component.html',
+  styleUrls: ['./cv.component.scss']
 })
 export class CVComponent implements OnInit {
 
-  cv: CV | null = null;
-  loading = true;
+  cv!: CV
+  isEditing = false
+  hasCV = false
+
+  skillLevels = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED']
+  languageLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
 
   constructor(private cvService: CVService) { }
 
   ngOnInit(): void {
-    this.loadCV();
+    this.loadCV()
   }
 
-  loadCV(): void {
+  loadCV() {
     this.cvService.getMyCV().subscribe({
-      next: (res) => {
-        if (res) {
-          this.cv = res;
+      next: res => {
+        if (res && res.id) {
+          this.cv = this.normalizeCV(res)
+          this.hasCV = true
+          this.isEditing = false
         } else {
-          this.initNewCV();
+          this.initNewCV()
         }
-        this.loading = false;
       },
       error: () => {
-        this.initNewCV();
-        this.loading = false;
+        this.initNewCV()
       }
-    });
+    })
   }
 
-  initNewCV(): void {
+  normalizeCV(res: CV): CV {
+    return {
+      ...res,
+      skills: res.skills ?? [],
+      interests: res.interests ?? [],
+      educationList: res.educationList ?? [],
+      workExperiences: res.workExperiences ?? [],
+      languages: res.languages ?? [],
+      additionalInfos: res.additionalInfos ?? []
+    }
+  }
+
+  initNewCV() {
     this.cv = {
       studentId: 0,
       firstName: '',
@@ -57,77 +73,69 @@ export class CVComponent implements OnInit {
       workExperiences: [],
       languages: [],
       additionalInfos: []
-    };
+    }
+    this.hasCV = false
+    this.isEditing = true
   }
 
-  save(): void {
-    if (!this.cv) return;
-
-    this.cvService.saveCV(this.cv).subscribe({
-      next: (res) => {
-        this.cv = res;
-        alert(this.cv.id ? 'CV updated' : 'CV created');
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Error saving CV');
-      }
-    });
+  createCV() {
+    this.initNewCV()
   }
 
-  // ======= SKILLS =======
-  addSkill() { 
-    this.cv?.skills.push({ name: '', level: 'BEGINNER' }); 
+  startEdit() {
+    if (!this.cv) this.initNewCV()
+    this.isEditing = true
   }
-  removeSkill(index: number) { this.cv?.skills.splice(index, 1); }
 
-  // ======= INTERESTS =======
-  addInterest() { 
-    this.cv?.interests.push({ name: '' }); 
+  save() {
+    this.cvService.saveCV(this.cv).subscribe(res => {
+      this.cv = this.normalizeCV(res)
+      this.hasCV = true
+      this.isEditing = false
+    })
   }
-  removeInterest(index: number) { this.cv?.interests.splice(index, 1); }
 
-  // ======= EDUCATION =======
+  addSkill() { this.cv.skills.push({ name: '', level: 'BEGINNER' }) }
+  removeSkill(i: number) { this.cv.skills.splice(i, 1) }
+
+  addInterest() { this.cv.interests.push({ name: '' }) }
+  removeInterest(i: number) { this.cv.interests.splice(i, 1) }
+
   addEducation() {
-    this.cv?.educationList.push({
+    this.cv.educationList.push({
       institution: '',
       degree: '',
       fieldOfStudy: '',
-      startDate: new Date().toISOString().split('T')[0],
+      startDate: '',
       endDate: '',
       description: ''
-    });
+    })
   }
-  removeEducation(index: number) { this.cv?.educationList.splice(index, 1); }
+  removeEducation(i: number) { this.cv.educationList.splice(i, 1) }
 
-  // ======= WORK EXPERIENCES =======
   addWorkExperience() {
-    this.cv?.workExperiences.push({
+    this.cv.workExperiences.push({
       companyName: '',
       position: '',
-      startDate: new Date().toISOString().split('T')[0],
+      startDate: '',
       endDate: '',
       description: ''
-    });
+    })
   }
-  removeWorkExperience(index: number) { this.cv?.workExperiences.splice(index, 1); }
+  removeWorkExperience(i: number) { this.cv.workExperiences.splice(i, 1) }
 
-  // ======= LANGUAGES =======
   addLanguage() {
-    this.cv?.languages.push({
+    this.cv.languages.push({
       name: '',
       listeningLevel: '',
       readingLevel: '',
       writingLevel: '',
       spokenLevel: ''
-    });
+    })
   }
-  removeLanguage(index: number) { this.cv?.languages.splice(index, 1); }
+  removeLanguage(i: number) { this.cv.languages.splice(i, 1) }
 
-  // ======= ADDITIONAL INFO =======
-  addAdditionalInfo() {
-    this.cv?.additionalInfos.push({ content: '' });
-  }
-  removeAdditionalInfo(index: number) { this.cv?.additionalInfos.splice(index, 1); }
+  addAdditionalInfo() { this.cv.additionalInfos.push({ content: '' }) }
+  removeAdditionalInfo(i: number) { this.cv.additionalInfos.splice(i, 1) }
 
 }

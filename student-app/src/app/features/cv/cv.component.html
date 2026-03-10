@@ -1,301 +1,428 @@
-<div *ngIf="loading" class="loading">
-  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
-</div>
+<div class="cv-container">
 
-<div *ngIf="!loading && cv" class="builder-container">
+  <div *ngIf="!hasCV && !isEditing" class="empty-cv">
+    <mat-card>
+      <h1>You don't have a CV yet</h1>
+      <button mat-raised-button color="primary" (click)="createCV()">
+        <mat-icon>add</mat-icon>
+        Create CV
+      </button>
+    </mat-card>
+  </div>
 
-  <form (ngSubmit)="save()">
+  <div *ngIf="hasCV && !isEditing">
+    <div class="cv-header">
+      <h1>My CV</h1>
+      <button mat-raised-button color="primary" (click)="startEdit()">
+        <mat-icon>edit</mat-icon>
+        Edit CV
+      </button>
+    </div>
+    <mat-card class="cv-preview">
+      <h2>{{cv.firstName}} {{cv.lastName}}</h2>
+      <p>{{cv.email}}</p>
+      <p>{{cv.phone}}</p>
+      <p>{{cv.address}}</p>
+      <h3>Summary</h3>
+      <p>{{cv.summary}}</p>
+    </mat-card>
+  </div>
 
-    <mat-tab-group>
+  <form *ngIf="isEditing" (ngSubmit)="save()" class="cv-form">
 
-      <!-- PERSONAL INFO -->
+    <div class="cv-header">
+      <h1>{{hasCV ? 'Edit CV' : 'Create CV'}}</h1>
+      <button mat-raised-button color="primary" type="submit">
+        <mat-icon>save</mat-icon>
+        Save CV
+      </button>
+    </div>
+
+    <mat-tab-group class="desktop-tabs">
+
       <mat-tab label="Personal">
-        <mat-card class="section-card">
-          <div class="grid">
-            <mat-form-field appearance="outline">
-              <mat-label>First Name</mat-label>
-              <input matInput [(ngModel)]="cv.firstName" name="firstName">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Last Name</mat-label>
-              <input matInput [(ngModel)]="cv.lastName" name="lastName">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
-              <input matInput [(ngModel)]="cv.email" name="email">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Phone</mat-label>
-              <input matInput [(ngModel)]="cv.phone" name="phone">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Address</mat-label>
-              <input matInput [(ngModel)]="cv.address" name="address">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Nationality</mat-label>
-              <input matInput [(ngModel)]="cv.nationality" name="nationality">
-            </mat-form-field>
-          </div>
-
-          <mat-form-field appearance="outline" class="full">
-            <mat-label>Summary</mat-label>
-            <textarea matInput rows="5" [(ngModel)]="cv.summary" name="summary"></textarea>
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>First name</mat-label>
+            <input matInput [(ngModel)]="cv.firstName" name="firstName" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
-
-        </mat-card>
+          <mat-form-field appearance="outline">
+            <mat-label>Last name</mat-label>
+            <input matInput [(ngModel)]="cv.lastName" name="lastName" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="cv.email" name="email" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Phone</mat-label>
+            <input matInput [(ngModel)]="cv.phone" name="phone" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Address</mat-label>
+            <input matInput [(ngModel)]="cv.address" name="address" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Nationality</mat-label>
+            <input matInput [(ngModel)]="cv.nationality" name="nationality" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Date of birth</mat-label>
+            <input matInput type="date" [(ngModel)]="cv.dateOfBirth" name="dateOfBirth" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Summary</mat-label>
+          <textarea matInput rows="5" [(ngModel)]="cv.summary" name="summary" [ngModelOptions]="{standalone: true}"></textarea>
+        </mat-form-field>
       </mat-tab>
 
-      <!-- EDUCATION -->
-      <mat-tab label="Education">
-        <mat-card class="section-card">
-          <div class="section-header">
-            <h3>Education</h3>
-            <button mat-mini-fab color="primary" type="button" (click)="addEducation()">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-
-          <div *ngFor="let edu of cv.educationList; let i=index" class="grid">
-            <mat-form-field appearance="outline">
-              <mat-label>Institution</mat-label>
-              <input matInput [(ngModel)]="edu.institution" name="eduInst{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Degree</mat-label>
-              <input matInput [(ngModel)]="edu.degree" name="eduDegree{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Field of Study</mat-label>
-              <input matInput [(ngModel)]="edu.fieldOfStudy" name="eduField{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Start Date</mat-label>
-              <input matInput type="date" [(ngModel)]="edu.startDate" name="eduStart{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>End Date</mat-label>
-              <input matInput type="date" [(ngModel)]="edu.endDate" name="eduEnd{{i}}">
-            </mat-form-field>
-
-            <button mat-icon-button color="warn" (click)="removeEducation(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-card>
-      </mat-tab>
-
-      <!-- SKILLS -->
       <mat-tab label="Skills">
-        <mat-card class="section-card">
-          <div class="section-header">
-            <h3>Skills</h3>
-            <button mat-mini-fab color="primary" type="button" (click)="addSkill()">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-
-          <div *ngFor="let skill of cv.skills; let i=index" class="row">
-            <mat-form-field appearance="outline" class="flex">
-              <input matInput placeholder="Skill" [(ngModel)]="skill.name" name="skill{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="flex">
-              <input matInput placeholder="Level" [(ngModel)]="skill.level" name="level{{i}}">
-            </mat-form-field>
-
-            <button mat-icon-button color="warn" (click)="removeSkill(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-card>
+        <div *ngFor="let s of cv.skills; let i=index" class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Skill</mat-label>
+            <input matInput [(ngModel)]="s.name" name="skillName{{i}}" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Level</mat-label>
+            <mat-select [(ngModel)]="s.level" name="skillLevel{{i}}" [ngModelOptions]="{standalone: true}">
+              <mat-option *ngFor="let level of skillLevels" [value]="level">{{level}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-icon-button color="warn" (click)="removeSkill(i)" type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <button mat-stroked-button type="button" (click)="addSkill()">Add skill</button>
       </mat-tab>
 
-      <!-- INTERESTS -->
       <mat-tab label="Interests">
-        <mat-card class="section-card">
-          <div class="section-header">
-            <h3>Interests</h3>
-            <button mat-mini-fab color="primary" type="button" (click)="addInterest()">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-
-          <div *ngFor="let interest of cv.interests; let i=index" class="row">
-            <mat-form-field appearance="outline" class="flex">
-              <input matInput placeholder="Interest" [(ngModel)]="interest.name" name="interest{{i}}">
-            </mat-form-field>
-
-            <button mat-icon-button color="warn" (click)="removeInterest(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-card>
+        <div *ngFor="let s of cv.interests; let i=index" class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Interest</mat-label>
+            <input matInput [(ngModel)]="s.name" name="interest{{i}}" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <button mat-icon-button color="warn" (click)="removeInterest(i)" type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <button mat-stroked-button type="button" (click)="addInterest()">Add interest</button>
       </mat-tab>
 
-      <!-- WORK EXPERIENCE -->
+      <mat-tab label="Education">
+        <div *ngFor="let e of cv.educationList; let i=index" class="card-block">
+          <mat-card>
+            <div class="form-grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Institution</mat-label>
+                <input matInput [(ngModel)]="e.institution" name="inst{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Degree</mat-label>
+                <input matInput [(ngModel)]="e.degree" name="deg{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Field</mat-label>
+                <input matInput [(ngModel)]="e.fieldOfStudy" name="field{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Start</mat-label>
+                <input matInput type="date" [(ngModel)]="e.startDate" name="startEdu{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>End</mat-label>
+                <input matInput type="date" [(ngModel)]="e.endDate" name="endEdu{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </div>
+            <button mat-button color="warn" (click)="removeEducation(i)" type="button">Remove</button>
+          </mat-card>
+        </div>
+        <button mat-stroked-button type="button" (click)="addEducation()">Add education</button>
+      </mat-tab>
+
       <mat-tab label="Experience">
-        <mat-card class="section-card">
-          <div class="section-header">
-            <h3>Work Experience</h3>
-            <button mat-mini-fab color="primary" type="button" (click)="addWorkExperience()">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-
-          <div *ngFor="let work of cv.workExperiences; let i=index" class="grid">
-            <mat-form-field appearance="outline">
-              <mat-label>Company</mat-label>
-              <input matInput [(ngModel)]="work.companyName" name="company{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Position</mat-label>
-              <input matInput [(ngModel)]="work.position" name="position{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Start Date</mat-label>
-              <input matInput type="date" [(ngModel)]="work.startDate" name="start{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>End Date</mat-label>
-              <input matInput type="date" [(ngModel)]="work.endDate" name="end{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="full">
+        <div *ngFor="let w of cv.workExperiences; let i=index" class="card-block">
+          <mat-card>
+            <div class="form-grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Company</mat-label>
+                <input matInput [(ngModel)]="w.companyName" name="company{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Position</mat-label>
+                <input matInput [(ngModel)]="w.position" name="pos{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Start</mat-label>
+                <input matInput type="date" [(ngModel)]="w.startDate" name="startWork{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>End</mat-label>
+                <input matInput type="date" [(ngModel)]="w.endDate" name="endWork{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </div>
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Description</mat-label>
-              <textarea matInput rows="3" [(ngModel)]="work.description" name="desc{{i}}"></textarea>
+              <textarea matInput rows="4" [(ngModel)]="w.description" name="desc{{i}}" [ngModelOptions]="{standalone: true}"></textarea>
             </mat-form-field>
-
-            <button mat-icon-button color="warn" (click)="removeWorkExperience(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-card>
+            <button mat-button color="warn" (click)="removeWorkExperience(i)" type="button">Remove</button>
+          </mat-card>
+        </div>
+        <button mat-stroked-button type="button" (click)="addWorkExperience()">Add experience</button>
       </mat-tab>
 
-      <!-- LANGUAGES -->
       <mat-tab label="Languages">
-        <mat-card class="section-card">
-          <div class="section-header">
-            <h3>Languages</h3>
-            <button mat-mini-fab color="primary" type="button" (click)="addLanguage()">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-
-          <div *ngFor="let lang of cv.languages; let i=index" class="row">
-            <mat-form-field appearance="outline" class="flex">
-              <input matInput placeholder="Language" [(ngModel)]="lang.name" name="lang{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="flex">
-              <input matInput placeholder="Listening" [(ngModel)]="lang.listeningLevel" name="listening{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="flex">
-              <input matInput placeholder="Reading" [(ngModel)]="lang.readingLevel" name="reading{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="flex">
-              <input matInput placeholder="Writing" [(ngModel)]="lang.writingLevel" name="writing{{i}}">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="flex">
-              <input matInput placeholder="Spoken" [(ngModel)]="lang.spokenLevel" name="spoken{{i}}">
-            </mat-form-field>
-
-            <button mat-icon-button color="warn" (click)="removeLanguage(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-card>
+        <div *ngFor="let l of cv.languages; let i=index" class="card-block">
+          <mat-card>
+            <div class="form-grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Language</mat-label>
+                <input matInput [(ngModel)]="l.name" name="lang{{i}}" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Listening</mat-label>
+                <mat-select [(ngModel)]="l.listeningLevel" name="listen{{i}}" [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Reading</mat-label>
+                <mat-select [(ngModel)]="l.readingLevel" name="read{{i}}" [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Writing</mat-label>
+                <mat-select [(ngModel)]="l.writingLevel" name="write{{i}}" [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Speaking</mat-label>
+                <mat-select [(ngModel)]="l.spokenLevel" name="speak{{i}}" [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <button mat-button color="warn" (click)="removeLanguage(i)" type="button">Remove</button>
+          </mat-card>
+        </div>
+        <button mat-stroked-button type="button" (click)="addLanguage()">Add language</button>
       </mat-tab>
 
-      <!-- ADDITIONAL INFO -->
-      <mat-tab label="Additional Info">
-        <mat-card class="section-card">
-          <div class="section-header">
-            <h3>Additional Information</h3>
-            <button mat-mini-fab color="primary" type="button" (click)="addAdditionalInfo()">
-              <mat-icon>add</mat-icon>
-            </button>
-          </div>
-
-          <div *ngFor="let info of cv.additionalInfos; let i=index" class="row">
-            <mat-form-field appearance="outline" class="flex">
-              <input matInput placeholder="Content" [(ngModel)]="info.content" name="info{{i}}">
-            </mat-form-field>
-
-            <button mat-icon-button color="warn" (click)="removeAdditionalInfo(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-card>
+      <mat-tab label="Additional">
+        <div *ngFor="let a of cv.additionalInfos; let i=index" class="row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Info</mat-label>
+            <textarea matInput rows="3" [(ngModel)]="a.content" name="info{{i}}" [ngModelOptions]="{standalone: true}"></textarea>
+          </mat-form-field>
+          <button mat-icon-button color="warn" (click)="removeAdditionalInfo(i)" type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <button mat-stroked-button type="button" (click)="addAdditionalInfo()">Add info</button>
       </mat-tab>
 
     </mat-tab-group>
 
-    <!-- SAVE BUTTON -->
-    <div class="save-bar">
-      <button mat-raised-button color="primary" type="submit">
-        <mat-icon>save</mat-icon>
-        {{ cv.id ? 'Update CV' : 'Create CV' }}
-      </button>
+    <div class="mobile-accordion">
+      <mat-accordion multi>
+        <mat-expansion-panel *ngFor="let tab of ['Personal','Skills','Interests','Education','Experience','Languages','Additional']; let idx=index">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{tab}}</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <ng-container [ngSwitch]="tab">
+
+            <ng-container *ngSwitchCase="'Personal'">
+              <div class="form-grid">
+                <mat-form-field appearance="outline">
+                  <mat-label>First name</mat-label>
+                  <input matInput [(ngModel)]="cv.firstName" name="firstNameMobile" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Last name</mat-label>
+                  <input matInput [(ngModel)]="cv.lastName" name="lastNameMobile" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput [(ngModel)]="cv.email" name="emailMobile" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Phone</mat-label>
+                  <input matInput [(ngModel)]="cv.phone" name="phoneMobile" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Address</mat-label>
+                  <input matInput [(ngModel)]="cv.address" name="addressMobile" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Nationality</mat-label>
+                  <input matInput [(ngModel)]="cv.nationality" name="nationalityMobile" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Date of birth</mat-label>
+                  <input matInput type="date" [(ngModel)]="cv.dateOfBirth" name="dateOfBirthMobile" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+              </div>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Summary</mat-label>
+                <textarea matInput rows="5" [(ngModel)]="cv.summary" name="summaryMobile" [ngModelOptions]="{standalone: true}"></textarea>
+              </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'Skills'">
+              <div *ngFor="let s of cv.skills; let i=index" class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Skill</mat-label>
+                  <input matInput [(ngModel)]="s.name" name="skillNameMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Level</mat-label>
+                  <mat-select [(ngModel)]="s.level" name="skillLevelMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let level of skillLevels" [value]="level">{{level}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-icon-button color="warn" (click)="removeSkill(i)" type="button">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              <button mat-stroked-button type="button" (click)="addSkill()">Add skill</button>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'Interests'">
+              <div *ngFor="let s of cv.interests; let i=index" class="row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Interest</mat-label>
+                  <input matInput [(ngModel)]="s.name" name="interestMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <button mat-icon-button color="warn" (click)="removeInterest(i)" type="button">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              <button mat-stroked-button type="button" (click)="addInterest()">Add interest</button>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'Education'">
+              <div *ngFor="let e of cv.educationList; let i=index" class="card-block">
+                <mat-card>
+                  <div class="form-grid">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Institution</mat-label>
+                      <input matInput [(ngModel)]="e.institution" name="instMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Degree</mat-label>
+                      <input matInput [(ngModel)]="e.degree" name="degMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Field</mat-label>
+                      <input matInput [(ngModel)]="e.fieldOfStudy" name="fieldMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Start</mat-label>
+                      <input matInput type="date" [(ngModel)]="e.startDate" name="startEduMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>End</mat-label>
+                      <input matInput type="date" [(ngModel)]="e.endDate" name="endEduMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                  </div>
+                  <button mat-button color="warn" (click)="removeEducation(i)" type="button">Remove</button>
+                </mat-card>
+              </div>
+              <button mat-stroked-button type="button" (click)="addEducation()">Add education</button>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'Experience'">
+              <div *ngFor="let w of cv.workExperiences; let i=index" class="card-block">
+                <mat-card>
+                  <div class="form-grid">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Company</mat-label>
+                      <input matInput [(ngModel)]="w.companyName" name="companyMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Position</mat-label>
+                      <input matInput [(ngModel)]="w.position" name="posMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Start</mat-label>
+                      <input matInput type="date" [(ngModel)]="w.startDate" name="startWorkMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>End</mat-label>
+                      <input matInput type="date" [(ngModel)]="w.endDate" name="endWorkMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                  </div>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput rows="4" [(ngModel)]="w.description" name="descMobile{{i}}" [ngModelOptions]="{standalone: true}"></textarea>
+                  </mat-form-field>
+                  <button mat-button color="warn" (click)="removeWorkExperience(i)" type="button">Remove</button>
+                </mat-card>
+              </div>
+              <button mat-stroked-button type="button" (click)="addWorkExperience()">Add experience</button>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'Languages'">
+              <div *ngFor="let l of cv.languages; let i=index" class="card-block">
+                <mat-card>
+                  <div class="form-grid">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Language</mat-label>
+                      <input matInput [(ngModel)]="l.name" name="langMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Listening</mat-label>
+                      <mat-select [(ngModel)]="l.listeningLevel" name="listenMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reading</mat-label>
+                      <mat-select [(ngModel)]="l.readingLevel" name="readMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Writing</mat-label>
+                      <mat-select [(ngModel)]="l.writingLevel" name="writeMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Speaking</mat-label>
+                      <mat-select [(ngModel)]="l.spokenLevel" name="speakMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <button mat-button color="warn" (click)="removeLanguage(i)" type="button">Remove</button>
+                </mat-card>
+              </div>
+              <button mat-stroked-button type="button" (click)="addLanguage()">Add language</button>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'Additional'">
+              <div *ngFor="let a of cv.additionalInfos; let i=index" class="row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Info</mat-label>
+                  <textarea matInput rows="3" [(ngModel)]="a.content" name="infoMobile{{i}}" [ngModelOptions]="{standalone: true}"></textarea>
+                </mat-form-field>
+                <button mat-icon-button color="warn" (click)="removeAdditionalInfo(i)" type="button">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              <button mat-stroked-button type="button" (click)="addAdditionalInfo()">Add info</button>
+            </ng-container>
+
+          </ng-container>
+
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
 
   </form>
-
-  <!-- CV PREVIEW -->
-  <div class="cv-preview">
-    <mat-card class="preview-card">
-      <h2>{{cv.firstName}} {{cv.lastName}}</h2>
-      <p>{{cv.email}} | {{cv.phone}}</p>
-      <p>{{cv.address}}, {{cv.nationality}}</p>
-
-      <h3>Summary</h3>
-      <p>{{cv.summary}}</p>
-
-      <h3>Skills</h3>
-      <ul><li *ngFor="let s of cv.skills">{{s.name}} - {{s.level}}</li></ul>
-
-      <h3>Languages</h3>
-      <ul>
-        <li *ngFor="let l of cv.languages">
-          {{l.name}} - Listening: {{l.listeningLevel}}, Reading: {{l.readingLevel}}, Writing: {{l.writingLevel}}, Spoken: {{l.spokenLevel}}
-        </li>
-      </ul>
-
-      <h3>Work Experience</h3>
-      <div *ngFor="let w of cv.workExperiences">
-        <strong>{{w.companyName}}</strong> - {{w.position}}<br>
-        <small>{{w.startDate}} - {{w.endDate || 'Present'}}</small>
-        <p>{{w.description}}</p>
-      </div>
-
-      <h3>Education</h3>
-      <div *ngFor="let e of cv.educationList">
-        <strong>{{e.institution}}</strong> - {{e.degree}}, {{e.fieldOfStudy}}<br>
-        <small>{{e.startDate}} - {{e.endDate || 'Present'}}</small>
-      </div>
-
-      <h3>Interests</h3>
-      <ul><li *ngFor="let i of cv.interests">{{i.name}}</li></ul>
-
-      <h3>Additional Info</h3>
-      <ul><li *ngFor="let a of cv.additionalInfos">{{a.content}}</li></ul>
-    </mat-card>
-  </div>
 
 </div>
