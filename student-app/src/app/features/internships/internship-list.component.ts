@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { InternshipService } from '../../core/services/internship.service';
 import { Internship } from '../../shared/models/internship.model';
 import { Observable } from 'rxjs';

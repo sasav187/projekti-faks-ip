@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
+
 import { MaterialModule } from '../../material.module'
 import { CVService } from '../../core/services/cv.service'
 import { CV } from '../../shared/models/cv.model'
@@ -14,7 +15,7 @@ import { CV } from '../../shared/models/cv.model'
 })
 export class CVComponent implements OnInit {
 
-  cv!: CV
+  cv: CV | null = null;
   isEditing = false
   hasCV = false
 

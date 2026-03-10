@@ -23,8 +23,56 @@
       <p>{{cv.email}}</p>
       <p>{{cv.phone}}</p>
       <p>{{cv.address}}</p>
+      <p>{{cv.dateOfBirth}}</p>
       <h3>Summary</h3>
       <p>{{cv.summary}}</p>
+      <h3>Created at</h3>
+      <p>{{cv.createdAt}}</p>
+      <h3>Last updated at</h3>
+      <p>{{cv.lastUpdated}}</p>
+      <h3>Skills</h3>
+      <div *ngFor="let skill of cv.skills">
+        <p><strong>Name:</strong> {{ skill.name }}</p>
+        <p><strong>Level:</strong> {{ skill.level }}</p>
+        <hr>
+      </div>
+      <h3>Interests</h3>
+      <div *ngFor="let interest of cv.interests; let last = last">
+        {{ interest.name }}<span *ngIf="!last">, </span>
+        <hr>
+      </div>
+      <h3>Education</h3>
+      <div *ngFor="let education of cv.educationList">
+        <p><strong>Institution:</strong> {{ education.institution }}</p>
+        <p><strong>Degree:</strong> {{ education.degree }}</p>
+        <p><strong>Field:</strong> {{ education.fieldOfStudy }}</p>
+        <p><strong>Start:</strong> {{ education.startDate }}</p>
+        <p><strong>End:</strong> {{ education.endDate || 'Present' }}</p>
+        <p><strong>Description:</strong> {{ education.description }}</p>
+        <hr>
+      </div>
+      <h3>Work Experience</h3>
+      <div *ngFor="let workExperience of cv.workExperiences">
+        <p><strong>Company name:</strong> {{ workExperience.companyName }}</p>
+        <p><strong>Position:</strong> {{ workExperience.position }}</p>
+        <p><strong>Start date:</strong> {{ workExperience.startDate }}</p>
+        <p><strong>End date:</strong> {{ workExperience.endDate }}</p>
+        <p><strong>Description:</strong> {{ workExperience.description }}</p>
+        <hr>
+      </div>
+      <h3>Language</h3>
+      <div *ngFor="let language of cv.languages">
+        <p><strong>Name:</strong> {{ language.name }}</p>
+        <p><strong>Listening level:</strong> {{ language.listeningLevel }}</p>
+        <p><strong>Reading level:</strong> {{ language.readingLevel }}</p>
+        <p><strong>Writing level:</strong> {{ language.writingLevel }}</p>
+        <p><strong>Spoken level:</strong> {{ language.spokenLevel }}</p>
+        <hr>
+      </div>
+      <h3>Additional info</h3>
+      <div *ngFor="let additionalInfo of cv.additionalInfos">
+        <p> {{ additionalInfo.content }} </p>
+      </div>
     </mat-card>
   </div>
 
@@ -68,12 +116,14 @@
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>Date of birth</mat-label>
-            <input matInput type="date" [(ngModel)]="cv.dateOfBirth" name="dateOfBirth" [ngModelOptions]="{standalone: true}">
+            <input matInput type="date" [(ngModel)]="cv.dateOfBirth" name="dateOfBirth"
+              [ngModelOptions]="{standalone: true}">
           </mat-form-field>
         </div>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Summary</mat-label>
-          <textarea matInput rows="5" [(ngModel)]="cv.summary" name="summary" [ngModelOptions]="{standalone: true}"></textarea>
+          <textarea matInput rows="5" [(ngModel)]="cv.summary" name="summary"
+            [ngModelOptions]="{standalone: true}"></textarea>
         </mat-form-field>
       </mat-tab>
 
@@ -127,11 +177,13 @@
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Start</mat-label>
-                <input matInput type="date" [(ngModel)]="e.startDate" name="startEdu{{i}}" [ngModelOptions]="{standalone: true}">
+                <input matInput type="date" [(ngModel)]="e.startDate" name="startEdu{{i}}"
+                  [ngModelOptions]="{standalone: true}">
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>End</mat-label>
-                <input matInput type="date" [(ngModel)]="e.endDate" name="endEdu{{i}}" [ngModelOptions]="{standalone: true}">
+                <input matInput type="date" [(ngModel)]="e.endDate" name="endEdu{{i}}"
+                  [ngModelOptions]="{standalone: true}">
               </mat-form-field>
             </div>
             <button mat-button color="warn" (click)="removeEducation(i)" type="button">Remove</button>
@@ -154,16 +206,19 @@
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Start</mat-label>
-                <input matInput type="date" [(ngModel)]="w.startDate" name="startWork{{i}}" [ngModelOptions]="{standalone: true}">
+                <input matInput type="date" [(ngModel)]="w.startDate" name="startWork{{i}}"
+                  [ngModelOptions]="{standalone: true}">
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>End</mat-label>
-                <input matInput type="date" [(ngModel)]="w.endDate" name="endWork{{i}}" [ngModelOptions]="{standalone: true}">
+                <input matInput type="date" [(ngModel)]="w.endDate" name="endWork{{i}}"
+                  [ngModelOptions]="{standalone: true}">
               </mat-form-field>
             </div>
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Description</mat-label>
-              <textarea matInput rows="4" [(ngModel)]="w.description" name="desc{{i}}" [ngModelOptions]="{standalone: true}"></textarea>
+              <textarea matInput rows="4" [(ngModel)]="w.description" name="desc{{i}}"
+                [ngModelOptions]="{standalone: true}"></textarea>
             </mat-form-field>
             <button mat-button color="warn" (click)="removeWorkExperience(i)" type="button">Remove</button>
           </mat-card>
@@ -214,7 +269,8 @@
         <div *ngFor="let a of cv.additionalInfos; let i=index" class="row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Info</mat-label>
-            <textarea matInput rows="3" [(ngModel)]="a.content" name="info{{i}}" [ngModelOptions]="{standalone: true}"></textarea>
+            <textarea matInput rows="3" [(ngModel)]="a.content" name="info{{i}}"
+              [ngModelOptions]="{standalone: true}"></textarea>
           </mat-form-field>
           <button mat-icon-button color="warn" (click)="removeAdditionalInfo(i)" type="button">
             <mat-icon>delete</mat-icon>
@@ -227,7 +283,8 @@
 
     <div class="mobile-accordion">
       <mat-accordion multi>
-        <mat-expansion-panel *ngFor="let tab of ['Personal','Skills','Interests','Education','Experience','Languages','Additional']; let idx=index">
+        <mat-expansion-panel
+          *ngFor="let tab of ['Personal','Skills','Interests','Education','Experience','Languages','Additional']; let idx=index">
           <mat-expansion-panel-header>
             <mat-panel-title>{{tab}}</mat-panel-title>
           </mat-expansion-panel-header>
@@ -238,7 +295,8 @@
               <div class="form-grid">
                 <mat-form-field appearance="outline">
                   <mat-label>First name</mat-label>
-                  <input matInput [(ngModel)]="cv.firstName" name="firstNameMobile" [ngModelOptions]="{standalone: true}">
+                  <input matInput [(ngModel)]="cv.firstName" name="firstNameMobile"
+                    [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Last name</mat-label>
@@ -258,16 +316,19 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Nationality</mat-label>
-                  <input matInput [(ngModel)]="cv.nationality" name="nationalityMobile" [ngModelOptions]="{standalone: true}">
+                  <input matInput [(ngModel)]="cv.nationality" name="nationalityMobile"
+                    [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Date of birth</mat-label>
-                  <input matInput type="date" [(ngModel)]="cv.dateOfBirth" name="dateOfBirthMobile" [ngModelOptions]="{standalone: true}">
+                  <input matInput type="date" [(ngModel)]="cv.dateOfBirth" name="dateOfBirthMobile"
+                    [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
               </div>
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Summary</mat-label>
-                <textarea matInput rows="5" [(ngModel)]="cv.summary" name="summaryMobile" [ngModelOptions]="{standalone: true}"></textarea>
+                <textarea matInput rows="5" [(ngModel)]="cv.summary" name="summaryMobile"
+                  [ngModelOptions]="{standalone: true}"></textarea>
               </mat-form-field>
             </ng-container>
 
@@ -275,7 +336,8 @@
               <div *ngFor="let s of cv.skills; let i=index" class="row">
                 <mat-form-field appearance="outline">
                   <mat-label>Skill</mat-label>
-                  <input matInput [(ngModel)]="s.name" name="skillNameMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                  <input matInput [(ngModel)]="s.name" name="skillNameMobile{{i}}"
+                    [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                   <mat-label>Level</mat-label>
@@ -309,23 +371,28 @@
                   <div class="form-grid">
                     <mat-form-field appearance="outline">
                       <mat-label>Institution</mat-label>
-                      <input matInput [(ngModel)]="e.institution" name="instMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <input matInput [(ngModel)]="e.institution" name="instMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Degree</mat-label>
-                      <input matInput [(ngModel)]="e.degree" name="degMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <input matInput [(ngModel)]="e.degree" name="degMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Field</mat-label>
-                      <input matInput [(ngModel)]="e.fieldOfStudy" name="fieldMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <input matInput [(ngModel)]="e.fieldOfStudy" name="fieldMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Start</mat-label>
-                      <input matInput type="date" [(ngModel)]="e.startDate" name="startEduMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <input matInput type="date" [(ngModel)]="e.startDate" name="startEduMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>End</mat-label>
-                      <input matInput type="date" [(ngModel)]="e.endDate" name="endEduMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <input matInput type="date" [(ngModel)]="e.endDate" name="endEduMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
                   </div>
                   <button mat-button color="warn" (click)="removeEducation(i)" type="button">Remove</button>
@@ -340,24 +407,29 @@
                   <div class="form-grid">
                     <mat-form-field appearance="outline">
                       <mat-label>Company</mat-label>
-                      <input matInput [(ngModel)]="w.companyName" name="companyMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <input matInput [(ngModel)]="w.companyName" name="companyMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Position</mat-label>
-                      <input matInput [(ngModel)]="w.position" name="posMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <input matInput [(ngModel)]="w.position" name="posMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Start</mat-label>
-                      <input matInput type="date" [(ngModel)]="w.startDate" name="startWorkMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <input matInput type="date" [(ngModel)]="w.startDate" name="startWorkMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>End</mat-label>
-                      <input matInput type="date" [(ngModel)]="w.endDate" name="endWorkMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <input matInput type="date" [(ngModel)]="w.endDate" name="endWorkMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
                   </div>
                   <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Description</mat-label>
-                    <textarea matInput rows="4" [(ngModel)]="w.description" name="descMobile{{i}}" [ngModelOptions]="{standalone: true}"></textarea>
+                    <textarea matInput rows="4" [(ngModel)]="w.description" name="descMobile{{i}}"
+                      [ngModelOptions]="{standalone: true}"></textarea>
                   </mat-form-field>
                   <button mat-button color="warn" (click)="removeWorkExperience(i)" type="button">Remove</button>
                 </mat-card>
@@ -375,25 +447,29 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Listening</mat-label>
-                      <mat-select [(ngModel)]="l.listeningLevel" name="listenMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <mat-select [(ngModel)]="l.listeningLevel" name="listenMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                         <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Reading</mat-label>
-                      <mat-select [(ngModel)]="l.readingLevel" name="readMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <mat-select [(ngModel)]="l.readingLevel" name="readMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                         <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Writing</mat-label>
-                      <mat-select [(ngModel)]="l.writingLevel" name="writeMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <mat-select [(ngModel)]="l.writingLevel" name="writeMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                         <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Speaking</mat-label>
-                      <mat-select [(ngModel)]="l.spokenLevel" name="speakMobile{{i}}" [ngModelOptions]="{standalone: true}">
+                      <mat-select [(ngModel)]="l.spokenLevel" name="speakMobile{{i}}"
+                        [ngModelOptions]="{standalone: true}">
                         <mat-option *ngFor="let level of languageLevels" [value]="level">{{level}}</mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -408,7 +484,8 @@
               <div *ngFor="let a of cv.additionalInfos; let i=index" class="row">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Info</mat-label>
-                  <textarea matInput rows="3" [(ngModel)]="a.content" name="infoMobile{{i}}" [ngModelOptions]="{standalone: true}"></textarea>
+                  <textarea matInput rows="3" [(ngModel)]="a.content" name="infoMobile{{i}}"
+                    [ngModelOptions]="{standalone: true}"></textarea>
                 </mat-form-field>
                 <button mat-icon-button color="warn" (click)="removeAdditionalInfo(i)" type="button">
                   <mat-icon>delete</mat-icon>
