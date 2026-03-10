@@ -15,7 +15,7 @@ import { CV } from '../../shared/models/cv.model'
 })
 export class CVComponent implements OnInit {
 
-  cv: CV | null = null;
+  cv!: CV
   isEditing = false
   hasCV = false
 
