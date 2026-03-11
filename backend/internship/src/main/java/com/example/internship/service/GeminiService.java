@@ -21,7 +21,7 @@ public class GeminiService {
 
         GenerateContentResponse response =
                 client.models.generateContent(
-                        "gemini-1.5-flash",
+                        "gemini-3-flash-preview",
                         prompt,
                         null
                 );

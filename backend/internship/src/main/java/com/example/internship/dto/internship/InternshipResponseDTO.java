@@ -3,6 +3,8 @@ package com.example.internship.dto.internship;
 import lombok.*;
 import java.time.LocalDateTime;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,4 +29,6 @@ public class InternshipResponseDTO {
     private Integer capacity;
     
     private LocalDateTime createdAt;
+
+    private List<String> technologies;
 }

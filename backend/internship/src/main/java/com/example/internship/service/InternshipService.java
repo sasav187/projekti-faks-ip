@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InternshipService {
-    
+
     private final InternshipRepository internshipRepository;
     private final CompanyRepository companyRepository;
 
     public InternshipService(InternshipRepository internshipRepository,
-                             CompanyRepository companyRepository) {
+            CompanyRepository companyRepository) {
         this.internshipRepository = internshipRepository;
         this.companyRepository = companyRepository;
     }
@@ -57,5 +57,31 @@ public class InternshipService {
 
     public void deleteById(Long id) {
         internshipRepository.deleteById(id);
+    }
+
+    public Page<InternshipResponseDTO> search(
+            String title,
+            String technology,
+            Pageable pageable) {
+
+        Page<Internship> result;
+
+        if (title != null && technology != null) {
+            result = internshipRepository
+                    .findByTitleContainingIgnoreCaseAndTechnologies_NameContainingIgnoreCase(
+                            title,
+                            technology,
+                            pageable);
+        } else if (title != null) {
+            result = internshipRepository
+                    .findByTitleContainingIgnoreCase(title, pageable);
+        } else if (technology != null) {
+            result = internshipRepository
+                    .findByTechnologies_NameContainingIgnoreCase(technology, pageable);
+        } else {
+            result = internshipRepository.findAll(pageable);
+        }
+
+        return result.map(InternshipMapper::toResponseDTO);
     }
 }

@@ -36,6 +36,14 @@ public class Internship {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @ManyToMany
+    @JoinTable(
+        name = "internship_technology",
+        joinColumns = @JoinColumn(name = "internship_id"),
+        inverseJoinColumns = @JoinColumn(name = "technology_id")
+    )
+    private List<Technology> technologies;
+
     @OneToMany(mappedBy = "internship", cascade = CascadeType.ALL)
     private List<InternshipApplication> applications;
 }

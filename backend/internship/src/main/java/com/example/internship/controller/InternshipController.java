@@ -19,20 +19,8 @@ public class InternshipController {
     }
 
     @GetMapping
-    public Page<InternshipResponseDTO> getAllInternships(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<InternshipResponseDTO> getAllInternships(Pageable pageable) {
         return internshipService.getAllInternships(pageable);
-    }
-
-    @GetMapping("/search")
-    public Page<InternshipResponseDTO> searchByTitle(
-            @RequestParam String title,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return internshipService.searchByTitle(title, pageable);
     }
 
     @GetMapping("/{id}")
@@ -53,5 +41,13 @@ public class InternshipController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         internshipService.deleteById(id);
+    }
+
+    @GetMapping("/search")
+    public Page<InternshipResponseDTO> search(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String technology,
+            Pageable pageable) {
+        return internshipService.search(title, technology, pageable);
     }
 }
