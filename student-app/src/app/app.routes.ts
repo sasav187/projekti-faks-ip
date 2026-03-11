@@ -7,6 +7,8 @@ import { InternshipListComponent } from './features/internships/internship-list.
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './features/auth/login/login.component.js';
 import { UnauthorizedComponent } from './features/auth/unauthorized/unauthorized.component.js';
+import { WorklogComponent } from './features/worklog/worklog.component.js';
+import { RecommendationsComponent } from './features/recommendations/recommendations.component.js';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,7 +23,8 @@ export const routes: Routes = [
       { path: '', component: MainViewComponent },
       { path: 'cv', component: CVComponent },
       { path: 'internships', component: InternshipListComponent },
-      // { path: 'recommendations', component: RecommendationsComponent } // kasnije
+      { path: 'recommendations', component: RecommendationsComponent },
+      { path: 'worklog', component: WorklogComponent } 
     ]
   },
 

@@ -9,6 +9,8 @@ import { CVComponent } from './features/cv/cv.component';
 
 import { AuthGuard } from './core/guards/auth.guard';
 import { StudentGuard } from './core/guards/student.guard';
+import { WorklogComponent } from './features/worklog/worklog.component';
+import { RecommendationsComponent } from './features/recommendations/recommendations.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,8 +20,10 @@ const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
+      { path: 'cv', component: CVComponent, canActivate: [StudentGuard]},
       { path: 'internships', component: InternshipListComponent, canActivate: [StudentGuard]},
-      { path: 'cv', component: CVComponent, canActivate: [StudentGuard]} 
+      { path: 'recommendations', component: RecommendationsComponent, canActivate: [StudentGuard]},
+      { path: 'worklogs', component: WorklogComponent, canActivate: [StudentGuard]}
     ]
   },
 

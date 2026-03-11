@@ -8,4 +8,6 @@ export interface Internship {
     conditions: string;
     capacity: number;
     createdAt: string | null;
+
+    technologies: string[];
 }
