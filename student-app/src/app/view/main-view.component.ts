@@ -12,7 +12,7 @@ import { MaterialModule } from '../material.module';
 })
 export class MainViewComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   goToCV() {
     this.router.navigate(['/cv']);
