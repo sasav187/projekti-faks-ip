@@ -8,14 +8,13 @@ import { WorkLogService } from '../../../core/services/worklog.service';
 
 @Component({
   selector: 'app-worklog',
-  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     MaterialModule
   ],
   templateUrl: './worklog.component.html',
-  styleUrls: ['./worklog.component.scss'],
+  styleUrl: './worklog.component.scss',
 })
 export class WorklogComponent implements OnInit {
   logs: WorkLog[] = [];
