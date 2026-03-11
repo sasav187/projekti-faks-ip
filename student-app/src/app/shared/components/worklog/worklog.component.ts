@@ -25,12 +25,10 @@ export class WorklogComponent implements OnInit {
   constructor(private workLogService: WorkLogService) { }
 
   ngOnInit() {
-    console.log("WORKLOG COMPONENT LOADED");
     this.loadLogs();
   }
 
   loadLogs() {
-    console.log("LOADING LOGS...");
     this.workLogService.getAll().subscribe(res => {
       this.logs = res.content;
     });
