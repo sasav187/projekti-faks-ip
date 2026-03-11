@@ -2,14 +2,18 @@ import { Component, OnInit } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 
-import { MaterialModule } from '../../material.module'
-import { CVService } from '../../core/services/cv.service'
-import { CV } from '../../shared/models/cv.model'
+import { MaterialModule } from '../../../material.module'
+import { CVService } from '../../../core/services/cv.service'
+import { CV } from '../../models/cv.model'
 
 @Component({
   selector: 'app-cv',
   standalone: true,
-  imports: [CommonModule, FormsModule, MaterialModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MaterialModule
+  ],
   templateUrl: './cv.component.html',
   styleUrls: ['./cv.component.scss']
 })

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '../../material.module'
+import { MaterialModule } from '../../../material.module'
 
-import { InternshipService } from '../../core/services/internship.service';
-import { Internship } from '../../shared/models/internship.model';
+import { InternshipService } from '../../../core/services/internship.service';
+import { Internship } from '../../models/internship.model';
 
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-
 
 @Component({
   standalone: true,

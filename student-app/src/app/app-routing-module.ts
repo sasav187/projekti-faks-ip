@@ -4,13 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { UnauthorizedComponent } from './features/auth/unauthorized/unauthorized.component';
 import { MainLayoutComponent } from './layout/main-layout.component';
-import { InternshipListComponent } from './features/internships/internship-list.component';
-import { CVComponent } from './features/cv/cv.component';
+import { InternshipListComponent } from './shared/components/internships/internship-list.component';
+import { CVComponent } from './shared/components/cv/cv.component';
 
 import { AuthGuard } from './core/guards/auth.guard';
 import { StudentGuard } from './core/guards/student.guard';
-import { WorklogComponent } from './features/worklog/worklog.component';
-import { RecommendationsComponent } from './features/recommendations/recommendations.component';
+import { WorklogComponent } from './shared/components/worklog/worklog.component';
+import { RecommendationsComponent } from './shared/components/recommendations/recommendations.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },

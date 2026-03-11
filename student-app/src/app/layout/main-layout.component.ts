@@ -44,8 +44,7 @@ export class MainLayoutComponent implements OnInit {
           { duration: 5000 }
         );
 
-        this.authService.logout();
-        this.router.navigate(['/login']);
+        this.logout();
       }
 
     }, 30_000);
