@@ -20,23 +20,34 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card class="previous-logs" *ngIf="logs.length > 0">
+<mat-card class="previous-logs">
   <mat-card-header>
     <mat-card-title>Previous Logs</mat-card-title>
   </mat-card-header>
 
   <mat-card-content>
-    <mat-list>
-      <mat-list-item *ngFor="let log of logs" class="log-item">
+
+    <div *ngIf="logs && logs.length; else emptyLogs">
+
+      <div *ngFor="let log of logs" class="log-item">
         <div class="log-text">
           <div class="week"><strong>Week {{log.weekNumber}}</strong></div>
           <div class="desc">{{log.description}}</div>
-          <div class="created">{{log.createdAt | date:'short'}}</div>
+          <div class="created">
+            {{log.createdAt ? (log.createdAt | date:'short') : 'No date'}}
+          </div>
         </div>
+
         <button mat-icon-button color="warn" (click)="delete(log.id!)">
           <mat-icon>delete</mat-icon>
         </button>
-      </mat-list-item>
-    </mat-list>
+      </div>
+
+    </div>
+
+    <ng-template #emptyLogs>
+      <p class="empty-message">No previous logs yet.</p>
+    </ng-template>
+
   </mat-card-content>
 </mat-card>

@@ -14,7 +14,7 @@ import { WorkLogService } from '../../../core/services/worklog.service';
     MaterialModule
   ],
   templateUrl: './worklog.component.html',
-  styleUrl: './worklog.component.scss',
+  styleUrls: ['./worklog.component.scss'],
 })
 export class WorklogComponent implements OnInit {
   logs: WorkLog[] = [];
@@ -25,11 +25,15 @@ export class WorklogComponent implements OnInit {
   constructor(private workLogService: WorkLogService) { }
 
   ngOnInit() {
+    console.log("WORKLOG COMPONENT LOADED");
     this.loadLogs();
   }
 
   loadLogs() {
-    this.workLogService.getAll().subscribe(res => this.logs = res.content);
+    console.log("LOADING LOGS...");
+    this.workLogService.getAll().subscribe(res => {
+      this.logs = res.content;
+    });
   }
 
   save() {

@@ -9,7 +9,7 @@ import { WorkLog } from "../../shared/models/worklog.model";
 })
 export class WorkLogService {
 
-    private api = 'http://localhost:8081/api/work-logs';
+    private api = 'http://localhost:8081/api/worklogs';
 
     constructor(private http: HttpClient) { }
 

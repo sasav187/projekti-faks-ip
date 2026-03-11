@@ -31,7 +31,7 @@
   margin-top: 2rem;
 
   mat-list {
-    max-height: 400px; // scroll ako ima puno logova
+    max-height: 400px; 
     overflow-y: auto;
     padding-right: 4px;
   }
@@ -77,7 +77,6 @@
   }
 }
 
-/* Responsive adjustments */
 @media (max-width: 600px) {
   .worklog-card, .previous-logs {
     margin: 0.5rem;
@@ -96,5 +95,12 @@
       margin-top: 0.5rem;
       align-self: flex-end;
     }
+  }
+
+  .empty-message {
+    text-align: center;
+    color: gray;
+    font-style: italic;
+    padding: 1rem 0;
   }
 }
