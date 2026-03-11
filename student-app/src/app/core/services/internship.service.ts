@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { Internship } from '../../shared/models/internship.model';
+import { Page } from '../../shared/models/page.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +13,32 @@ export class InternshipService {
 
   private api = 'http://localhost:8081/api/internships';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Internship[]> {
-    return this.http.get<any>(this.api).pipe(
-      map(response => {
-        console.log('FULL RESPONSE:', response);
-        return response.content ?? [];
-      })
-    );
+  getAll(page = 0, size = 10): Observable<Internship[]> {
+
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+
+    return this.http.get<Page<Internship>>(this.api, { params })
+      .pipe(
+        map(res => res.content)
+      );
   }
+
+  search(title?: string, technology?: string): Observable<Internship[]> {
+
+    let params = new HttpParams();
+
+    if (title) params = params.set('title', title);
+    if (technology) params = params.set('technology', technology);
+
+    return this.http
+      .get<Page<Internship>>(`${this.api}/search`, { params })
+      .pipe(
+        map(res => res.content)
+      );
+  }
+
 }
