@@ -5,6 +5,8 @@ import com.example.internship.service.CompanyService;
 
 import jakarta.validation.Valid;
 
+import java.util.Map;
+
 import org.springframework.data.domain.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +36,7 @@ public class CompanyController {
         Pageable pageable = PageRequest.of(page, size, sort);
 
         return ResponseEntity.ok(
-                companyService.getAllCompanies(pageable)
-        );
+                companyService.getAllCompanies(pageable));
     }
 
     @GetMapping("/search")
@@ -47,15 +48,13 @@ public class CompanyController {
         Pageable pageable = PageRequest.of(page, size);
 
         return ResponseEntity.ok(
-                companyService.searchByName(name, pageable)
-        );
+                companyService.searchByName(name, pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CompanyResponseDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(
-                companyService.getById(id)
-        );
+                companyService.getById(id));
     }
 
     @PostMapping
@@ -75,13 +74,26 @@ public class CompanyController {
             @Valid @RequestBody CompanyRequestDTO dto) {
 
         return ResponseEntity.ok(
-                companyService.update(id, dto)
-        );
+                companyService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         companyService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/status")
+    public ResponseEntity<CompanyResponseDTO> changeStatus(
+            @PathVariable Long id,
+            @RequestBody Map<String, Boolean> body) {
+
+        Boolean approved = body.get("approved");
+        if (approved == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        CompanyResponseDTO updated = companyService.changeStatus(id, approved);
+        return ResponseEntity.ok(updated);
     }
 }

@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CompanyService {
-    
+
     private final CompanyRepository companyRepository;
     private final UserRepository userRepository;
 
     public CompanyService(CompanyRepository companyRepository,
-                          UserRepository userRepository) {
+            UserRepository userRepository) {
         this.companyRepository = companyRepository;
         this.userRepository = userRepository;
     }
@@ -34,8 +34,7 @@ public class CompanyService {
 
     public CompanyResponseDTO getById(Long id) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Company not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Company not found with id: " + id));
 
         return CompanyMapper.toResponseDTO(company);
     }
@@ -43,30 +42,34 @@ public class CompanyService {
     public CompanyResponseDTO create(CompanyRequestDTO dto) {
 
         User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() ->
-                        new RuntimeException("User not found with id: " + dto.getUserId()));
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + dto.getUserId()));
 
         Company company = CompanyMapper.toEntity(dto, user);
 
         return CompanyMapper.toResponseDTO(
-                companyRepository.save(company)
-        );
+                companyRepository.save(company));
     }
 
     public CompanyResponseDTO update(Long id, CompanyRequestDTO dto) {
 
         Company company = companyRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Company not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Company not found with id: " + id));
 
         CompanyMapper.updateEntity(company, dto);
 
         return CompanyMapper.toResponseDTO(
-                companyRepository.save(company)
-        );
+                companyRepository.save(company));
     }
 
     public void deleteById(Long id) {
         companyRepository.deleteById(id);
+    }
+
+    public CompanyResponseDTO changeStatus(Long id, Boolean approved) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Company not found with id: " + id));
+
+        company.setApproved(approved);
+        return CompanyMapper.toResponseDTO(companyRepository.save(company));
     }
 }
