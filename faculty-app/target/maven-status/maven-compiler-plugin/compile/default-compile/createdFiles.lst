@@ -1,2 +1,6 @@
 com/example/facultyapp/DashboardServlet.class
+com/example/facultyapp/InternshipsServlet.class
+com/example/facultyapp/CompaniesServlet.class
+com/example/facultyapp/WorkLogsServlet.class
+com/example/facultyapp/StudentsServlet.class
 com/example/facultyapp/LoginServlet.class
