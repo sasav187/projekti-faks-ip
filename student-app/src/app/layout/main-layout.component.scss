@@ -37,6 +37,34 @@
   padding: 24px;
 }
 
+.user-badge {
+  display: flex;
+  align-items: center;
+  background-color: #1976d2;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: default;
+  transition: background-color 0.2s;
+}
+
+.user-badge:hover {
+  background-color: #1565c0;
+}
+
+.user-icon {
+  background-color: #ffffff33;
+  border-radius: 50%;
+  padding: 4px;
+  margin-right: 8px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
 
   .desktop-menu {

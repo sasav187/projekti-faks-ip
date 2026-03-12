@@ -7,12 +7,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, MaterialModule],
+  imports: [
+    RouterOutlet,
+    RouterModule, 
+    MaterialModule
+  ],
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent implements OnInit {
 
+  username: string | null = '';
   warningShown = false;
 
   constructor(
@@ -22,6 +27,8 @@ export class MainLayoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.username = this.authService.getUserName();
 
     setInterval(() => {
 

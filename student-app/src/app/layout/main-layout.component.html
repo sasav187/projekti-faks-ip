@@ -51,10 +51,6 @@
       </button>
 
       <div class="desktop-menu">
-        <button mat-button routerLink="/">
-          <mat-icon>home</mat-icon>
-          Home
-        </button>
 
         <button mat-button routerLink="/cv">
           <mat-icon>description</mat-icon>
@@ -79,6 +75,11 @@
       </div>
 
       <span class="spacer"></span>
+
+      <div class="user-badge">
+        <mat-icon class="user-icon">person</mat-icon>
+        <span class="username">{{ username }}</span>
+      </div>
 
       <button mat-button color="warn" (click)="logout()">
         <mat-icon>logout</mat-icon>

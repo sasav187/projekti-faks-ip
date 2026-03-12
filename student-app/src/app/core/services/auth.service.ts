@@ -13,10 +13,14 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(username: string, password: string) {
-    return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
+    return this.http.post<any>(`${this.apiUrl}/login`, { 
+      username,
+      password })
+      .pipe(
       tap(response => {
         if (response.token) localStorage.setItem('token', response.token);
         if (response.role) localStorage.setItem('role', response.role);
+        localStorage.setItem('username', username);
       })
     );
   }
@@ -61,5 +65,9 @@ export class AuthService {
     const decoded: any = jwtDecode(token);
 
     return Date.now() >= decoded.exp * 1000;
+  }
+
+  getUserName(): string | null {
+    return localStorage.getItem('username');
   }
 }
