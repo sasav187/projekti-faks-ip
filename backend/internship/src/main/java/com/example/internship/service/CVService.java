@@ -7,104 +7,132 @@ import com.example.internship.model.Student;
 import com.example.internship.repository.CVRepository;
 import com.example.internship.repository.StudentRepository;
 
+import java.nio.file.*;
+
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CVService {
 
-    private final CVRepository cvRepository;
-    private final StudentRepository studentRepository;
-    private final CVMapper cvMapper;
+        private final CVRepository cvRepository;
+        private final StudentRepository studentRepository;
+        private final CVMapper cvMapper;
 
-    public CVService(CVRepository cvRepository,
-            StudentRepository studentRepository,
-            CVMapper cvMapper) {
-        this.cvRepository = cvRepository;
-        this.studentRepository = studentRepository;
-        this.cvMapper = cvMapper;
-    }
+        public CVService(CVRepository cvRepository,
+                        StudentRepository studentRepository,
+                        CVMapper cvMapper) {
+                this.cvRepository = cvRepository;
+                this.studentRepository = studentRepository;
+                this.cvMapper = cvMapper;
+        }
 
-    public Page<CVResponseDTO> getAllCVs(Pageable pageable) {
-        return cvRepository.findAll(pageable)
-                .map(cvMapper::toDTO);
-    }
+        public Page<CVResponseDTO> getAllCVs(Pageable pageable) {
+                return cvRepository.findAll(pageable)
+                                .map(cvMapper::toDTO);
+        }
 
-    public Page<CVResponseDTO> searchBySummary(String summary, Pageable pageable) {
-        return cvRepository.findBySummaryContainingIgnoreCase(summary, pageable)
-                .map(cvMapper::toDTO);
-    }
+        public Page<CVResponseDTO> searchBySummary(String summary, Pageable pageable) {
+                return cvRepository.findBySummaryContainingIgnoreCase(summary, pageable)
+                                .map(cvMapper::toDTO);
+        }
 
-    public CVResponseDTO getById(Long id) {
-        CV cv = cvRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CV not found with id: " + id));
+        public CVResponseDTO getById(Long id) {
+                CV cv = cvRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("CV not found with id: " + id));
 
-        return cvMapper.toDTO(cv);
-    }
+                return cvMapper.toDTO(cv);
+        }
 
-    public CVResponseDTO getCurrentStudentCV(Long studentId) {
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found with id: " + studentId));
+        public CVResponseDTO getCurrentStudentCV(Long studentId) {
+                Student student = studentRepository.findById(studentId)
+                                .orElseThrow(() -> new RuntimeException("Student not found with id: " + studentId));
 
-        CV cv = cvRepository.findByStudentId(studentId)
-                .orElseGet(() -> {
-                    CV newCv = CV.builder()
-                            .student(student)
-                            .build();
-                    return cvRepository.save(newCv);
-                });
+                CV cv = cvRepository.findByStudentId(studentId)
+                                .orElseGet(() -> {
+                                        CV newCv = CV.builder()
+                                                        .student(student)
+                                                        .build();
+                                        return cvRepository.save(newCv);
+                                });
 
-        return cvMapper.toDTO(cv);
-    }
+                return cvMapper.toDTO(cv);
+        }
 
-    public CVResponseDTO updateCurrentStudentCV(Long studentId, CVRequestDTO dto) {
-        CV cv = cvRepository.findByStudentId(studentId)
-                .orElseThrow(() -> new RuntimeException("CV not found for student id: " + studentId));
+        public CVResponseDTO updateCurrentStudentCV(Long studentId, CVRequestDTO dto) {
+                CV cv = cvRepository.findByStudentId(studentId)
+                                .orElseThrow(() -> new RuntimeException("CV not found for student id: " + studentId));
 
-        cv.setFirstName(dto.getFirstName());
-        cv.setLastName(dto.getLastName());
-        cv.setEmail(dto.getEmail());
-        cv.setPhone(dto.getPhone());
-        cv.setAddress(dto.getAddress());
-        cv.setNationality(dto.getNationality());
-        cv.setDateOfBirth(dto.getDateOfBirth());
-        cv.setSummary(dto.getSummary());
-        cv.setImagePath(dto.getImagePath());
+                cv.setFirstName(dto.getFirstName());
+                cv.setLastName(dto.getLastName());
+                cv.setEmail(dto.getEmail());
+                cv.setPhone(dto.getPhone());
+                cv.setAddress(dto.getAddress());
+                cv.setNationality(dto.getNationality());
+                cv.setDateOfBirth(dto.getDateOfBirth());
+                cv.setSummary(dto.getSummary());
+                cv.setImagePath(dto.getImagePath());
 
-        return cvMapper.toDTO(cvRepository.save(cv));
-    }
+                return cvMapper.toDTO(cvRepository.save(cv));
+        }
 
-    public CVResponseDTO create(CVRequestDTO dto) {
+        public CVResponseDTO create(CVRequestDTO dto) {
 
-        Student student = studentRepository.findById(dto.getStudentId())
-                .orElseThrow(() -> new RuntimeException("Student not found with id: " + dto.getStudentId()));
+                Student student = studentRepository.findById(dto.getStudentId())
+                                .orElseThrow(() -> new RuntimeException(
+                                                "Student not found with id: " + dto.getStudentId()));
 
-        CV entity = cvMapper.toEntity(dto, student);
+                CV entity = cvMapper.toEntity(dto, student);
 
-        return cvMapper.toDTO(
-                cvRepository.save(entity));
-    }
+                return cvMapper.toDTO(
+                                cvRepository.save(entity));
+        }
 
-    public CVResponseDTO update(Long id, CVRequestDTO dto) {
+        public CVResponseDTO uploadImage(Long id, MultipartFile file) {
 
-        CV existing = cvRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CV not found with id: " + id));
+                CV cv = cvRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("CV not found"));
 
-        existing.setFirstName(dto.getFirstName());
-        existing.setLastName(dto.getLastName());
-        existing.setEmail(dto.getEmail());
-        existing.setPhone(dto.getPhone());
-        existing.setAddress(dto.getAddress());
-        existing.setNationality(dto.getNationality());
-        existing.setDateOfBirth(dto.getDateOfBirth());
-        existing.setSummary(dto.getSummary());
-        existing.setImagePath(dto.getImagePath());
+                try {
 
-        return cvMapper.toDTO(
-                cvRepository.save(existing));
-    }
+                        String uploadDir = "uploads/cv-images/";
+                        Files.createDirectories(Paths.get(uploadDir));
+                        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+                        Path path = Paths.get(uploadDir + fileName);
 
-    public void deleteById(Long id) {
-        cvRepository.deleteById(id);
-    }
+                        Files.write(path, file.getBytes());
+
+                        cv.setImagePath("/uploads/cv-images/" + fileName);
+                        cvRepository.save(cv);
+
+                        return cvMapper.toDTO(cv);
+
+                } catch (Exception e) {
+                        throw new RuntimeException("Image upload failed");
+                }
+        }
+
+        public CVResponseDTO update(Long id, CVRequestDTO dto) {
+
+                CV existing = cvRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("CV not found with id: " + id));
+
+                existing.setFirstName(dto.getFirstName());
+                existing.setLastName(dto.getLastName());
+                existing.setEmail(dto.getEmail());
+                existing.setPhone(dto.getPhone());
+                existing.setAddress(dto.getAddress());
+                existing.setNationality(dto.getNationality());
+                existing.setDateOfBirth(dto.getDateOfBirth());
+                existing.setSummary(dto.getSummary());
+                existing.setImagePath(dto.getImagePath());
+
+                return cvMapper.toDTO(
+                                cvRepository.save(existing));
+        }
+
+        public void deleteById(Long id) {
+                cvRepository.deleteById(id);
+        }
 }

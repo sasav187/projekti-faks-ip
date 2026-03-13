@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/cvs")
@@ -61,14 +62,25 @@ public class CVController {
     }
 
     @PutMapping("/{id}")
-    public CVResponseDTO update(@PathVariable Long id, @RequestBody CVRequestDTO dto) {
+    public CVResponseDTO update(@PathVariable Long id,
+                                @RequestBody CVRequestDTO dto) {
         return cvService.update(id, dto);
     }
 
     @PostMapping("/me")
-    public CVResponseDTO updateCurrentStudentCV(@RequestParam Long studentId,
+    public CVResponseDTO updateCurrentStudentCV(Authentication authentication,
                                                 @RequestBody CVRequestDTO dto) {
-        return cvService.updateCurrentStudentCV(studentId, dto);
+        
+        String username = authentication.getName();
+        Student student = studentService.getByUserName(username);
+        
+        return cvService.updateCurrentStudentCV(student.getId(), dto);
+    }
+
+    @PostMapping("/upload-image/{id}")
+    public CVResponseDTO uploadImage(@PathVariable Long id,
+                                     @RequestParam("file") MultipartFile file) {
+        return cvService.uploadImage(id, file);
     }
 
     @DeleteMapping("/{id}")
