@@ -19,6 +19,9 @@
       </button>
     </div>
     <mat-card class="cv-preview">
+      <div *ngIf="cv.imagePath" class="cv-image">
+        <img [src]="'http://localhost:8081' + cv.imagePath" alt="Profile photo">
+      </div>
       <h2>{{cv.firstName}} {{cv.lastName}}</h2>
       <p>{{cv.email}}</p>
       <p>{{cv.phone}}</p>
@@ -89,6 +92,20 @@
     <mat-tab-group class="desktop-tabs">
 
       <mat-tab label="Personal">
+        <div class="image-upload">
+
+          <div *ngIf="cv.imagePath" class="preview">
+            <img [src]="'http://localhost:8081' + cv.imagePath" class="cv-photo">
+          </div>
+
+          <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)">
+
+          <button mat-raised-button color="primary" (click)="fileInput.click()" type="button">
+            <mat-icon>upload</mat-icon>
+            Upload photo
+          </button>
+
+        </div>
         <div class="form-grid">
           <mat-form-field appearance="outline">
             <mat-label>First name</mat-label>
@@ -292,6 +309,20 @@
           <ng-container [ngSwitch]="tab">
 
             <ng-container *ngSwitchCase="'Personal'">
+              <div class="image-upload">
+
+                <div *ngIf="cv.imagePath" class="preview">
+                  <img [src]="'http://localhost:8081' + cv.imagePath" class="cv-photo">
+                </div>
+
+                <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)">
+
+                <button mat-raised-button color="primary" (click)="fileInput.click()">
+                  <mat-icon>upload</mat-icon>
+                  Upload photo
+                </button>
+
+              </div>
               <div class="form-grid">
                 <mat-form-field appearance="outline">
                   <mat-label>First name</mat-label>

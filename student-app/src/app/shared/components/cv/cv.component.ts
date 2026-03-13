@@ -22,6 +22,7 @@ export class CVComponent implements OnInit {
   cv!: CV
   isEditing = false
   hasCV = false
+  selectedImage: File | null = null;
 
   skillLevels = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED']
   languageLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
@@ -30,6 +31,13 @@ export class CVComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCV()
+  }
+
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+    }
   }
 
   loadCV() {
@@ -63,7 +71,6 @@ export class CVComponent implements OnInit {
 
   initNewCV() {
     this.cv = {
-      studentId: 0,
       firstName: '',
       lastName: '',
       email: '',
@@ -93,11 +100,27 @@ export class CVComponent implements OnInit {
   }
 
   save() {
+
     this.cvService.saveCV(this.cv).subscribe(res => {
+
       this.cv = this.normalizeCV(res)
       this.hasCV = true
+
+      if (this.selectedImage && this.cv.id) {
+
+        this.cvService.uploadImage(this.cv.id, this.selectedImage)
+          .subscribe(() => {
+
+            this.loadCV()
+
+          })
+
+      }
+
       this.isEditing = false
+
     })
+
   }
 
   addSkill() { this.cv.skills.push({ name: '', level: 'BEGINNER' }) }
