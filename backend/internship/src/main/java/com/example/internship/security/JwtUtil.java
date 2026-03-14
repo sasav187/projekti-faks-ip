@@ -14,7 +14,7 @@ public class JwtUtil {
 
     private final String SECRET_KEY = "mySuperSecretKeyThatIsAtLeastThirtyTwoCharactersLong";
 
-    private final long JWT_EXPIRATION = 1000 * 60 * 60;
+    private final long JWT_EXPIRATION = 1000 * 60 * 60 * 24;
 
     public String generateToken(String username, String role) {
         return Jwts.builder()
