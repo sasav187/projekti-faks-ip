@@ -1,7 +1,13 @@
 package com.example.internship.service;
 
 import com.example.internship.dto.cv.*;
+import com.example.internship.mapper.AdditionalInfoMapper;
+import com.example.internship.mapper.CVInterestMapper;
 import com.example.internship.mapper.CVMapper;
+import com.example.internship.mapper.CVSkillMapper;
+import com.example.internship.mapper.EducationMapper;
+import com.example.internship.mapper.LanguageMapper;
+import com.example.internship.mapper.WorkExperienceMapper;
 import com.example.internship.model.CV;
 import com.example.internship.model.Student;
 import com.example.internship.repository.CVRepository;
@@ -127,6 +133,60 @@ public class CVService {
                 existing.setDateOfBirth(dto.getDateOfBirth());
                 existing.setSummary(dto.getSummary());
                 existing.setImagePath(dto.getImagePath());
+
+                if (dto.getSkills() != null) {
+                        existing.getSkills().clear();
+                        dto.getSkills().forEach(skillDTO -> {
+                                var skill = CVSkillMapper.toEntity(skillDTO);
+                                skill.setCv(existing);
+                                existing.getSkills().add(skill);
+                        });
+                }
+
+                if (dto.getInterests() != null) {
+                        existing.getInterests().clear();
+                        dto.getInterests().forEach(interestDTO -> {
+                                var interest = CVInterestMapper.toEntity(interestDTO);
+                                interest.setCv(existing);
+                                existing.getInterests().add(interest);
+                        });
+                }
+
+                if (dto.getEducationList() != null) {
+                        existing.getEducationList().clear();
+                        dto.getEducationList().forEach(educationListDTO -> {
+                                var educationList = EducationMapper.toEntity(educationListDTO);
+                                educationList.setCv(existing);
+                                existing.getEducationList().add(educationList);
+                        });
+                }
+
+                if (dto.getWorkExperiences() != null) {
+                        existing.getWorkExperiences().clear();
+                        dto.getWorkExperiences().forEach(workExperienceDTO -> {
+                                var workExperience = WorkExperienceMapper.toEntity(workExperienceDTO);
+                                workExperience.setCv(existing);
+                                existing.getWorkExperiences().add(workExperience);
+                        });
+                }
+
+                if (dto.getLanguages() != null) {
+                        existing.getLanguages().clear();
+                        dto.getLanguages().forEach(languageDTO -> {
+                                var language = LanguageMapper.toEntity(languageDTO);
+                                language.setCv(existing);
+                                existing.getLanguages().add(language);
+                        });
+                }
+
+                if (dto.getAdditionalInfos() != null) {
+                        existing.getAdditionalInfos().clear();
+                        dto.getAdditionalInfos().forEach(additionalInfoDTO -> {
+                                var additionalInfo = AdditionalInfoMapper.toEntity(additionalInfoDTO);
+                                additionalInfo.setCv(existing);
+                                existing.getAdditionalInfos().add(additionalInfo);
+                        });
+                }
 
                 return cvMapper.toDTO(
                                 cvRepository.save(existing));

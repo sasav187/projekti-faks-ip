@@ -2,9 +2,7 @@ package com.example.internship.service;
 
 import com.example.internship.dto.language.*;
 import com.example.internship.mapper.LanguageMapper;
-import com.example.internship.model.CV;
 import com.example.internship.model.Language;
-import com.example.internship.repository.CVRepository;
 import com.example.internship.repository.LanguageRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +13,13 @@ import java.util.stream.Collectors;
 public class LanguageService {
 
     private final LanguageRepository repo;
-    private final CVRepository cvRepo;
 
-    public LanguageService(LanguageRepository repo, CVRepository cvRepo) {
+    public LanguageService(LanguageRepository repo) {
         this.repo = repo;
-        this.cvRepo = cvRepo;
     }
 
     public LanguageResponseDTO create(LanguageRequestDTO dto) {
-        CV cv = cvRepo.findById(dto.getCvId()).orElseThrow(() -> new RuntimeException("CV not found"));
-        Language entity = LanguageMapper.toEntity(dto, cv);
+        Language entity = LanguageMapper.toEntity(dto);
         return LanguageMapper.toResponseDTO(repo.save(entity));
     }
 

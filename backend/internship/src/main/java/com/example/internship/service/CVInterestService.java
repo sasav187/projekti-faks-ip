@@ -2,10 +2,8 @@ package com.example.internship.service;
 
 import com.example.internship.dto.cvinterest.*;
 import com.example.internship.mapper.CVInterestMapper;
-import com.example.internship.model.CV;
 import com.example.internship.model.CVInterest;
 import com.example.internship.repository.CVInterestRepository;
-import com.example.internship.repository.CVRepository;
 
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -14,12 +12,9 @@ import org.springframework.stereotype.Service;
 public class CVInterestService {
 
     private final CVInterestRepository interestRepository;
-    private final CVRepository cvRepository;
 
-    public CVInterestService(CVInterestRepository interestRepository,
-                             CVRepository cvRepository) {
+    public CVInterestService(CVInterestRepository interestRepository) {
         this.interestRepository = interestRepository;
-        this.cvRepository = cvRepository;
     }
 
     public Page<CVInterestResponseDTO> getAllInterests(Pageable pageable) {
@@ -42,10 +37,7 @@ public class CVInterestService {
 
     public CVInterestResponseDTO create(CVInterestRequestDTO dto) {
 
-        CV cv = cvRepository.findById(dto.getCvId())
-                .orElseThrow(() -> new RuntimeException("CV not found"));
-
-        CVInterest entity = CVInterestMapper.toEntity(dto, cv);
+        CVInterest entity = CVInterestMapper.toEntity(dto);
 
         return CVInterestMapper.toResponseDTO(
                 interestRepository.save(entity)

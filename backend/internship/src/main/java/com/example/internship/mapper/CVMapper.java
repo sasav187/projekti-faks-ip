@@ -58,11 +58,12 @@ public class CVMapper {
 
 
     public CV toEntity(CVRequestDTO dto, Student student) {
+
         if (dto == null) {
             return null;
         }
 
-        return CV.builder()
+        CV cv = CV.builder()
                 .student(student)
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
@@ -74,6 +75,74 @@ public class CVMapper {
                 .summary(dto.getSummary())
                 .imagePath(dto.getImagePath())
                 .build();
+
+        if (dto.getSkills() != null) {
+                cv.setSkills(
+                        dto.getSkills().stream()
+                                .map(skillDTO -> {
+                                        var skill = CVSkillMapper.toEntity(skillDTO);
+                                        skill.setCv(cv);
+                                        return skill;
+                                }).toList()
+                );
+        }
+
+        if (dto.getInterests() != null) {
+                cv.setInterests(
+                        dto.getInterests().stream()
+                                .map(interestDTO -> {
+                                        var interest = CVInterestMapper.toEntity(interestDTO);
+                                        interest.setCv(cv);
+                                        return interest;
+                                }).toList()
+                );
+        }
+
+        if (dto.getEducationList() != null) {
+                cv.setEducationList(
+                        dto.getEducationList().stream()
+                                .map(educationListDTO -> {
+                                        var educationList = EducationMapper.toEntity(educationListDTO);
+                                        educationList.setCv(cv);
+                                        return educationList;
+                                }).toList()
+                );
+        }
+
+        if (dto.getWorkExperiences() != null) {
+                cv.setWorkExperiences(
+                        dto.getWorkExperiences().stream()
+                                .map(workExperienceDTO -> {
+                                        var workExperience = WorkExperienceMapper.toEntity(workExperienceDTO);
+                                        workExperience.setCv(cv);
+                                        return workExperience;
+                                }).toList()
+                );
+        }
+
+        if (dto.getLanguages() != null) {
+                cv.setLanguages(
+                        dto.getLanguages().stream()
+                                .map(languageDTO -> {
+                                        var language = LanguageMapper.toEntity(languageDTO);
+                                        language.setCv(cv);
+                                        return language;
+                                }).toList()
+                );
+        }
+
+        if (dto.getAdditionalInfos() != null) {
+                cv.setAdditionalInfos(
+                        dto.getAdditionalInfos().stream()
+                                .map(additionalInfoDTO -> {
+                                        var additionalInfo = AdditionalInfoMapper.toEntity(additionalInfoDTO);
+                                        additionalInfo.setCv(cv);
+                                        return additionalInfo;
+                                }).toList()
+                );
+        }
+
+        return cv;
     }
 
 }

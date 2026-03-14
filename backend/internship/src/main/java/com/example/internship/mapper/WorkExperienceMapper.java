@@ -2,7 +2,6 @@ package com.example.internship.mapper;
 
 import com.example.internship.dto.workexperience.*;
 import com.example.internship.model.WorkExperience;
-import com.example.internship.model.CV;
 
 public class WorkExperienceMapper {
 
@@ -22,13 +21,12 @@ public class WorkExperienceMapper {
                 .build();
     }
 
-    public static WorkExperience toEntity(WorkExperienceRequestDTO dto, CV cv) {
+    public static WorkExperience toEntity(WorkExperienceRequestDTO dto) {
         if (dto == null) {
             return null;
         }
 
         return WorkExperience.builder()
-                .cv(cv)
                 .companyName(dto.getCompanyName())
                 .position(dto.getPosition())
                 .description(dto.getDescription())

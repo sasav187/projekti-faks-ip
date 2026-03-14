@@ -1,7 +1,6 @@
 package com.example.internship.mapper;
 
 import com.example.internship.model.AdditionalInfo;
-import com.example.internship.model.CV;
 import com.example.internship.dto.additionalinfo.*;
 
 public class AdditionalInfoMapper {
@@ -17,12 +16,11 @@ public class AdditionalInfoMapper {
                 .build();
     }
 
-    public static AdditionalInfo toEntity(AdditionalInfoRequestDTO dto, CV cv) {
+    public static AdditionalInfo toEntity(AdditionalInfoRequestDTO dto) {
         if (dto == null) {
             return null;
         }
         return AdditionalInfo.builder()
-                .cv(cv)
                 .content(dto.getContent())
                 .build();
     }

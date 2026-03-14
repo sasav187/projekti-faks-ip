@@ -3,9 +3,7 @@ package com.example.internship.service;
 import com.example.internship.dto.workexperience.*;
 import com.example.internship.mapper.WorkExperienceMapper;
 import com.example.internship.model.WorkExperience;
-import com.example.internship.model.CV;
 import com.example.internship.repository.WorkExperienceRepository;
-import com.example.internship.repository.CVRepository;
 
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -14,12 +12,9 @@ import org.springframework.stereotype.Service;
 public class WorkExperienceService {
 
     private final WorkExperienceRepository workExperienceRepository;
-    private final CVRepository cvRepository;
 
-    public WorkExperienceService(WorkExperienceRepository workExperienceRepository,
-                                 CVRepository cvRepository) {
+    public WorkExperienceService(WorkExperienceRepository workExperienceRepository) {
         this.workExperienceRepository = workExperienceRepository;
-        this.cvRepository = cvRepository;
     }
 
     public Page<WorkExperienceResponseDTO> getAllWorkExperiences(Pageable pageable) {
@@ -44,11 +39,7 @@ public class WorkExperienceService {
 
     public WorkExperienceResponseDTO create(WorkExperienceRequestDTO dto) {
 
-        CV cv = cvRepository.findById(dto.getCvId())
-                .orElseThrow(() ->
-                        new RuntimeException("CV not found with id: " + dto.getCvId()));
-
-        WorkExperience entity = WorkExperienceMapper.toEntity(dto, cv);
+        WorkExperience entity = WorkExperienceMapper.toEntity(dto);
 
         return WorkExperienceMapper
                 .toResponseDTO(workExperienceRepository.save(entity));
@@ -59,13 +50,6 @@ public class WorkExperienceService {
         WorkExperience existing = workExperienceRepository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("WorkExperience not found with id: " + id));
-
-        if (dto.getCvId() != null) {
-            CV cv = cvRepository.findById(dto.getCvId())
-                    .orElseThrow(() ->
-                            new RuntimeException("CV not found with id: " + dto.getCvId()));
-            existing.setCv(cv);
-        }
 
         WorkExperienceMapper.updateEntity(existing, dto);
 

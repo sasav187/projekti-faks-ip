@@ -2,9 +2,7 @@ package com.example.internship.service;
 
 import com.example.internship.dto.education.*;
 import com.example.internship.mapper.EducationMapper;
-import com.example.internship.model.CV;
 import com.example.internship.model.Education;
-import com.example.internship.repository.CVRepository;
 import com.example.internship.repository.EducationRepository;
 
 import org.springframework.data.domain.*;
@@ -14,12 +12,9 @@ import org.springframework.stereotype.Service;
 public class EducationService {
 
     private final EducationRepository educationRepository;
-    private final CVRepository cvRepository;
 
-    public EducationService(EducationRepository educationRepository,
-                            CVRepository cvRepository) {
+    public EducationService(EducationRepository educationRepository) {
         this.educationRepository = educationRepository;
-        this.cvRepository = cvRepository;
     }
 
     public Page<EducationResponseDTO> getAllEducations(Pageable pageable) {
@@ -42,10 +37,7 @@ public class EducationService {
 
     public EducationResponseDTO create(EducationRequestDTO dto) {
 
-        CV cv = cvRepository.findById(dto.getCvId())
-                .orElseThrow(() -> new RuntimeException("CV not found with id: " + dto.getCvId()));
-
-        Education entity = EducationMapper.toEntity(dto, cv);
+        Education entity = EducationMapper.toEntity(dto);
 
         return EducationMapper.toResponseDTO(
                 educationRepository.save(entity)
@@ -56,12 +48,6 @@ public class EducationService {
 
         Education existing = educationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Education not found with id: " + id));
-
-        if (dto.getCvId() != null) {
-            CV cv = cvRepository.findById(dto.getCvId())
-                    .orElseThrow(() -> new RuntimeException("CV not found with id: " + dto.getCvId()));
-            existing.setCv(cv);
-        }
 
         EducationMapper.updateEntity(existing, dto);
 

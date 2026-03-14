@@ -2,7 +2,6 @@ package com.example.internship.mapper;
 
 import com.example.internship.dto.education.*;
 import com.example.internship.model.Education;
-import com.example.internship.model.CV;
 
 public class EducationMapper {
 
@@ -20,12 +19,11 @@ public class EducationMapper {
                 .build();
     }
 
-    public static Education toEntity(EducationRequestDTO dto, CV cv) {
+    public static Education toEntity(EducationRequestDTO dto) {
         if (dto == null) {
             return null;
         }
         return Education.builder()
-                .cv(cv)
                 .institution(dto.getInstitution())
                 .degree(dto.getDegree())
                 .fieldOfStudy(dto.getFieldOfStudy())

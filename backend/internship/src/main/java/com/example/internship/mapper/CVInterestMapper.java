@@ -1,9 +1,7 @@
 package com.example.internship.mapper;
 
 import com.example.internship.dto.cvinterest.*;
-
 import com.example.internship.model.CVInterest;
-import com.example.internship.model.CV;
 
 public class CVInterestMapper {
 
@@ -18,12 +16,11 @@ public class CVInterestMapper {
                 .build();
     }
 
-    public static CVInterest toEntity(CVInterestRequestDTO dto, CV cv) {
+    public static CVInterest toEntity(CVInterestRequestDTO dto) {
         if (dto == null) {
             return null;
         }
-            return CVInterest.builder()
-                .cv(cv)
+        return CVInterest.builder()
                 .name(dto.getName())
                 .build();
     }

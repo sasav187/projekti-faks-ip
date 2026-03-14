@@ -1,7 +1,6 @@
 package com.example.internship.mapper;
 
 import com.example.internship.dto.language.*;
-import com.example.internship.model.CV;
 import com.example.internship.model.Language;
 
 public class LanguageMapper {
@@ -19,10 +18,9 @@ public class LanguageMapper {
                 .build();
     }
 
-    public static Language toEntity(LanguageRequestDTO dto, CV cv) {
+    public static Language toEntity(LanguageRequestDTO dto) {
         if (dto == null) return null;
         return Language.builder()
-                .cv(cv)
                 .name(dto.getName())
                 .listeningLevel(dto.getListeningLevel())
                 .readingLevel(dto.getReadingLevel())

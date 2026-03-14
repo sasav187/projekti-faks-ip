@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -64,20 +65,26 @@ public class CV {
     }
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CVSkill> skills;
+    @Builder.Default
+    private List<CVSkill> skills = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CVInterest> interests;
+    @Builder.Default
+    private List<CVInterest> interests = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Education> educationList;
+    @Builder.Default
+    private List<Education> educationList = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WorkExperience> workExperiences;
+    @Builder.Default
+    private List<WorkExperience> workExperiences = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Language> languages;
+    @Builder.Default
+    private List<Language> languages = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AdditionalInfo> additionalInfos;
+    @Builder.Default
+    private List<AdditionalInfo> additionalInfos = new ArrayList<>();
 }
