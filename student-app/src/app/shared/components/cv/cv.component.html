@@ -19,8 +19,8 @@
       </button>
     </div>
     <mat-card class="cv-preview">
-      <div *ngIf="cv.imagePath" class="cv-image">
-        <img [src]="'http://localhost:8081' + cv.imagePath" alt="Profile photo">
+      <div *ngIf="cv.imagePath" class="preview">
+        <img [src]="'http://localhost:8081' + cv.imagePath" class="cv-photo">
       </div>
       <h2>{{cv.firstName}} {{cv.lastName}}</h2>
       <p>{{cv.email}}</p>
@@ -109,7 +109,7 @@
 
           <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)">
 
-          <button mat-raised-button color="primary" (click)="fileInput.click()" type="button">
+          <button mat-raised-button color="primary" (click)="fileInput.click()">
             <mat-icon>upload</mat-icon>
             Upload photo
           </button>
