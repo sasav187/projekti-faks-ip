@@ -51,27 +51,24 @@ export class CVComponent implements OnInit {
     this.cvService.getMyCV().subscribe({
       next: res => {
 
-        setTimeout(() => {
+        if (res && res.id) {
 
-          if (res && res.id) {
+          this.cv = this.normalizeCV(res)
+          this.originalCV = JSON.parse(JSON.stringify(this.cv))
 
-            this.cv = this.normalizeCV(res)
-            this.originalCV = JSON.parse(JSON.stringify(this.cv))
+          this.hasCV = true
+          this.isEditing = false
 
-            this.hasCV = true
-            this.isEditing = false
+        } else {
+          this.initNewCV()
+        }
 
-          } else {
-            this.initNewCV()
-          }
-
-        })
+        this.cd.detectChanges()
 
       },
       error: () => {
-        setTimeout(() => {
-          this.initNewCV()
-        })
+        this.initNewCV()
+        this.cd.detectChanges()
       }
     })
   }

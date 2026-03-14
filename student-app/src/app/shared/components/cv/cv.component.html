@@ -109,7 +109,7 @@
 
           <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)">
 
-          <button mat-raised-button color="primary" (click)="fileInput.click()">
+          <button mat-raised-button color="primary" type="button" (click)="fileInput.click()">
             <mat-icon>upload</mat-icon>
             Upload photo
           </button>
@@ -154,7 +154,7 @@
       </mat-tab>
 
       <mat-tab label="Skills">
-        <div *ngFor="let s of cv.skills; let i=index" class="row">
+        <div *ngFor="let s of cv.skills; let i=index; trackBy:trackByIndex" class="row">
           <mat-form-field appearance="outline">
             <mat-label>Skill</mat-label>
             <input matInput [(ngModel)]="s.name" name="skillName{{i}}" [ngModelOptions]="{standalone: true}">
@@ -173,7 +173,7 @@
       </mat-tab>
 
       <mat-tab label="Interests">
-        <div *ngFor="let s of cv.interests; let i=index" class="row">
+        <div *ngFor="let s of cv.interests; let i=index; trackBy:trackByIndex" class="row">
           <mat-form-field appearance="outline">
             <mat-label>Interest</mat-label>
             <input matInput [(ngModel)]="s.name" name="interest{{i}}" [ngModelOptions]="{standalone: true}">
@@ -186,7 +186,7 @@
       </mat-tab>
 
       <mat-tab label="Education">
-        <div *ngFor="let e of cv.educationList; let i=index" class="card-block">
+        <div *ngFor="let e of cv.educationList; let i=index; trackBy:trackByIndex" class="card-block">
           <mat-card>
             <div class="form-grid">
               <mat-form-field appearance="outline">
@@ -219,7 +219,7 @@
       </mat-tab>
 
       <mat-tab label="Experience">
-        <div *ngFor="let w of cv.workExperiences; let i=index" class="card-block">
+        <div *ngFor="let w of cv.workExperiences; let i=index; trackBy:trackByIndex" class="card-block">
           <mat-card>
             <div class="form-grid">
               <mat-form-field appearance="outline">
@@ -253,7 +253,7 @@
       </mat-tab>
 
       <mat-tab label="Languages">
-        <div *ngFor="let l of cv.languages; let i=index" class="card-block">
+        <div *ngFor="let l of cv.languages; let i=index; trackBy:trackByIndex" class="card-block">
           <mat-card>
             <div class="form-grid">
               <mat-form-field appearance="outline">
@@ -292,7 +292,7 @@
       </mat-tab>
 
       <mat-tab label="Additional">
-        <div *ngFor="let a of cv.additionalInfos; let i=index" class="row">
+        <div *ngFor="let a of cv.additionalInfos; let i=index; trackBy:trackByIndex" class="row">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Info</mat-label>
             <textarea matInput rows="3" [(ngModel)]="a.content" name="info{{i}}"
@@ -326,7 +326,7 @@
 
                 <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)">
 
-                <button mat-raised-button color="primary" (click)="fileInput.click()">
+                <button mat-raised-button color="primary" type="button" (click)="fileInput.click()">
                   <mat-icon>upload</mat-icon>
                   Upload photo
                 </button>
@@ -373,7 +373,7 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'Skills'">
-              <div *ngFor="let s of cv.skills; let i=index" class="row">
+              <div *ngFor="let s of cv.skills; let i=index; trackBy:trackByIndex" class="row">
                 <mat-form-field appearance="outline">
                   <mat-label>Skill</mat-label>
                   <input matInput [(ngModel)]="s.name" name="skillNameMobile{{i}}"
@@ -393,7 +393,7 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'Interests'">
-              <div *ngFor="let s of cv.interests; let i=index" class="row">
+              <div *ngFor="let s of cv.interests; let i=index; trackBy:trackByIndex" class="row">
                 <mat-form-field appearance="outline">
                   <mat-label>Interest</mat-label>
                   <input matInput [(ngModel)]="s.name" name="interestMobile{{i}}" [ngModelOptions]="{standalone: true}">
@@ -406,7 +406,7 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'Education'">
-              <div *ngFor="let e of cv.educationList; let i=index" class="card-block">
+              <div *ngFor="let e of cv.educationList; let i=index; trackBy:trackByIndex" class="card-block">
                 <mat-card>
                   <div class="form-grid">
                     <mat-form-field appearance="outline">
@@ -442,7 +442,7 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'Experience'">
-              <div *ngFor="let w of cv.workExperiences; let i=index" class="card-block">
+              <div *ngFor="let w of cv.workExperiences; let i=index; trackBy:trackByIndex" class="card-block">
                 <mat-card>
                   <div class="form-grid">
                     <mat-form-field appearance="outline">
@@ -478,7 +478,7 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'Languages'">
-              <div *ngFor="let l of cv.languages; let i=index" class="card-block">
+              <div *ngFor="let l of cv.languages; let i=index; trackBy:trackByIndex" class="card-block">
                 <mat-card>
                   <div class="form-grid">
                     <mat-form-field appearance="outline">
@@ -521,7 +521,7 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'Additional'">
-              <div *ngFor="let a of cv.additionalInfos; let i=index" class="row">
+              <div *ngFor="let a of cv.additionalInfos; let i=index; trackBy:trackByIndex" class="row">
                 <mat-form-field appearance="outline" class="full-width">
                   <mat-label>Info</mat-label>
                   <textarea matInput rows="3" [(ngModel)]="a.content" name="infoMobile{{i}}"
