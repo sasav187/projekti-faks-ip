@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
+import { ChangeDetectorRef } from '@angular/core'
 
 import { MaterialModule } from '../../../material.module'
 import { CVService } from '../../../core/services/cv.service'
@@ -20,39 +21,57 @@ import { CV } from '../../models/cv.model'
 export class CVComponent implements OnInit {
 
   cv!: CV
+  originalCV!: CV
+
   isEditing = false
   hasCV = false
-  selectedImage: File | null = null;
+
+  selectedImage: File | null = null
 
   skillLevels = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED']
   languageLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
 
-  constructor(private cvService: CVService) { }
+  constructor(
+    private cvService: CVService,
+    private cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.loadCV()
   }
 
   onImageSelected(event: any) {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
-      this.selectedImage = file;
+      this.selectedImage = file
     }
   }
 
   loadCV() {
     this.cvService.getMyCV().subscribe({
       next: res => {
-        if (res && res.id) {
-          this.cv = this.normalizeCV(res)
-          this.hasCV = true
-          this.isEditing = false
-        } else {
-          this.initNewCV()
-        }
+
+        setTimeout(() => {
+
+          if (res && res.id) {
+
+            this.cv = this.normalizeCV(res)
+            this.originalCV = JSON.parse(JSON.stringify(this.cv))
+
+            this.hasCV = true
+            this.isEditing = false
+
+          } else {
+            this.initNewCV()
+          }
+
+        })
+
       },
       error: () => {
-        this.initNewCV()
+        setTimeout(() => {
+          this.initNewCV()
+        })
       }
     })
   }
@@ -70,6 +89,7 @@ export class CVComponent implements OnInit {
   }
 
   initNewCV() {
+
     this.cv = {
       firstName: '',
       lastName: '',
@@ -86,6 +106,7 @@ export class CVComponent implements OnInit {
       languages: [],
       additionalInfos: []
     }
+
     this.hasCV = false
     this.isEditing = true
   }
@@ -95,8 +116,18 @@ export class CVComponent implements OnInit {
   }
 
   startEdit() {
-    if (!this.cv) this.initNewCV()
+
+    this.cv = JSON.parse(JSON.stringify(this.originalCV))
     this.isEditing = true
+
+  }
+
+  cancelEdit() {
+
+    this.cv = JSON.parse(JSON.stringify(this.originalCV))
+    this.selectedImage = null
+    this.isEditing = false
+
   }
 
   save() {
@@ -104,6 +135,7 @@ export class CVComponent implements OnInit {
     this.cvService.saveCV(this.cv).subscribe(res => {
 
       this.cv = this.normalizeCV(res)
+      this.originalCV = JSON.parse(JSON.stringify(this.cv))
       this.hasCV = true
 
       if (this.selectedImage && this.cv.id) {
@@ -111,6 +143,7 @@ export class CVComponent implements OnInit {
         this.cvService.uploadImage(this.cv.id, this.selectedImage)
           .subscribe(() => {
 
+            this.selectedImage = null
             this.loadCV()
 
           })
@@ -123,11 +156,25 @@ export class CVComponent implements OnInit {
 
   }
 
-  addSkill() { this.cv.skills.push({ name: '', level: 'BEGINNER' }) }
-  removeSkill(i: number) { this.cv.skills.splice(i, 1) }
+  trackByIndex(index: number) {
+    return index
+  }
 
-  addInterest() { this.cv.interests.push({ name: '' }) }
-  removeInterest(i: number) { this.cv.interests.splice(i, 1) }
+  addSkill() {
+    this.cv.skills.push({ name: '', level: 'BEGINNER' })
+  }
+
+  removeSkill(i: number) {
+    this.cv.skills.splice(i, 1)
+  }
+
+  addInterest() {
+    this.cv.interests.push({ name: '' })
+  }
+
+  removeInterest(i: number) {
+    this.cv.interests.splice(i, 1)
+  }
 
   addEducation() {
     this.cv.educationList.push({
@@ -139,7 +186,10 @@ export class CVComponent implements OnInit {
       description: ''
     })
   }
-  removeEducation(i: number) { this.cv.educationList.splice(i, 1) }
+
+  removeEducation(i: number) {
+    this.cv.educationList.splice(i, 1)
+  }
 
   addWorkExperience() {
     this.cv.workExperiences.push({
@@ -150,7 +200,10 @@ export class CVComponent implements OnInit {
       description: ''
     })
   }
-  removeWorkExperience(i: number) { this.cv.workExperiences.splice(i, 1) }
+
+  removeWorkExperience(i: number) {
+    this.cv.workExperiences.splice(i, 1)
+  }
 
   addLanguage() {
     this.cv.languages.push({
@@ -161,9 +214,17 @@ export class CVComponent implements OnInit {
       spokenLevel: ''
     })
   }
-  removeLanguage(i: number) { this.cv.languages.splice(i, 1) }
 
-  addAdditionalInfo() { this.cv.additionalInfos.push({ content: '' }) }
-  removeAdditionalInfo(i: number) { this.cv.additionalInfos.splice(i, 1) }
+  removeLanguage(i: number) {
+    this.cv.languages.splice(i, 1)
+  }
+
+  addAdditionalInfo() {
+    this.cv.additionalInfos.push({ content: '' })
+  }
+
+  removeAdditionalInfo(i: number) {
+    this.cv.additionalInfos.splice(i, 1)
+  }
 
 }

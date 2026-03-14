@@ -83,10 +83,19 @@
 
     <div class="cv-header">
       <h1>{{hasCV ? 'Edit CV' : 'Create CV'}}</h1>
-      <button mat-raised-button color="primary" type="submit">
-        <mat-icon>save</mat-icon>
-        Save CV
-      </button>
+
+      <div class="actions">
+        <button mat-stroked-button color="warn" type="button" (click)="cancelEdit()">
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+
+        <button mat-raised-button color="primary" type="submit">
+          <mat-icon>save</mat-icon>
+          Save CV
+        </button>
+      </div>
+
     </div>
 
     <mat-tab-group class="desktop-tabs">

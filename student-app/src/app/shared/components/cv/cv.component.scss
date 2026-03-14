@@ -83,6 +83,17 @@ mat-card {
     border: 3px solid #e0e0e0;
 }
 
+.cv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
 @media (max-width: 900px) {
     .cv-container {
         padding: 10px;
