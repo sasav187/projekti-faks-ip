@@ -23,10 +23,11 @@
         <img [src]="'http://localhost:8081' + cv.imagePath" class="cv-photo">
       </div>
       <h2>{{cv.firstName}} {{cv.lastName}}</h2>
-      <p>{{cv.email}}</p>
-      <p>{{cv.phone}}</p>
-      <p>{{cv.address}}</p>
-      <p>{{cv.dateOfBirth}}</p>
+      <p><strong>E-mail: </strong>{{cv.email}}</p>
+      <p><strong>Phone: </strong>{{cv.phone}}</p>
+      <p><strong>Address: </strong>{{cv.address}}</p>
+      <p><strong>Nationality: </strong>{{ cv.nationality }}</p>
+      <p><strong>Date of birth: </strong>{{cv.dateOfBirth}}</p>
       <h3>Summary</h3>
       <p>{{cv.summary}}</p>
       <h3>Created at</h3>
