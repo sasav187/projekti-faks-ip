@@ -45,7 +45,7 @@ public class CVSkillService {
         return CVSkillMapper.toResponseDTO(skillRepository.save(existing));
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Long id) {   
         skillRepository.deleteById(id);
     }
 }

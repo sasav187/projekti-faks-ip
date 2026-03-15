@@ -2,6 +2,8 @@ package com.example.internship.dto.internship;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,4 +22,6 @@ public class InternshipRequestDTO {
     private String conditions;
 
     private Integer capacity;
+
+    private List<String> technologies;
 }

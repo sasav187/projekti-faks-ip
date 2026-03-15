@@ -4,6 +4,8 @@ import com.example.internship.dto.internship.*;
 import com.example.internship.model.Internship;
 import com.example.internship.model.Company;
 
+import java.util.stream.*;
+
 public class InternshipMapper {
 
     public static InternshipResponseDTO toResponseDTO(Internship internship) {
@@ -18,6 +20,14 @@ public class InternshipMapper {
                 .conditions(internship.getConditions())
                 .capacity(internship.getCapacity())
                 .createdAt(internship.getCreatedAt())
+                .technologies(
+                    internship.getTechnologies() == null
+                            ? null 
+                            : internship.getTechnologies()
+                            .stream()
+                            .map(t -> t.getName())
+                            .collect(Collectors.toList())   
+                )
                 .build();
     }
 
