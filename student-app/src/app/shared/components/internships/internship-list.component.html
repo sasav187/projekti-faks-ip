@@ -39,6 +39,12 @@
       <mat-card-subtitle>{{ i.companyName }}</mat-card-subtitle>
       <mat-card-content>
         <p>{{ i.description }}</p>
+        <p><strong>Technologies:</strong></p>
+        <mat-chip-set>
+          <mat-chip *ngFor="let t of i.technologies">
+            {{ t }}
+          </mat-chip>
+        </mat-chip-set>
         <div class="details">
           <span><strong>Period:</strong> {{ i.period }}</span>
           <span><strong>Capacity:</strong> {{ i.capacity }}</span>
