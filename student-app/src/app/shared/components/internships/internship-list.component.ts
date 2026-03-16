@@ -68,16 +68,20 @@ export class InternshipListComponent implements OnInit {
     this.loadInternships();
   }
 
-  apply(internshipId: number): void {
-    console.log("Applying for internship:", internshipId);
+  apply(internshipId: number) {
 
-    this.internshipService.apply(internshipId).subscribe({
-      next: () => {
-        alert("Successfully applied for internship.");
-      },
-      error: () => {
-        alert("Application failed.");
-      }
-    });
+    const studentId = Number(localStorage.getItem('studentId'));
+
+    this.internshipService
+      .apply(internshipId, studentId)
+      .subscribe({
+        next: () => {
+          alert("Application sent successfully");
+        },
+        error: () => {
+          alert("Application failed");
+        }
+      });
+
   }
 }

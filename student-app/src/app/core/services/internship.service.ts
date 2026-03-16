@@ -42,10 +42,13 @@ export class InternshipService {
       );
   }
 
-  apply(internshipId: number) {
+  apply(internshipId: number, studentId: number) {
     return this.http.post(
       'http://localhost:8081/api/internship-applications',
-      { internshipId: internshipId }
+      { 
+        studentId: studentId,
+        internshipId: internshipId   
+      }
     );
   }
 

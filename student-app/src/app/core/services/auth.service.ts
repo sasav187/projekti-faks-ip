@@ -71,4 +71,15 @@ export class AuthService {
   getUserName(): string | null {
     return localStorage.getItem('username');
   }
+
+  getStudentId(): number | null {
+
+    const token = this.getToken();
+
+    if (!token) return null;
+
+    const decoded: any = jwtDecode(token);
+
+    return decoded.studentId;
+  }
 }
