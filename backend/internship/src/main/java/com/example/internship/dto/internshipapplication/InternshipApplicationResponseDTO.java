@@ -20,6 +20,8 @@ public class InternshipApplicationResponseDTO {
 
     private Long internshipId;
     private String internshipTitle;
+    
+    private String companyName;
 
     private String applicationMessage;
 

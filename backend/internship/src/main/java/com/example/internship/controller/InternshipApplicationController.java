@@ -2,6 +2,9 @@ package com.example.internship.controller;
 
 import com.example.internship.dto.internshipapplication.*;
 import com.example.internship.service.InternshipApplicationService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
@@ -52,6 +55,12 @@ public class InternshipApplicationController {
     public InternshipApplicationResponseDTO update(@PathVariable Long id,
             @RequestBody InternshipApplicationRequestDTO dto) {
         return internshipApplicationService.update(id, dto);
+    }
+
+    @GetMapping("/my")
+    public List<InternshipApplicationResponseDTO> getMyApplications(Authentication authentication) {
+        String username = authentication.getName();
+        return internshipApplicationService.getApplicationsByStudent(username);
     }
 
     @DeleteMapping("/{id}")

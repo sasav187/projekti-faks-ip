@@ -11,6 +11,9 @@ import com.example.internship.repository.UserRepository;
 import com.example.internship.repository.StudentRepository;
 import com.example.internship.repository.InternshipRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +91,18 @@ public class InternshipApplicationService {
 
                 return InternshipApplicationMapper.toResponseDTO(internshipApplicationRepository.save(existing));
         }
+
+        public List<InternshipApplicationResponseDTO> getApplicationsByStudent(String username) {
+
+        Student student = studentRepository
+                .findByUserUsername(username)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        return internshipApplicationRepository.findByStudent(student)
+                .stream()
+                .map(InternshipApplicationMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
 
         public void deleteById(Long id) {
                 internshipApplicationRepository.deleteById(id);

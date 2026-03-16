@@ -6,6 +6,7 @@ import com.example.internship.service.WorkLogService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -45,18 +46,35 @@ public class WorkLogController {
     }
 
     @PostMapping
-    public WorkLogResponseDTO create(@RequestBody WorkLogRequestDTO dto) {
-        return workLogService.create(dto);
+    public WorkLogResponseDTO create(
+            @RequestBody WorkLogRequestDTO dto,
+            Authentication authentication) {
+
+        return workLogService.create(dto, authentication.getName());
     }
 
     @PutMapping("/{id}")
-    public WorkLogResponseDTO update(@PathVariable Long id,
-                                     @RequestBody WorkLogRequestDTO dto) {
-        return workLogService.update(id, dto);
+    public WorkLogResponseDTO update(
+            @PathVariable Long id,
+            @RequestBody WorkLogRequestDTO dto,
+            Authentication authentication) {
+
+        return workLogService.update(id, dto, authentication.getName());
+    }
+
+    @GetMapping("/application/{applicationId}")
+    public Page<WorkLogResponseDTO> getByApplication(
+            @PathVariable Long applicationId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return workLogService.getByApplication(applicationId, pageable);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        workLogService.deleteById(id);
+    public void delete(@PathVariable Long id, Authentication authentication) {
+        workLogService.deleteById(id, authentication.getName());
     }
 }
