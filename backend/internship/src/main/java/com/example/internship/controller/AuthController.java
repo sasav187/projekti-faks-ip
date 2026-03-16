@@ -29,17 +29,20 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
 
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // if (!user.getRole().name().equals("STUDENT")) {
-        //     return ResponseEntity.status(403).build();  
+        // return ResponseEntity.status(403).build();
         // }
 
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
+        String token = jwtUtil.generateToken(
+                user.getUsername(),
+                user.getRole().name(),
+                user.getId()
+            );
 
         return ResponseEntity.ok(new LoginResponse(token, user.getRole().name()));
     }

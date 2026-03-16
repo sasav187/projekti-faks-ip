@@ -4,6 +4,7 @@ import com.example.internship.dto.internshipapplication.*;
 import com.example.internship.service.InternshipApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -41,17 +42,20 @@ public class InternshipApplicationController {
     }
 
     @PostMapping
-    public InternshipApplicationResponseDTO create(@RequestBody InternshipApplicationRequestDTO dto) {
-        return internshipApplicationService.create(dto);
+    public InternshipApplicationResponseDTO create(
+            @RequestBody InternshipApplicationRequestDTO dto,
+            Authentication authentication) {
+        return internshipApplicationService.create(dto, authentication.getName());
     }
 
     @PutMapping("/{id}")
-    public InternshipApplicationResponseDTO update(@PathVariable Long id, @RequestBody InternshipApplicationRequestDTO dto) {
+    public InternshipApplicationResponseDTO update(@PathVariable Long id,
+            @RequestBody InternshipApplicationRequestDTO dto) {
         return internshipApplicationService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         internshipApplicationService.deleteById(id);
-    }   
+    }
 }

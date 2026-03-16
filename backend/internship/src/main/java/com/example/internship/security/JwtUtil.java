@@ -16,10 +16,11 @@ public class JwtUtil {
 
     private final long JWT_EXPIRATION = 1000 * 60 * 60 * 24;
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, String role, Long userId) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
+                .claim("userId", userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)

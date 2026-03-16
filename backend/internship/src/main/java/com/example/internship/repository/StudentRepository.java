@@ -10,5 +10,8 @@ import org.springframework.data.jpa.repository.*;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     
     Page<Student> findByIndexNumberContainingIgnoreCase(String indexNumber, Pageable pageable);
+
     Optional<Student> findByUserUsername(String username);
+
+    Optional<Student> findByUserId(Long userId);
 }
