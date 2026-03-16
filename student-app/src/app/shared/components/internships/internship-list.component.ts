@@ -67,4 +67,17 @@ export class InternshipListComponent implements OnInit {
     this.searchTechnology = '';
     this.loadInternships();
   }
+
+  apply(internshipId: number): void {
+    console.log("Applying for internship:", internshipId);
+
+    this.internshipService.apply(internshipId).subscribe({
+      next: () => {
+        alert("Successfully applied for internship.");
+      },
+      error: () => {
+        alert("Application failed.");
+      }
+    });
+  }
 }

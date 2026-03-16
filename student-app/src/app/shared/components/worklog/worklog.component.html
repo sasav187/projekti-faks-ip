@@ -27,6 +27,25 @@
 
   <mat-card-content>
 
+    <div class="search-container">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input matInput [(ngModel)]="searchDescription" placeholder="Search logs">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="onSearch()">
+        <mat-icon>search</mat-icon>
+        Search
+      </button>
+
+      <button mat-raised-button color="warn" (click)="clearSearch()">
+        <mat-icon>clear</mat-icon>
+        Clear
+      </button>
+
+    </div>
+
     <div *ngIf="logs && logs.length; else emptyLogs">
 
       <div *ngFor="let log of logs" class="log-item">

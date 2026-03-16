@@ -50,6 +50,13 @@
           <span><strong>Capacity:</strong> {{ i.capacity }}</span>
         </div>
       </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="apply(i.id)">
+          <mat-icon>send</mat-icon>
+          Apply
+        </button>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

@@ -13,16 +13,17 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(username: string, password: string) {
-    return this.http.post<any>(`${this.apiUrl}/login`, { 
+    return this.http.post<any>(`${this.apiUrl}/login`, {
       username,
-      password })
+      password
+    })
       .pipe(
-      tap(response => {
-        if (response.token) localStorage.setItem('token', response.token);
-        if (response.role) localStorage.setItem('role', response.role);
-        localStorage.setItem('username', username);
-      })
-    );
+        tap(response => {
+          if (response.token) localStorage.setItem('token', response.token);
+          if (response.role) localStorage.setItem('role', response.role);
+          localStorage.setItem('username', username);
+        })
+      );
   }
 
   logout() {

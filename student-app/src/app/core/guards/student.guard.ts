@@ -4,15 +4,14 @@ import { AuthService } from '../services/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class StudentGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(): boolean {
-    const role = this.authService.getRole(); // pretpostavimo da vraća 'STUDENT', 'FACULTY' ili 'COMPANY'
-    
+    const role = this.authService.getRole();
+
     if (role === 'STUDENT') {
-      return true; // dozvoli pristup
+      return true;
     } else {
-      // preusmeri na login ili unauthorized stranicu
       this.router.navigate(['/login']);
       return false;
     }

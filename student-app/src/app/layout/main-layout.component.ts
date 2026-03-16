@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   standalone: true,
   imports: [
     RouterOutlet,
-    RouterModule, 
+    RouterModule,
     MaterialModule
   ],
   templateUrl: './main-layout.component.html',

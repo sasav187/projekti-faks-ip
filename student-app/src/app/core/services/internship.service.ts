@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Internship } from '../../shared/models/internship.model';
 import { Page } from '../../shared/models/page.model';
+import { I } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,13 @@ export class InternshipService {
       .pipe(
         map(res => res.content)
       );
+  }
+
+  apply(internshipId: number) {
+    return this.http.post(
+      'http://localhost:8081/api/internship-applications',
+      { internshipId: internshipId }
+    );
   }
 
 }
