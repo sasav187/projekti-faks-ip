@@ -4,6 +4,15 @@
   </mat-card-header>
 
   <mat-card-content>
+    <mat-form-field appearance="fill" class="input-field full-width">
+      <mat-label>Select internship</mat-label>
+      <mat-select [(ngModel)]="applicationId" (selectionChange)="onApplicationChange()" name="applicationId">
+        <mat-option *ngFor="let app of applications" [value]="app.id">
+          {{ app.internshipTitle }} - {{ app.companyName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <form class="worklog-form">
       <mat-form-field appearance="fill" class="input-field">
         <mat-label>Week number</mat-label>
@@ -15,7 +24,9 @@
         <textarea matInput rows="4" [(ngModel)]="description" name="description"></textarea>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="save()">Save</button>
+      <button mat-raised-button color="primary" (click)="save()" [disabled]="!applicationId">
+        Save Log
+      </button>
     </form>
   </mat-card-content>
 </mat-card>
@@ -26,9 +37,7 @@
   </mat-card-header>
 
   <mat-card-content>
-
     <div class="search-container">
-
       <mat-form-field appearance="outline">
         <mat-label>Description</mat-label>
         <input matInput [(ngModel)]="searchDescription" placeholder="Search logs">
@@ -43,30 +52,27 @@
         <mat-icon>clear</mat-icon>
         Clear
       </button>
+    </div>
 
+    <div *ngIf="loading" class="loading">
+      <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
     </div>
 
     <div *ngIf="logs && logs.length; else emptyLogs">
-
       <div *ngFor="let log of logs" class="log-item">
         <div class="log-text">
           <div class="week"><strong>Week {{log.weekNumber}}</strong></div>
           <div class="desc">{{log.description}}</div>
-          <div class="created">
-            {{log.createdAt ? (log.createdAt | date:'short') : 'No date'}}
-          </div>
+          <div class="created">{{log.createdAt ? (log.createdAt | date:'short') : 'No date'}}</div>
         </div>
-
         <button mat-icon-button color="warn" (click)="delete(log.id!)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
-
     </div>
 
     <ng-template #emptyLogs>
       <p class="empty-message">No previous logs yet.</p>
     </ng-template>
-
   </mat-card-content>
 </mat-card>

@@ -10,15 +10,24 @@ import { WorkLog } from "../../shared/models/worklog.model";
 export class WorkLogService {
 
     private api = 'http://localhost:8081/api/worklogs';
+    private applicationsApi = 'http://localhost:8081/api/internship-applications';
 
     constructor(private http: HttpClient) { }
 
-    getAll(page = 0, size = 10) {
-        return this.http.get<{ content: WorkLog[] }>(`${this.api}?page=${page}&size=${size}`);
+    getApplicationsByStudent() {
+        return this.http.get<any[]>(`${this.applicationsApi}/my`);
+    }
+
+    getByApplication(applicationId: number, page = 0, size = 10) {
+        return this.http.get<{ content: WorkLog[] }>(
+            `${this.api}/application/${applicationId}?page=${page}&size=${size}`
+        );
     }
 
     search(description: string, page = 0, size = 10) {
-        return this.http.get<{ content: WorkLog[] }>(`${this.api}/search?description=${description}&page=${page}&size=${size}`);
+        return this.http.get<{ content: WorkLog[] }>(
+            `${this.api}/search?description=${description}&page=${page}&size=${size}`
+        );
     }
 
     create(log: WorkLog) {

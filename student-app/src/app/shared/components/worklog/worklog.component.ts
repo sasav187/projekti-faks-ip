@@ -29,19 +29,43 @@ export class WorklogComponent implements OnInit {
   applicationId!: number;
   weekNumber = 1;
   description = '';
+  applications: any[] = [];
 
   searchDescription = '';
 
   constructor(private workLogService: WorkLogService) { }
 
   ngOnInit() {
-    this.loadLogs();
+    this.loadApplications();
+  }
+
+  loadApplications() {
+    this.loading = true;
+
+    this.workLogService.getApplicationsByStudent()
+      .pipe(
+        catchError(() => {
+          this.errorMessage = 'Failed to load applications';
+          return of([]);
+        })
+      )
+      .subscribe(res => {
+        this.applications = res;
+        this.loading = false;
+
+        if (this.applications.length > 0) {
+          this.applicationId = this.applications[0].id;
+          this.loadLogs();
+        }
+      });
   }
 
   loadLogs() {
+    if (!this.applicationId) return;
+
     this.loading = true;
 
-    this.workLogService.getAll()
+    this.workLogService.getByApplication(this.applicationId)
       .pipe(
         catchError(() => {
           this.errorMessage = 'Failed to load logs';
@@ -55,6 +79,8 @@ export class WorklogComponent implements OnInit {
   }
 
   save() {
+    if (!this.applicationId) return;
+
     const log: WorkLog = {
       applicationId: this.applicationId,
       weekNumber: this.weekNumber,
@@ -90,6 +116,10 @@ export class WorklogComponent implements OnInit {
 
   clearSearch() {
     this.searchDescription = '';
+    this.loadLogs();
+  }
+
+  onApplicationChange() {
     this.loadLogs();
   }
 }
