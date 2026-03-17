@@ -41,7 +41,7 @@
 
                 <div class="ms-auto text-white">
                     Welcome, ${username}
-                    <a href="login" class="btn btn-light btn-sm ms-3">Logout</a>
+                    <a href="logout" class="btn btn-light btn-sm ms-3">Logout</a>
                 </div>
 
             </div>
