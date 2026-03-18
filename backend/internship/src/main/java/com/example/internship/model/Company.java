@@ -27,7 +27,7 @@ public class Company {
 
     private String description;
     
-    @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
     private Boolean approved;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)

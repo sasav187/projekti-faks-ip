@@ -7,10 +7,13 @@ import com.example.internship.model.User;
 import com.example.internship.repository.StudentRepository;
 import com.example.internship.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class StudentService {
     
     private final StudentRepository studentRepository;
