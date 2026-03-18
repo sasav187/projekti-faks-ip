@@ -76,6 +76,10 @@ public class StudentsServlet extends HttpServlet {
             Integer year = null;
             if (yearStr != null && !yearStr.isBlank()) {
                 year = Integer.parseInt(yearStr);
+                if (year < 1 || year > 4) {
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Year must be between 1 and 4");
+                    return;
+                }
             }
 
             JSONObject userJson = new JSONObject();

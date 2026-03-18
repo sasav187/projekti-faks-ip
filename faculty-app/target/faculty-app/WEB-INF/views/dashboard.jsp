@@ -104,7 +104,7 @@
                             <h4 class="card-title">Worklogs</h4>
                             <p class="card-text">View student worklogs</p>
 
-                            <a href="worklogs" class="btn btn-primary">
+                            <a href="applications" class="btn btn-primary">
                                 Open
                             </a>
 
