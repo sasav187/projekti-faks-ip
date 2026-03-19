@@ -14,163 +14,154 @@
             
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
             
-            String json = "{\"username\":\""+username+"\",\"password\":\""+password+"\"}";
+            JsonObject json = new JsonObject();
+            json.addProperty("username", username);
+            json.addProperty("password", password);
             
             OutputStream os = conn.getOutputStream();
-            os.write(json.getBytes());
-            os.flush();
+            os.write(json.toString().getBytes("utf-8"));
             os.close();
             
             int status = conn.getResponseCode();
             
-            if (status == 200) {
+            BufferedReader br;
+            
+            if (status >= 200 && status < 300) {
+                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                } else {
+                    br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                }
                 
-                BufferedReader br = new BufferedReader(
-                new InputStreamReader(conn.getInputStream())
-                );
-                
-                String line;
                 StringBuilder body = new StringBuilder();
-                
+                String line;
                 while ((line = br.readLine()) != null) {
                     body.append(line);
                 }
-                
                 br.close();
                 
-                JsonObject obj = JsonParser.parseString(body.toString()).getAsJsonObject();
-                String role = obj.get("role").getAsString();
-                
-                if ("COMPANY".equals(role)) {
+                if (status == 200) {
                     
-                    session.setAttribute("token", obj.get("token").getAsString());
-                    session.setAttribute("username", username);
+                    JsonObject obj = JsonParser.parseString(body.toString()).getAsJsonObject();
                     
-                    response.sendRedirect("dashboard.jsp");
-                    return;
+                    String role = obj.get("role").getAsString();
+                    String token = obj.get("token").getAsString();
                     
-                    } else {
-                        
-                        error = "Access denied";
-                        
+                    String[] parts = token.split("\\.");
+                    String payloadJson = new String(java.util.Base64.getDecoder().decode(parts[1]));
+                    JsonObject payload = JsonParser.parseString(payloadJson).getAsJsonObject();
+                    
+                    Long companyId = null;
+                    
+                    if (payload.has("companyId")) {
+                        companyId = payload.get("companyId").getAsLong();
                     }
                     
-                    } else {
+                    if ("COMPANY".equals(role)) {
                         
-                        error = "Invalid username or password";
+                        session.setAttribute("token", token);
+                        session.setAttribute("username", username);
+                        session.setAttribute("role", role);
                         
-                    }
-                    
-                    } catch(Exception e) {
-                        
-                        error = "Login failed";
-                        
-                    }
-                    
-                }
-            %>
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Company Login</title>
-
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-                    <style>
-                        body{
-                            background: linear-gradient(135deg,#4e73df,#224abe);
-                            min-height:100vh;
+                        if (companyId != null) {
+                            session.setAttribute("companyId", companyId);
                         }
                         
-                        .login-card{
-                            background:white;
-                            border-radius:12px;
-                            box-shadow:0 10px 30px rgba(0,0,0,0.25);
-                            padding:40px;
+                        response.sendRedirect("dashboard.jsp");
+                        return;
+                        
+                        } else {
+                            error = "Access denied";
                         }
                         
-                        @media (max-width:576px){
-                            .login-card{
-                                padding:25px;
+                        } else {
+                            error = "Invalid username or password";
+                        }
+                        
+                        } catch (Exception e) {
+                            error = "Login failed: " + e.getMessage();
+                        }
+                    }
+                %>
+
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>Company Login</title>
+                        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+                        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+                        <style>
+                            body{
+                                background: linear-gradient(135deg,#4e73df,#224abe);
+                                min-height:100vh;
                             }
-                        }
-                        
-                        .form-title{
-                            font-weight:600;
-                        }
-                        
-                        .show-password{
-                            font-size:0.9rem;
-                        }
-                    </style>
+                            .login-card{
+                                background:white;
+                                border-radius:12px;
+                                box-shadow:0 10px 30px rgba(0,0,0,0.25);
+                                padding:40px;
+                            }
+                        </style>
+                    </head>
 
-                </head>
+                    <body>
 
-                <body>
+                        <div class="container h-100">
+                            <div class="row justify-content-center align-items-center vh-100">
 
-                    <div class="container h-100">
-                        <div class="row justify-content-center align-items-center vh-100">
+                                <div class="col-md-4">
 
-                            <div class="col-12 col-sm-10 col-md-6 col-lg-4">
+                                    <div class="login-card">
 
-                                <div class="login-card">
+                                        <h3 class="text-center mb-4">Company Login</h3>
 
-                                    <h3 class="text-center mb-4 form-title">Company Login</h3>
+                                        <form method="post">
 
-                                    <form method="post" action="login.jsp">
-
-                                        <div class="mb-3">
-                                            <label class="form-label">Username</label>
-                                            <input type="text" class="form-control form-control-lg" name="username" required>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label class="form-label">Password</label>
-                                            <input type="password" class="form-control form-control-lg" id="password" name="password" required>
-
-                                            <div class="form-check mt-2 show-password">
-                                                <input class="form-check-input" type="checkbox" id="showPassword">
-                                                <label class="form-check-label" for="showPassword">
-                                                    Show password
-                                                </label>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control" name="username" placeholder="Username" required>
                                             </div>
 
+                                            <div class="mb-3">
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+
+                                                <div class="form-check mt-2">
+                                                    <input class="form-check-input" type="checkbox" id="showPassword">
+                                                    <label class="form-check-label" for="showPassword">
+                                                        Show password
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary w-100">Login</button>
+
+                                        </form>
+
+                                        <% if (error != null) { %>
+                                        <div class="alert alert-danger mt-3 text-center">
+                                            <%= error %>
                                         </div>
+                                        <% } %>
 
-                                        <button type="submit" class="btn btn-primary btn-lg w-100">
-                                            Login
-                                        </button>
-
-                                    </form>
-
-                                    <% if (error != null) { %>
-                                    <div class="alert alert-danger mt-3 text-center">
-                                        <%= error %>
                                     </div>
-                                    <% } %>
 
                                 </div>
 
                             </div>
-
                         </div>
-                    </div>
 
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+                        <script>
+                            const pwd = document.getElementById("password");
+                            const checkbox = document.getElementById("showPassword");
+                            
+                            checkbox.addEventListener("change", function() {
+                                pwd.type = this.checked ? "text" : "password";
+                            });
+                        </script>
 
-                    <script>
-                        const pwd=document.getElementById('password');
-                        const show=document.getElementById('showPassword');
-                        
-                        show.addEventListener('change',()=>{
-                            pwd.type=show.checked?'text':'password';
-                        });
-                    </script>
-
-                </body>
-            </html>
+                    </body>
+                </html>
