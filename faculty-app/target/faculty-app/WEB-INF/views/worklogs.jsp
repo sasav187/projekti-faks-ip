@@ -25,8 +25,8 @@
                         <c:forEach var="w" items="${worklogs}">
                             <div class="col-md-4">
                                 <div class="card p-3 mb-3">
-                                    <h5>Week: ${w.weekNumber}</h5>
-                                    <p>${w.description}</p>
+                                    <h5>Week: ${w.weekNumber.intValue()}</h5>
+                                    <p>Description: ${w.description}</p>
                                 </div>
                             </div>
                         </c:forEach>
@@ -43,8 +43,9 @@
                 <c:when test="${not empty evaluations}">
                     <c:forEach var="e" items="${evaluations}">
                         <div class="card p-3 mb-2">
-                            <h5>Grade: ${e.grade}</h5>
-                            <p>${e.comment}</p>
+                            <h5>Grade: ${e.grade.intValue()}</h5>
+                            <h6>Evaluator: ${e.evaluatorRole}</h6>
+                            <p>Comment: ${e.comment}</p>
                         </div>
                     </c:forEach>
                 </c:when>

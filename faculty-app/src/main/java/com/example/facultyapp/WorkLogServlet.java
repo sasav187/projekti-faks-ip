@@ -41,6 +41,10 @@ public class WorkLogServlet extends HttpServlet {
         List<Map<String, Object>> worklogs = new ArrayList<>();
         for (JsonElement e : worklogsJson) {
             Map<String, Object> map = gson.fromJson(e, Map.class);
+
+            fixInteger(map, "week");
+            fixInteger(map, "grade");
+
             worklogs.add(map);
         }
 
@@ -69,6 +73,14 @@ public class WorkLogServlet extends HttpServlet {
         req.setAttribute("internshipId", internshipId);
 
         req.getRequestDispatcher("/WEB-INF/views/worklogs.jsp").forward(req, resp);
+    }
+
+    private void fixInteger(Map<String, Object> map, String key) {
+        Object val = map.get(key);
+        if (val instanceof Number) {
+            int i = ((Number) val).intValue();
+            map.put(key, i);
+        }
     }
 
     @Override
