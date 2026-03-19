@@ -16,15 +16,25 @@ public class JwtUtil {
 
     private final long JWT_EXPIRATION = 1000 * 60 * 60 * 24;
 
-    public String generateToken(String username, String role, Long userId) {
-        return Jwts.builder()
+    public String generateToken(String username, String role, Long userId, Long companyId) {
+        JwtBuilder builder = Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
                 .claim("userId", userId)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION));
+
+        if (companyId != null) {
+            builder.claim("companyId", companyId);
+        }
+
+        return builder
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public String generateToken(String username, String role, Long userId) {
+        return generateToken(username, role, userId, null);
     }
 
     public String extractUsername(String token) {

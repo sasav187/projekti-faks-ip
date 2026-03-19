@@ -84,4 +84,9 @@ public class InternshipService {
 
         return result.map(InternshipMapper::toResponseDTO);
     }
+
+    public Page<InternshipResponseDTO> getByCompanyId(Long companyId, Pageable pageable) {
+        return internshipRepository.findByCompany_Id(companyId, pageable)
+                .map(InternshipMapper::toResponseDTO);
+    }
 }

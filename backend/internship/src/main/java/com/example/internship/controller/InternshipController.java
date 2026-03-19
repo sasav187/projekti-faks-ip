@@ -23,6 +23,13 @@ public class InternshipController {
         return internshipService.getAllInternships(pageable);
     }
 
+    @GetMapping("/by-company")
+    public Page<InternshipResponseDTO> getByCompanyId(
+            @RequestParam Long companyId,
+            Pageable pageable) {
+        return internshipService.getByCompanyId(companyId, pageable);
+    }
+
     @GetMapping("/{id}")
     public InternshipResponseDTO getById(@PathVariable Long id) {
         return internshipService.getById(id);
@@ -34,7 +41,9 @@ public class InternshipController {
     }
 
     @PutMapping("/{id}")
-    public InternshipResponseDTO update(@PathVariable Long id, @RequestBody InternshipRequestDTO dto) {
+    public InternshipResponseDTO update(
+            @PathVariable Long id,
+            @RequestBody InternshipRequestDTO dto) {
         return internshipService.update(id, dto);
     }
 
