@@ -76,92 +76,95 @@
                             error = "Access denied";
                         }
                         
-                        } else {
-                            error = "Invalid username or password";
-                        }
-                        
-                        } catch (Exception e) {
-                            error = "Login failed: " + e.getMessage();
-                        }
-                    }
-                %>
-
-                <!DOCTYPE html>
-                <html>
-                    <head>
-                        <meta charset="UTF-8">
-                        <title>Company Login</title>
-                        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-                        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-                        <style>
-                            body{
-                                background: linear-gradient(135deg,#4e73df,#224abe);
-                                min-height:100vh;
+                        } else if (status == 403) {
+                            error = "Company account deactivated";
+                            
+                            } else {
+                                error = "Invalid username or password";
                             }
-                            .login-card{
-                                background:white;
-                                border-radius:12px;
-                                box-shadow:0 10px 30px rgba(0,0,0,0.25);
-                                padding:40px;
+                            
+                            } catch (Exception e) {
+                                error = "Login failed: " + e.getMessage();
                             }
-                        </style>
-                    </head>
+                        }
+                    %>
 
-                    <body>
+                    <!DOCTYPE html>
+                    <html>
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>Company Login</title>
+                            <meta name="viewport" content="width=device-width, initial-scale=1">
 
-                        <div class="container h-100">
-                            <div class="row justify-content-center align-items-center vh-100">
+                            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-                                <div class="col-md-4">
+                            <style>
+                                body{
+                                    background: linear-gradient(135deg,#4e73df,#224abe);
+                                    min-height:100vh;
+                                }
+                                .login-card{
+                                    background:white;
+                                    border-radius:12px;
+                                    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+                                    padding:40px;
+                                }
+                            </style>
+                        </head>
 
-                                    <div class="login-card">
+                        <body>
 
-                                        <h3 class="text-center mb-4">Company Login</h3>
+                            <div class="container h-100">
+                                <div class="row justify-content-center align-items-center vh-100">
 
-                                        <form method="post">
+                                    <div class="col-md-4">
 
-                                            <div class="mb-3">
-                                                <input type="text" class="form-control" name="username" placeholder="Username" required>
-                                            </div>
+                                        <div class="login-card">
 
-                                            <div class="mb-3">
-                                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                                            <h3 class="text-center mb-4">Company Login</h3>
 
-                                                <div class="form-check mt-2">
-                                                    <input class="form-check-input" type="checkbox" id="showPassword">
-                                                    <label class="form-check-label" for="showPassword">
-                                                        Show password
-                                                    </label>
+                                            <form method="post">
+
+                                                <div class="mb-3">
+                                                    <input type="text" class="form-control" name="username" placeholder="Username" required>
                                                 </div>
+
+                                                <div class="mb-3">
+                                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+
+                                                    <div class="form-check mt-2">
+                                                        <input class="form-check-input" type="checkbox" id="showPassword">
+                                                        <label class="form-check-label" for="showPassword">
+                                                            Show password
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary w-100">Login</button>
+
+                                            </form>
+
+                                            <% if (error != null) { %>
+                                            <div class="alert alert-danger mt-3 text-center">
+                                                <%= error %>
                                             </div>
+                                            <% } %>
 
-                                            <button type="submit" class="btn btn-primary w-100">Login</button>
-
-                                        </form>
-
-                                        <% if (error != null) { %>
-                                        <div class="alert alert-danger mt-3 text-center">
-                                            <%= error %>
                                         </div>
-                                        <% } %>
 
                                     </div>
 
                                 </div>
-
                             </div>
-                        </div>
 
-                        <script>
-                            const pwd = document.getElementById("password");
-                            const checkbox = document.getElementById("showPassword");
-                            
-                            checkbox.addEventListener("change", function() {
-                                pwd.type = this.checked ? "text" : "password";
-                            });
-                        </script>
+                            <script>
+                                const pwd = document.getElementById("password");
+                                const checkbox = document.getElementById("showPassword");
+                                
+                                checkbox.addEventListener("change", function() {
+                                    pwd.type = this.checked ? "text" : "password";
+                                });
+                            </script>
 
-                    </body>
-                </html>
+                        </body>
+                    </html>

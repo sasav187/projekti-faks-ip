@@ -27,7 +27,7 @@
             while ((line = br.readLine()) != null) respError.append(line);
             br.close();
         %>
-        <h3>Greška pri brisanju prakse:</h3>
+        <h3>Greska pri brisanju prakse:</h3>
         <pre><%= respError.toString() %></pre>
         <a href="manage-internships.jsp" class="btn btn-secondary mt-2">Nazad</a>
         <%
@@ -35,7 +35,7 @@
         }
         } catch (Exception e) {
         %>
-        <h3>Greška pri brisanju prakse:</h3>
+        <h3>Greska pri brisanju prakse:</h3>
         <pre><%= e.getMessage() %></pre>
         <a href="manage-internships.jsp" class="btn btn-secondary mt-2">Nazad</a>
         <%

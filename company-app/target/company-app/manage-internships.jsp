@@ -82,8 +82,9 @@
                             <p><strong>Period:</strong> <%= period %></p>
                             <p><strong>Capacity:</strong> <%= capacity %></p>
                             <p><strong>Technologies:</strong> <%= techs %></p>
+                            <a href="edit-internship.jsp?id=<%= id %>" class="btn btn-primary btn-sm">Edit</a>
                             <a href="delete-internship.jsp?id=<%= id %>" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Da li ste sigurni da želite obrisati praksu?')">Delete</a>
+                                onclick="return confirm('Da li ste sigurni da zelite obrisati praksu?')">Delete</a>
                             </div>
                             <%
                             }

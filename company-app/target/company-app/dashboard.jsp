@@ -67,7 +67,6 @@
 
         <div class="container mt-4 text-center">
             <h2>Welcome, <%= username %>!</h2>
-            <p>Company ID: <%= companyId %></p>
 
             <div class="row mt-4">
 
