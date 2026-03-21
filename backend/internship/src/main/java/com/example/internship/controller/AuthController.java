@@ -45,6 +45,14 @@ public class AuthController {
 
         if ("COMPANY".equals(user.getRole().name())) {
 
+            var company = companyRepository.findByUserId(user.getId())
+                    .orElseThrow(() -> new RuntimeException("Company not found"));
+
+            if (!company.getApproved()) {
+                return ResponseEntity.status(403)
+                        .body(new LoginResponse(null, "NOT_APPROVED"));
+            }
+
             Long companyId = companyRepository.findByUserId(user.getId())
                     .orElseThrow(() -> new RuntimeException("Company not found"))
                     .getId();
