@@ -3,8 +3,9 @@ package com.example.internship.security;
 import java.security.Key;
 import java.util.Date;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.example.internship.model.User;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -41,9 +42,27 @@ public class JwtUtil {
         return extractAllClaims(token).getSubject();
     }
 
-    public boolean validateToken(String token, UserDetails userDetails) {
+    public boolean validateToken(String token, User user) {
+
         final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+
+        if (!username.equals(user.getUsername()) || isTokenExpired(token)) {
+            return false;
+        }
+
+        Date issuedAt = extractIssuedAt(token);
+
+        if (user.getChangedPasswordAt() != null) {
+            if (issuedAt.before(java.sql.Timestamp.valueOf(user.getChangedPasswordAt()))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public Date extractIssuedAt(String token) {
+        return extractAllClaims(token).getIssuedAt();
     }
 
     public boolean isTokenExpired(String token) {

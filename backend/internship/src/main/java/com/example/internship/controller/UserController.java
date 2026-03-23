@@ -72,6 +72,15 @@ public class UserController {
                 .body(UserMapper.toResponseDTO(saved));
     }
 
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(
+            @Valid @RequestBody ChangePasswordDTO dto) {
+
+        userService.changePassword(dto);
+
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> update(
             @PathVariable Long id,
