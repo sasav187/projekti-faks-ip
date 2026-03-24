@@ -67,6 +67,7 @@
 
                             <div>
                                 <h5><%= student.getString("username") %></h5>
+                                <p class="mb-1"><strong>Index number:</strong> <%= student.getString("indexNumber") %></p>
                                 <p class="mb-1"><strong>Faculty:</strong> <%= student.getString("faculty") %></p>
                                 <p class="mb-1"><strong>Year:</strong> <%= student.getInt("year") %></p>
 

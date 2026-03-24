@@ -101,7 +101,7 @@
                                 JSONObject s = skills.getJSONObject(i);
                             %>
                             <div class="mb-2">
-                            <%= s.optString("name") %> - (<%= s.optString("level") %>)
+                                <%= s.optString("name") %> - (<%= s.optString("level") %>)
                             </div>
                             <% }} %>
 
@@ -181,13 +181,15 @@
                                                                 </p>
 
                                                                 <div class="d-flex flex-wrap gap-2 mt-3">
-                                                                    <form action="accept.jsp" method="post">
+                                                                    <form action="update-status.jsp" method="post">
                                                                         <input type="hidden" name="id" value="<%= appId %>">
+                                                                        <input type="hidden" name="status" value="ACCEPTED">
                                                                         <button class="btn btn-success">Accept</button>
                                                                     </form>
 
-                                                                    <form action="reject.jsp" method="post">
+                                                                    <form action="update-status.jsp" method="post">
                                                                         <input type="hidden" name="id" value="<%= appId %>">
+                                                                        <input type="hidden" name="status" value="REJECTED">
                                                                         <button class="btn btn-danger">Reject</button>
                                                                     </form>
 
