@@ -49,11 +49,14 @@
         <body>
             <div class="container mt-4">
 
-                <h2 class="mb-4 text-center">Upravljanje praksama</h2>
+                <h2 class="mb-4 text-center">Manage internships</h2>
 
-                <div class="mb-3 text-end">
-                    <a href="add-internship.jsp" class="btn btn-success mb-2">+ Dodaj praksu</a>
-                    <a href="dashboard.jsp" class="btn btn-secondary mb-2">Nazad</a>
+                <div class="mb-3 text-center">
+                    <a href="dashboard.jsp" class="btn btn-secondary mb-2">Back</a>
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+                    <a href="add-internship.jsp" class="btn btn-success mb-2">+ Add internship</a>
                 </div>
 
                 <div class="list-group">

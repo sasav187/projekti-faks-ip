@@ -12,82 +12,124 @@
 <!DOCTYPE html>
 <html>
     <head>
+
         <meta charset="UTF-8">
-        <title>Company Dashboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Company Dashboard</title>
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <style>
-            body { padding-top: 70px; }
-            @media (max-width: 576px) {
-                .container h2 { font-size: 1.5rem; }
-                .container p { font-size: 1rem; }
+            
+            body{
+                background:#f4f6f9;
             }
+            
+            .navbar-brand{
+                font-weight:bold;
+            }
+            
+            .card-hover:hover{
+                transform: scale(1.05);
+                transition: 0.3s;
+                cursor: pointer;
+            }
+            
+            .card-title{
+                font-weight:600;
+            }
+            
         </style>
+
     </head>
 
     <body>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Company Dashboard</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <a class="navbar-brand" href="#">
+                    Company
+                </a>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto text-center">
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="manage-internships.jsp">Upravljanje praksama</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="students.jsp">Pregled studenata</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="evaluate.jsp">Ocjenjivanje</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="change-password.jsp">Promjena lozinke</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-warning" href="logout.jsp">Logout</a>
-                        </li>
-
-                    </ul>
+                <div class="ms-auto text-white">
+                    Welcome, <%= username %>
+                    <a href="logout.jsp" class="btn btn-light btn-sm ms-3">Logout</a>
                 </div>
+
             </div>
         </nav>
 
-        <div class="container mt-4 text-center">
-            <h2>Welcome, <%= username %>!</h2>
 
-            <div class="row mt-4">
+        <div class="container mt-5">
 
-                <div class="col-12 col-sm-6 col-md-3 mb-3">
-                    <a href="manage-internships.jsp" class="btn btn-primary w-100">Upravljanje praksama</a>
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="card shadow card-hover">
+                        <div class="card-body text-center">
+
+                            <h4 class="card-title">Internships</h4>
+                            <p class="card-text">Manage your internships</p>
+
+                            <a href="manage-internships.jsp" class="btn btn-primary">
+                                Open
+                            </a>
+
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-12 col-sm-6 col-md-3 mb-3">
-                    <a href="students.jsp" class="btn btn-secondary w-100">Pregled studenata</a>
+                <div class="col-md-4">
+                    <div class="card shadow card-hover">
+                        <div class="card-body text-center">
+
+                            <h4 class="card-title">Students</h4>
+                            <p class="card-text">View student applications</p>
+
+                            <a href="students.jsp" class="btn btn-primary">
+                                Open
+                            </a>
+
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-12 col-sm-6 col-md-3 mb-3">
-                    <a href="evaluate.jsp" class="btn btn-success w-100">Ocjenjivanje</a>
+                <div class="col-md-4">
+                    <div class="card shadow card-hover">
+                        <div class="card-body text-center">
+
+                            <h4 class="card-title">Evaluation</h4>
+                            <p class="card-text">Evaluate student performance</p>
+
+                            <a href="evaluate.jsp" class="btn btn-primary">
+                                Open
+                            </a>
+
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-12 col-sm-6 col-md-3 mb-3">
-                    <a href="change-password.jsp" class="btn btn-warning w-100">Promjena lozinke</a>
+                <div class="col-md-4">
+                    <div class="card shadow card-hover">
+                        <div class="card-body text-center">
+
+                            <h4 class="card-title">Password</h4>
+                            <p class="card-text">Change your password</p>
+
+                            <a href="change-password.jsp" class="btn btn-warning">
+                                Change
+                            </a>
+
+                        </div>
+                    </div>
                 </div>
 
             </div>
+
         </div>
+
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
