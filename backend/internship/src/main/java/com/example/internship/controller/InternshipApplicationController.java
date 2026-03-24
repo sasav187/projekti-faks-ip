@@ -1,6 +1,7 @@
 package com.example.internship.controller;
 
 import com.example.internship.dto.internshipapplication.*;
+import com.example.internship.model.enums.ApplicationStatus;
 import com.example.internship.service.InternshipApplicationService;
 
 import java.util.List;
@@ -49,6 +50,13 @@ public class InternshipApplicationController {
             @RequestBody InternshipApplicationRequestDTO dto,
             Authentication authentication) {
         return internshipApplicationService.create(dto, authentication.getName());
+    }
+
+    @PutMapping("/{id}/status")
+    public InternshipApplicationResponseDTO updateStatus(
+            @PathVariable Long id,
+            @RequestParam ApplicationStatus status) {
+        return internshipApplicationService.updateStatus(id, status);
     }
 
     @PutMapping("/{id}")

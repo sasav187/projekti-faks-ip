@@ -6,6 +6,7 @@ import com.example.internship.model.InternshipApplication;
 import com.example.internship.model.User;
 import com.example.internship.model.Student;
 import com.example.internship.model.Internship;
+import com.example.internship.model.enums.ApplicationStatus;
 import com.example.internship.repository.InternshipApplicationRepository;
 import com.example.internship.repository.UserRepository;
 import com.example.internship.repository.StudentRepository;
@@ -54,6 +55,12 @@ public class InternshipApplicationService {
                 return InternshipApplicationMapper.toResponseDTO(ia);
         }
 
+        public InternshipApplication findByIdEntity(Long id) {
+                return internshipApplicationRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException(
+                                                "InternshipApplication not found with id: " + id));
+        }
+
         public InternshipApplicationResponseDTO create(
                         InternshipApplicationRequestDTO dto,
                         String username) {
@@ -78,9 +85,11 @@ public class InternshipApplicationService {
                 InternshipApplication existing = internshipApplicationRepository.findById(id)
                                 .orElseThrow(() -> new RuntimeException(
                                                 "InternshipApplication not found with id: " + id));
+
                 Student student = studentRepository.findById(dto.getStudentId())
                                 .orElseThrow(() -> new RuntimeException(
                                                 "Student not found with id: " + dto.getStudentId()));
+
                 Internship internship = internshipRepository.findById(dto.getInternshipId())
                                 .orElseThrow(() -> new RuntimeException(
                                                 "Internship not found with id: " + dto.getInternshipId()));
@@ -93,18 +102,24 @@ public class InternshipApplicationService {
         }
 
         public List<InternshipApplicationResponseDTO> getApplicationsByStudent(String username) {
+                Student student = studentRepository
+                                .findByUserUsername(username)
+                                .orElseThrow(() -> new RuntimeException("Student not found"));
 
-        Student student = studentRepository
-                .findByUserUsername(username)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
-
-        return internshipApplicationRepository.findByStudent(student)
-                .stream()
-                .map(InternshipApplicationMapper::toResponseDTO)
-                .collect(Collectors.toList());
-    }
+                return internshipApplicationRepository.findByStudent(student)
+                                .stream()
+                                .map(InternshipApplicationMapper::toResponseDTO)
+                                .collect(Collectors.toList());
+        }
 
         public void deleteById(Long id) {
                 internshipApplicationRepository.deleteById(id);
+        }
+
+        public InternshipApplicationResponseDTO updateStatus(Long id, ApplicationStatus status) {
+                InternshipApplication application = findByIdEntity(id);
+                application.setStatus(status);
+                InternshipApplication saved = internshipApplicationRepository.save(application);
+                return InternshipApplicationMapper.toResponseDTO(saved);
         }
 }

@@ -1,5 +1,7 @@
 package com.example.internship.dto.internshipapplication;
 
+import com.example.internship.model.enums.ApplicationStatus;
+
 import lombok.*;
 
 @Getter
@@ -14,4 +16,6 @@ public class InternshipApplicationRequestDTO {
     private Long internshipId;
 
     private String applicationMessage;
+
+    private ApplicationStatus status;
 }

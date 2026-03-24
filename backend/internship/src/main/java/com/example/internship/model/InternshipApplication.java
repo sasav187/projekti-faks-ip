@@ -34,6 +34,7 @@ public class InternshipApplication {
     private String applicationMessage;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private ApplicationStatus status;
 
     @Column(name = "applied_at")
