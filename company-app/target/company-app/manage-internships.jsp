@@ -52,7 +52,7 @@
                 <h2 class="mb-4 text-center">Manage internships</h2>
 
                 <div class="mb-3 text-center">
-                    <a href="dashboard.jsp" class="btn btn-secondary mb-2">Back</a>
+                    <a href="dashboard.jsp" class="btn btn-secondary mb-2">&larr; Back to Dashboard</a>
                 </div>
 
                 <div class="d-flex justify-content-between mb-3">
