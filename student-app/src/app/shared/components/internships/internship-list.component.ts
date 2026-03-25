@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module'
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { InternshipService } from '../../../core/services/internship.service';
 import { Internship } from '../../models/internship.model';
@@ -15,8 +16,9 @@ import { catchError, tap } from 'rxjs/operators';
   imports: [
     CommonModule,
     FormsModule,
-    MaterialModule
-  ],
+    MaterialModule,
+    ScrollingModule
+],
   templateUrl: './internship-list.component.html',
   styleUrls: ['./internship-list.component.scss']
 })
@@ -84,4 +86,13 @@ export class InternshipListComponent implements OnInit {
       });
 
   }
+
+  displayedColumns: string[] = [
+    'title',
+    'company',
+    'technologies',
+    'period',
+    'capacity',
+    'actions'
+  ];
 }

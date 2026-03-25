@@ -1,32 +1,43 @@
+.full-width-table {
+  width: 100%;
+  min-width: 650px;
+}
+
+.viewport {
+  height: 500px;
+  width: 100%;
+  overflow: auto;
+  border-radius: 8px;
+}
+
 .page-title {
   text-align: center;
   margin-bottom: 1rem;
+  font-size: 1.8rem;
 }
 
 .search-container {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  align-items: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.internship-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
+.search-container mat-form-field {
+  flex: 1 1 250px;
+  min-width: 220px;
 }
 
-.internship-card {
-  padding: 20px;
+.search-actions {
   display: flex;
-  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.details {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.5rem;
+.search-actions button {
+  height: 56px;
+  white-space: nowrap;
 }
 
 .loading {
@@ -39,4 +50,35 @@
   color: red;
   text-align: center;
   margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.4rem;
+  }
+
+  .search-container {
+    align-items: stretch;
+  }
+
+  .search-container mat-form-field {
+    width: 100%;
+  }
+
+  .search-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .search-actions button {
+    width: 100%;
+  }
+
+  .full-width-table {
+    font-size: 13px;
+  }
+
+  mat-chip {
+    font-size: 11px;
+  }
 }

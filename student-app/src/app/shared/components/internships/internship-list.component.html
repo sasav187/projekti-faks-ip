@@ -11,13 +11,16 @@
     <input matInput [(ngModel)]="searchTechnology" placeholder="Search by technology">
   </mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="onSearch()">
-    <mat-icon>search</mat-icon> Search
-  </button>
+  <div class="search-actions">
+    <button mat-raised-button color="primary" (click)="onSearch()">
+      <mat-icon>search</mat-icon> Search
+    </button>
 
-  <button mat-raised-button color="warn" (click)="clearSearch()">
-    <mat-icon>clear</mat-icon> Clear
-  </button>
+    <button mat-raised-button color="warn" (click)="clearSearch()">
+      <mat-icon>clear</mat-icon> Clear
+    </button>
+  </div>
+
 </div>
 
 <div *ngIf="loading" class="loading">
@@ -29,34 +32,60 @@
 </div>
 
 <div *ngIf="internships$ | async as internships">
+
+  <cdk-virtual-scroll-viewport itemSize="80" class="viewport" *ngIf="internships.length > 0">
+    <table mat-table [dataSource]="internships" class="mat-elevation-z8 full-width-table"
+      *ngIf="internships.length > 0">
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let i"> {{ i.title }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="company">
+        <th mat-header-cell *matHeaderCellDef> Company </th>
+        <td mat-cell *matCellDef="let i"> {{ i.companyName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="technologies">
+        <th mat-header-cell *matHeaderCellDef> Technologies </th>
+        <td mat-cell *matCellDef="let i">
+          <mat-chip-set>
+            <mat-chip *ngFor="let t of i.technologies">
+              {{ t }}
+            </mat-chip>
+          </mat-chip-set>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="period">
+        <th mat-header-cell *matHeaderCellDef> Period </th>
+        <td mat-cell *matCellDef="let i"> {{ i.period }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="capacity">
+        <th mat-header-cell *matHeaderCellDef> Capacity </th>
+        <td mat-cell *matCellDef="let i"> {{ i.capacity }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let i">
+          <button mat-raised-button color="primary" (click)="apply(i.id)">
+            <mat-icon>send</mat-icon>
+            Apply
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </cdk-virtual-scroll-viewport>
+
   <div *ngIf="!loading && internships.length === 0 && !errorMessage">
     No internships available.
   </div>
 
-  <div *ngIf="internships.length > 0" class="internship-container">
-    <mat-card class="internship-card" *ngFor="let i of internships">
-      <mat-card-title>{{ i.title }}</mat-card-title>
-      <mat-card-subtitle>{{ i.companyName }}</mat-card-subtitle>
-      <mat-card-content>
-        <p>{{ i.description }}</p>
-        <p><strong>Technologies:</strong></p>
-        <mat-chip-set>
-          <mat-chip *ngFor="let t of i.technologies">
-            {{ t }}
-          </mat-chip>
-        </mat-chip-set>
-        <div class="details">
-          <span><strong>Period:</strong> {{ i.period }}</span>
-          <span><strong>Capacity:</strong> {{ i.capacity }}</span>
-        </div>
-      </mat-card-content>
-
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="apply(i.id)">
-          <mat-icon>send</mat-icon>
-          Apply
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
 </div>
