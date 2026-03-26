@@ -61,8 +61,8 @@ public class AuthController {
                                         user.getUsername(),
                                         user.getRole().name(),
                                         user.getId(),
-                                        null,
-                                        company.getId());
+                                        company.getId(),
+                                        null);
 
                 } else {
 
@@ -74,8 +74,8 @@ public class AuthController {
                                         user.getUsername(),
                                         user.getRole().name(),
                                         user.getId(),
-                                        studentId,
-                                        null);
+                                        null,
+                                        studentId);
                 }
 
                 return ResponseEntity.ok(new LoginResponse(token, user.getRole().name()));
