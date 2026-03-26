@@ -40,6 +40,11 @@ public class InternshipApplication {
     @Column(name = "applied_at")
     private LocalDateTime appliedAt;
 
+    @PrePersist
+    protected void onCreate() {
+        appliedAt = LocalDateTime.now();
+    }
+
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL)
     private List<WorkLog> workLogs;
 }

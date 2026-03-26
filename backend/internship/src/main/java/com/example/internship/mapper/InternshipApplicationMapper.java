@@ -1,5 +1,7 @@
 package com.example.internship.mapper;
 
+import java.time.LocalDateTime;
+
 import com.example.internship.dto.internshipapplication.*;
 import com.example.internship.model.InternshipApplication;
 
@@ -45,6 +47,7 @@ public class InternshipApplicationMapper {
                 .student(student)
                 .internship(internship)
                 .applicationMessage(dto.getApplicationMessage())
+                .appliedAt(LocalDateTime.now())
                 .build();
     }
 

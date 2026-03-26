@@ -17,13 +17,22 @@ public class JwtUtil {
 
     private final long JWT_EXPIRATION = 1000 * 60 * 60 * 24;
 
-    public String generateToken(String username, String role, Long userId, Long companyId) {
+    public String generateToken(
+            String username,
+            String role,
+            Long userId,
+            Long companyId,
+            Long studentId) {
         JwtBuilder builder = Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
                 .claim("userId", userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION));
+
+        if (studentId != null) {
+            builder.claim("studentId", studentId);
+        }
 
         if (companyId != null) {
             builder.claim("companyId", companyId);
@@ -35,7 +44,7 @@ public class JwtUtil {
     }
 
     public String generateToken(String username, String role, Long userId) {
-        return generateToken(username, role, userId, null);
+        return generateToken(username, role, userId, null, null);
     }
 
     public String extractUsername(String token) {

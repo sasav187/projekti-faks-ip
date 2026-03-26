@@ -2,8 +2,12 @@ package com.example.internship.controller;
 
 import com.example.internship.dto.recommendation.*;
 import com.example.internship.service.RecommendationService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -57,8 +61,17 @@ public class RecommendationController {
 
     @PostMapping("/generate")
     public RecommendationResponseDTO generateRecommendation(
-            @RequestParam Long studentId,
-            @RequestParam Long internshipId) {
-        return recommendationService.generateRecommendation(studentId, internshipId);
+            @RequestParam Long internshipId,
+            Authentication authentication) {
+
+        String username = authentication.getName();
+
+        return recommendationService.generateRecommendation(username, internshipId);
+    }
+
+    @GetMapping("/student")
+    public List<RecommendationResponseDTO> getForStudent(Authentication authentication) {
+        String username = authentication.getName();
+        return recommendationService.generateRecommendationsForStudent(username);
     }
 }
