@@ -6,7 +6,7 @@
   <mat-card-content>
     <mat-form-field appearance="fill" class="input-field full-width">
       <mat-label>Select internship</mat-label>
-      <mat-select [(ngModel)]="applicationId" (selectionChange)="onApplicationChange()" name="applicationId">
+      <mat-select [ngModel]="applicationId$ | async" (ngModelChange)="onApplicationChange($event)" name="applicationId">
         <mat-option *ngFor="let app of applications" [value]="app.id">
           {{ app.internshipTitle }} - {{ app.companyName }}
         </mat-option>
@@ -24,7 +24,7 @@
         <textarea matInput rows="4" [(ngModel)]="description" name="description"></textarea>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="save()" [disabled]="!applicationId">
+      <button mat-raised-button color="primary" (click)="save()" [disabled]="!(applicationId$ | async)">
         Save Log
       </button>
     </form>
@@ -58,7 +58,7 @@
       <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
     </div>
 
-    <div *ngIf="logs && logs.length; else emptyLogs">
+    <div *ngIf="logs$ | async as logs; else emptyLogs">
       <div *ngFor="let log of logs" class="log-item">
         <div class="log-text">
           <div class="week"><strong>Week {{log.weekNumber}}</strong></div>
