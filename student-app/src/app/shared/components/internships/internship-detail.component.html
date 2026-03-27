@@ -24,11 +24,11 @@
 
                 <div class="tech-section">
                     <b>Technologies:</b>
-                    <ul>
-                        <li *ngFor="let tech of internship.technologies">
+                    <mat-chip-set>
+                        <mat-chip *ngFor="let tech of internship.technologies">
                             {{ tech }}
-                        </li>
-                    </ul>
+                        </mat-chip>
+                    </mat-chip-set>
                 </div>
             </mat-card-content>
 
