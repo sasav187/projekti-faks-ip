@@ -1,62 +1,46 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../../material.module';
+import { filter } from 'rxjs/operators';
 import { RecommendationService } from '../../../core/services/recommendation.service';
 import { RecommendationResponseDTO } from '../../models/recommendation-response.model';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Component({
   standalone: true,
   selector: 'app-recommendations',
-  imports: [
-    CommonModule,
-    MaterialModule
-  ],
+  imports: [CommonModule, MaterialModule, RouterModule],
   templateUrl: './recommendations.component.html',
   styleUrls: ['./recommendations.component.scss']
 })
 export class RecommendationsComponent implements OnInit {
-
-  recommendations: RecommendationResponseDTO[] = [];
-  loading = false;
+  recommendations$!: Observable<RecommendationResponseDTO[]>;
+  loading = true;
   errorMessage = '';
 
-  constructor(private recommendationService: RecommendationService) { }
+  constructor(
+    private recommendationService: RecommendationService,
+    private router: Router
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadRecommendations();
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => this.loadRecommendations());
   }
 
-  loadRecommendations() {
+  loadRecommendations(): void {
     this.loading = true;
-    this.recommendationService.getRecommendationsForStudent()
-      .subscribe({
-        next: data => {
-          this.recommendations = data;
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error(err);
-          this.errorMessage = 'Failed to load recommendations';
-          this.loading = false;
-        }
-      });
-  }
-
-  generateRecommendation(internshipId: number) {
-    this.loading = true;
-    this.recommendationService.generateRecommendation(internshipId)
-      .subscribe({
-        next: rec => {
-          const index = this.recommendations.findIndex(r => r.internshipId === rec.internshipId);
-          if (index >= 0) this.recommendations[index] = rec;
-          else this.recommendations.unshift(rec);
-
-          this.loading = false;
-        },
-        error: () => {
-          this.errorMessage = 'Failed to generate recommendation';
-          this.loading = false;
-        }
-      });
+    this.errorMessage = '';
+    this.recommendations$ = this.recommendationService.getRecommendationsForStudent().pipe(
+      tap(() => this.loading = false),
+      catchError(() => {
+        this.errorMessage = 'Failed to load recommendations';
+        this.loading = false;
+        return of([]);
+      })
+    );
   }
 }

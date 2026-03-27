@@ -1,0 +1,42 @@
+<div class="container">
+
+    <div *ngIf="loading" class="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="errorMessage" class="error">
+        {{ errorMessage }}
+    </div>
+
+    <mat-card *ngIf="!loading && internship" class="detail-card">
+
+        <mat-card-header>
+            <mat-card-title>{{ internship.title }}</mat-card-title>
+            <mat-card-subtitle>{{ internship.companyName }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p><b>Description:</b> {{ internship.description }}</p>
+            <p><b>Period:</b> {{ internship.period }}</p>
+            <p><b>Conditions:</b> {{ internship.conditions }}</p>
+            <p><b>Capacity:</b> {{ internship.capacity }}</p>
+
+            <div class="tech-section">
+                <b>Technologies:</b>
+                <ul>
+                    <li *ngFor="let tech of internship.technologies">
+                        {{ tech }}
+                    </li>
+                </ul>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-raised-button color="primary">
+                Apply
+            </button>
+        </mat-card-actions>
+
+    </mat-card>
+
+</div>

@@ -9,6 +9,7 @@ import { LoginComponent } from './features/auth/login/login.component.js';
 import { UnauthorizedComponent } from './features/auth/unauthorized/unauthorized.component.js';
 import { WorklogComponent } from './shared/components/worklog/worklog.component.js';
 import { RecommendationsComponent } from './shared/components/recommendations/recommendations.component.js';
+import { InternshipDetailComponent } from './shared/components/internships/internship-detail.component.js';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,8 +24,9 @@ export const routes: Routes = [
       { path: '', component: MainViewComponent },
       { path: 'cv', component: CVComponent },
       { path: 'internships', component: InternshipListComponent },
+      { path: 'internships/:id', component: InternshipDetailComponent},
       { path: 'recommendations', component: RecommendationsComponent },
-      { path: 'worklog', component: WorklogComponent } 
+      { path: 'worklog', component: WorklogComponent }
     ]
   },
 

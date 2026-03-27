@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 
 import { Internship } from '../../shared/models/internship.model';
 import { Page } from '../../shared/models/page.model';
-import { I } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'
@@ -45,11 +44,15 @@ export class InternshipService {
   apply(internshipId: number, studentId: number) {
     return this.http.post(
       'http://localhost:8081/api/internship-applications',
-      { 
+      {
         studentId: studentId,
-        internshipId: internshipId   
+        internshipId: internshipId
       }
     );
+  }
+
+  getById(id: number): Observable<Internship> {
+    return this.http.get<Internship>(`${this.api}/${id}`)
   }
 
 }

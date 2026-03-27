@@ -1,0 +1,25 @@
+.container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.detail-card {
+    width: 600px;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.tech-section {
+    margin-top: 15px;
+}
