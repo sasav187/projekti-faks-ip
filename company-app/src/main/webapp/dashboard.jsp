@@ -103,7 +103,7 @@
                             <h4 class="card-title">Evaluation</h4>
                             <p class="card-text">Evaluate student performance</p>
 
-                            <a href="evaluate.jsp" class="btn btn-primary">
+                            <a href="evaluation.jsp" class="btn btn-primary">
                                 Open
                             </a>
 
