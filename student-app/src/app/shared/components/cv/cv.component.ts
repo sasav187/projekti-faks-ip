@@ -51,7 +51,7 @@ export class CVComponent implements OnInit {
     this.cvService.getMyCV().subscribe({
       next: res => {
 
-        if (res && res.id) {
+        if (res && res.id && this.isCVFilled(res)) {
 
           this.cv = this.normalizeCV(res)
           this.originalCV = JSON.parse(JSON.stringify(this.cv))
@@ -71,6 +71,18 @@ export class CVComponent implements OnInit {
         this.cd.detectChanges()
       }
     })
+  }
+
+  isCVFilled(cv: CV): boolean {
+    return !!(
+      cv.firstName ||
+      cv.lastName ||
+      cv.email ||
+      cv.phone ||
+      cv.summary ||
+      (cv.skills && cv.skills.length > 0) ||
+      (cv.educationList && cv.educationList.length > 0)
+    )
   }
 
   normalizeCV(res: CV): CV {
