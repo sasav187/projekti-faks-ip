@@ -92,7 +92,7 @@
                         <h2 class="text-center mb-4">Student Work Logs</h2>
 
                         <div class="mb-3 text-center">
-                            <a href="dashboard.jsp" class="btn btn-secondary">&larr; Back</a>
+                            <a href="dashboard.jsp" class="btn btn-secondary">&larr; Back to Dashboard</a>
                         </div>
 
                         <div class="row">

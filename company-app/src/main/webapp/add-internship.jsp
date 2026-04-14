@@ -78,7 +78,7 @@
             </head>
             <body>
                 <div class="container mt-4">
-                    <h2 class="mb-4 text-center">Dodaj praksu</h2>
+                    <h2 class="mb-4 text-center">Add internship</h2>
 
                     <form method="post">
                         <div class="mb-3">
@@ -99,8 +99,8 @@
                         <div class="mb-3">
                             <textarea class="form-control" name="conditions" placeholder="Conditions"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-success w-100">Dodaj praksu</button>
-                        <a href="manage-internships.jsp" class="btn btn-secondary w-100 mt-2">Nazad</a>
+                        <button type="submit" class="btn btn-success w-100">Add internship</button>
+                        <a href="manage-internships.jsp" class="btn btn-secondary w-100 mt-2">Back</a>
                     </form>
 
                     <% if (error != null) { %>
