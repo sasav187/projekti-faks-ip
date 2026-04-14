@@ -57,6 +57,13 @@ public class StudentsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        Part filePart = req.getPart("file");
+
+        if (filePart != null && filePart.getSize() > 0) {
+            handleCSVUpload(filePart, resp);
+            return;
+        }
+
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html;charset=UTF-8");
 
@@ -147,5 +154,76 @@ public class StudentsServlet extends HttpServlet {
             con.getResponseCode();
         }
         resp.setStatus(200);
+    }
+
+    private void handleCSVUpload(Part filePart, HttpServletResponse resp) throws IOException {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(filePart.getInputStream(), StandardCharsets.UTF_8))) {
+
+            String line;
+            boolean firstLine = true;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (firstLine) {
+                    firstLine = false;
+                    continue;
+                }
+
+                String[] data = line.split(",");
+
+                // CSV FORMAT:
+                // username,password,indexNumber,faculty,year
+
+                String username = data[0].trim();
+                String password = data[1].trim();
+                String indexNumber = data[2].trim();
+                String faculty = data[3].trim();
+                Integer year = Integer.parseInt(data[4].trim());
+
+                JSONObject userJson = new JSONObject();
+                userJson.put("username", username);
+                userJson.put("password", password);
+                userJson.put("role", "STUDENT");
+
+                HttpURLConnection userCon = (HttpURLConnection) new URL(BACKEND_URL + "/users").openConnection();
+                userCon.setRequestMethod("POST");
+                userCon.setRequestProperty("Content-Type", "application/json");
+                userCon.setDoOutput(true);
+
+                try (OutputStream os = userCon.getOutputStream()) {
+                    os.write(userJson.toString().getBytes(StandardCharsets.UTF_8));
+                }
+
+                if (userCon.getResponseCode() != 201)
+                    continue;
+
+                String userResp = new String(userCon.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+                Long userId = new JSONObject(userResp).getLong("id");
+
+                JSONObject studentJson = new JSONObject();
+                studentJson.put("userId", userId);
+                studentJson.put("indexNumber", indexNumber);
+                studentJson.put("faculty", faculty);
+                studentJson.put("year", year);
+
+                HttpURLConnection studentCon = (HttpURLConnection) new URL(BACKEND_URL + "/students").openConnection();
+                studentCon.setRequestMethod("POST");
+                studentCon.setRequestProperty("Content-Type", "application/json");
+                studentCon.setDoOutput(true);
+
+                try (OutputStream os = studentCon.getOutputStream()) {
+                    os.write(studentJson.toString().getBytes(StandardCharsets.UTF_8));
+                }
+
+                studentCon.getResponseCode();
+            }
+
+            resp.sendRedirect("students");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(500, "CSV upload failed");
+        }
     }
 }
