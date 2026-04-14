@@ -37,8 +37,8 @@ public class Evaluation {
     @Column(name = "evaluator_role")
     private EvaluatorRole evaluatorRole;
 
-    @Min(1)
-    @Max(5)
+    @Min(5)
+    @Max(10)
     private Integer grade;
 
     @Column(columnDefinition = "TEXT")
