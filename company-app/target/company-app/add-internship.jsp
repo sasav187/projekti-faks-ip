@@ -31,9 +31,13 @@
         json.addProperty("capacity", capacity);
         
         JsonArray techArray = new JsonArray();
-        if (technologies != null && !technologies.isEmpty()) {
+        
+        if (technologies != null && !technologies.trim().isEmpty()) {
             for (String t : technologies.split(",")) {
-                techArray.add(t.trim());
+                String tech = t.trim();
+                if (!tech.isEmpty()) {
+                    techArray.add(tech);
+                }
             }
         }
         json.add("technologies", techArray);
@@ -54,61 +58,61 @@
             if (responseCode == 200 || responseCode == 201) {
                 response.sendRedirect("manage-internships.jsp");
                 return;
-                } else {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-                    StringBuilder respError = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) respError.append(line);
-                    br.close();
-                    error = respError.toString();
-                }
-                } catch (Exception e) {
-                    error = "Greška: " + e.getMessage();
-                }
+            } else {
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                StringBuilder respError = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) respError.append(line);
+                br.close();
+                error = respError.toString();
             }
-        %>
+        } catch (Exception e) {
+            error = "Greška: " + e.getMessage();
+        }
+    }
+%>
 
-        <!DOCTYPE html>
-        <html>
-            <head>
-                <meta charset="UTF-8">
-                <title>Add Internship</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-            </head>
-            <body>
-                <div class="container mt-4">
-                    <h2 class="mb-4 text-center">Add internship</h2>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Add Internship</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container mt-4">
+            <h2 class="mb-4 text-center">Add internship</h2>
 
-                    <form method="post">
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="title" placeholder="Title" required>
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control" name="description" placeholder="Description" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="period" placeholder="Period" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="capacity" placeholder="Capacity" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="technologies" placeholder="Technologies (comma separated)">
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control" name="conditions" placeholder="Conditions"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-success w-100">Add internship</button>
-                        <a href="manage-internships.jsp" class="btn btn-secondary w-100 mt-2">Back</a>
-                    </form>
-
-                    <% if (error != null) { %>
-                    <div class="alert alert-danger mt-3">
-                        <%= error %>
-                    </div>
-                    <% } %>
+            <form method="post">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="title" placeholder="Title" required>
                 </div>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-            </body>
-        </html>
+                <div class="mb-3">
+                    <textarea class="form-control" name="description" placeholder="Description" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="period" placeholder="Period" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="capacity" placeholder="Capacity" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="technologies" placeholder="Technologies (comma separated)">
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" name="conditions" placeholder="Conditions"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Add internship</button>
+                <a href="manage-internships.jsp" class="btn btn-secondary w-100 mt-2">Back</a>
+            </form>
+
+            <% if (error != null) { %>
+            <div class="alert alert-danger mt-3">
+                <%= error %>
+            </div>
+            <% } %>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
