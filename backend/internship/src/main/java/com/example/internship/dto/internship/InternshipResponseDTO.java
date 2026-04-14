@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 
+import com.example.internship.model.Technology;
+
 @Getter
 @Setter
 @NoArgsConstructor
