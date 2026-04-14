@@ -69,7 +69,9 @@
                         <input type="hidden" name="studentId" value="${studentId}">
                         <input type="hidden" name="internshipId" value="${internshipId}">
 
-                        <input class="form-control mb-2" name="grade" type="number" min="1" max="5" required>
+                        <h5>Grade<h5>
+                        <input class="form-control mb-2" name="grade" type="number" min="5" max="10" required>
+                        <h5>Comment<h5>
                         <textarea class="form-control mb-2" name="comment"></textarea>
 
                         <button class="btn btn-success w-100">Save Evaluation</button>
