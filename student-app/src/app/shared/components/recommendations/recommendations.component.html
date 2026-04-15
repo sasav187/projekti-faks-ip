@@ -10,11 +10,10 @@
 
 <div *ngIf="recommendations$ | async as recommendations">
     <div *ngIf="recommendations.length > 0; else noRecs" class="cards-container">
-        <mat-card class="rec-card" *ngFor="let r of recommendations">
+        <mat-card class="rec-card" *ngFor="let r of recommendations; let i = index">
             <mat-card-header>
-                <mat-card-title>Internship #{{ r.internshipId }}</mat-card-title>
-                <mat-card-subtitle *ngIf="r.score !== undefined">Score: {{ r.score | number:'1.2-2'
-                    }}</mat-card-subtitle>
+                <mat-card-title>Internship #{{ i + 1 }}</mat-card-title>
+                <mat-card-subtitle *ngIf="r.score !== undefined">Score: {{ r.score | number:'1.2-2' }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
                 <p>{{ r.explanation }}</p>
