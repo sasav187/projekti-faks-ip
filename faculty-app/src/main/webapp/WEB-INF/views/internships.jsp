@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>internships</title>
+        <title>Internships</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
             body { background-color: #f8f9fa; min-height: 100vh; margin:0; padding:0; }
@@ -54,7 +54,7 @@
                         <div class="card p-3 h-100">
                             <h5 class="card-title">${internship.title}</h5>
                             <h6 class="card-subtitle mb-2">@${internship.companyName}</h6>
-                            <p class="card-text mb-2">Title: ${internship.description}</p>
+                            <p class="card-text mb-2">Description: ${internship.description}</p>
                             <p class="card-text mb-2">Period: ${internship.period}</p>
                             <p class="card-text mb-2">Capacity: ${internship.capacity}</p>
                         </div>
